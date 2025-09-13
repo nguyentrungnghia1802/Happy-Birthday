@@ -4,6 +4,7 @@ let musicPlaying = true; // Default to true (music on)
 let wishIndex = 0;
 const totalCandles = 5;
 let currentMelodyTimeout = null;
+let candlesHaveBeenBlown = false; // Track if candles have been blown once
 
 // Gallery variables
 let currentPhotoIndex = 0;
@@ -38,7 +39,7 @@ const photoData = [
 
 // ===== DOM ELEMENTS (Will be initialized after DOM loads) =====
 let blowButton, surpriseButton, musicToggle, musicIcon, musicText;
-let confettiContainer, fireworksContainer;
+let confettiContainer, fireworksContainer, lightingOverlay;
 let photoGallery, galleryImage, photoTitle, photoDescription;
 let prevPhotoBtn, nextPhotoBtn, closeGalleryBtn, currentPhotoNum, totalPhotosSpan, progressFill;
 let birthdaySong, blowSound;
@@ -51,10 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createBackgroundAnimations();
     playIntroAnimation();
     
-    // Auto-start music on page load
-    setTimeout(() => {
-        startMusic();
-    }, 1000);
+    // Music will only start when blowing candles, not auto-start
 });
 
 // ===== DOM INITIALIZATION =====
@@ -67,6 +65,7 @@ function initializeDOM() {
     musicText = document.getElementById('musicText');
     confettiContainer = document.getElementById('confetti-container');
     fireworksContainer = document.getElementById('fireworks-container');
+    lightingOverlay = document.getElementById('lightingOverlay');
     
     // Gallery elements
     photoGallery = document.getElementById('photoGallery');
@@ -120,10 +119,26 @@ function initializeEventListeners() {
 
 // ===== CANDLE BLOWING FUNCTIONALITY =====
 function blowCandles() {
+    // Check if candles have already been blown once
+    if (candlesHaveBeenBlown) {
+        showMessage('🕯️ Nến đã được thổi rồi! Hãy tận hưởng khoảnh khắc này! 🎉');
+        return;
+    }
+    
     blowButton.classList.add('active');
     
     // Play blow sound effect
     playBlowSoundEffect();
+    // Phát nhạc ngay lập tức khi bấm thổi nến
+    startMusic();
+    
+    // Mark that candles have been blown
+    candlesHaveBeenBlown = true;
+    
+    // Disable the blow button
+    blowButton.disabled = true;
+    blowButton.style.opacity = '0.6';
+    blowButton.style.cursor = 'not-allowed';
     
     // Blow out all remaining candles
     document.querySelectorAll('.flame:not(.blown-out)').forEach((flame, index) => {
@@ -150,6 +165,12 @@ function blowCandles() {
 }
 
 function blowSingleCandle(candleIndex) {
+    // Check if candles have already been blown once
+    if (candlesHaveBeenBlown) {
+        showMessage('🕯️ Nến đã được thổi rồi! Hãy tận hưởng khoảnh khắc này! 🎉');
+        return;
+    }
+
     const flame = document.querySelector(`.flame-${candleIndex + 1}`);
     if (flame && !flame.classList.contains('blown-out')) {
         flame.classList.add('blown-out');
@@ -157,8 +178,18 @@ function blowSingleCandle(candleIndex) {
         
         // Play blow sound effect
         playBlowSoundEffect();
+        // Phát nhạc ngay lập tức khi thổi nến
+        startMusic();
         
         createSmokeEffect(flame);
+        
+        // If this is the first candle being blown, mark as blown and disable button
+        if (candlesBlownOut === 1) {
+            candlesHaveBeenBlown = true;
+            blowButton.disabled = true;
+            blowButton.style.opacity = '0.6';
+            blowButton.style.cursor = 'not-allowed';
+        }
         
         if (candlesBlownOut >= totalCandles) {
             setTimeout(() => {
@@ -172,11 +203,9 @@ function celebrateAllCandlesBlown() {
     // Show celebration message
     showMessage('🎉 Chúc mừng! Tất cả ước mơ sẽ thành hiện thực! 🎉');
     
-    // Trigger sparkler effect from both sides
-    createSparklerEffect();
-    
-    // Play sparkler sound
-    playSparklerSound();
+    // Play applause and cheering sounds instead of sparklers
+    playApplauseSound();
+    playCheeringSound();
     
     // Trigger massive confetti
     createConfettiExplosion(50);
@@ -187,16 +216,20 @@ function celebrateAllCandlesBlown() {
     // Change wish to celebration
     showSpecialWish('✨ Chúc mừng bạn đã thổi tắt tất cả nến! Mọi ước mơ đều sẽ thành hiện thực! ✨');
     
-    // Reset candles after 5 seconds
-    setTimeout(resetCandles, 5000);
+    // Turn the lights back on after celebration
+    setTimeout(() => {
+        turnLightsOn();
+        showMessage('💡 Đèn đã được bật lại! Chúc mừng sinh nhật! 🎂');
+    }, 3000);
 }
 
-function resetCandles() {
-    document.querySelectorAll('.flame').forEach(flame => {
-        flame.classList.remove('blown-out');
-    });
-    candlesBlownOut = 0;
-    showMessage('🕯️ Nến đã được thắp lại! Hãy thử thổi một lần nữa! 🕯️');
+function turnLightsOn() {
+    if (lightingOverlay) {
+        lightingOverlay.style.opacity = '0';
+        setTimeout(() => {
+            lightingOverlay.style.display = 'none';
+        }, 500);
+    }
 }
 
 // ===== SMOKE EFFECT =====
@@ -326,87 +359,7 @@ function triggerBalloonDance() {
     }
 }
 
-// ===== SPARKLER EFFECT (PHÁO BÔNG) =====
-function createSparklerEffect() {
-    const colors = ['#ffd700', '#fff700', '#ffff00', '#ff8c00', '#ff4500'];
-    
-    // Left side sparklers
-    createSideSparkler('left', colors);
-    
-    // Right side sparklers  
-    createSideSparkler('right', colors);
-}
-
-function createSideSparkler(side, colors) {
-    const startX = side === 'left' ? 0 : window.innerWidth;
-    const endX = window.innerWidth / 2;
-    const startY = window.innerHeight * 0.7;
-    
-    // Create multiple sparkler particles
-    for (let i = 0; i < 20; i++) {
-        setTimeout(() => {
-            createSparklerParticle(startX, startY, endX, colors, side);
-        }, i * 50);
-    }
-}
-
-function createSparklerParticle(startX, startY, endX, colors, side) {
-    const particle = document.createElement('div');
-    particle.className = 'sparkler-particle';
-    
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const angle = side === 'left' ? (Math.random() * 60 + 15) : (Math.random() * 60 + 105);
-    const distance = 200 + Math.random() * 300;
-    
-    const finalX = startX + Math.cos(angle * Math.PI / 180) * distance;
-    const finalY = startY - Math.sin(angle * Math.PI / 180) * distance;
-    
-    particle.style.cssText = `
-        position: fixed;
-        left: ${startX}px;
-        top: ${startY}px;
-        width: 4px;
-        height: 4px;
-        background: ${color};
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 1000;
-        box-shadow: 0 0 10px ${color}, 0 0 20px ${color};
-        animation: sparklerFly 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        transform-origin: center;
-    `;
-    
-    // Add sparkler animation if not exists
-    if (!document.querySelector('#sparkler-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'sparkler-styles';
-        styleSheet.textContent = `
-            @keyframes sparklerFly {
-                0% {
-                    transform: translate(0, 0) scale(1);
-                    opacity: 1;
-                }
-                50% {
-                    transform: translate(${(finalX - startX) * 0.7}px, ${(finalY - startY) * 0.7}px) scale(1.5);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(${finalX - startX}px, ${finalY - startY}px) scale(0);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
-    
-    fireworksContainer.appendChild(particle);
-    
-    setTimeout(() => {
-        if (particle.parentElement) {
-            particle.parentElement.removeChild(particle);
-        }
-    }, 1500);
-}
+// ===== SPARKLER EFFECT REMOVED - REPLACED WITH APPLAUSE & CHEERING =====
 
 // ===== CONFETTI SYSTEM =====
 function createConfettiExplosion(count = 20) {
@@ -610,57 +563,57 @@ function playFullBirthdayMelody() {
     try {
         window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Full "Happy Birthday to You" melody
+        // Full "Happy Birthday to You" melody - HIGHER PITCH VERSION (moved up one octave + 50%)
         const melody = [
-            // "Happy birthday to you" (first line)
-            { note: 264, duration: 0.75 }, // C4
-            { note: 264, duration: 0.25 },
-            { note: 297, duration: 1 },    // D4
-            { note: 264, duration: 1 },    // C4
-            { note: 352, duration: 1 },    // F4
-            { note: 330, duration: 2 },    // E4
+            // "Happy birthday to you" (first line) - Higher and more cheerful
+            { note: 528, duration: 0.75 }, // C5 (was C4)
+            { note: 528, duration: 0.25 },
+            { note: 594, duration: 1 },    // D5 (was D4)
+            { note: 528, duration: 1 },    // C5 (was C4)
+            { note: 704, duration: 1 },    // F5 (was F4)
+            { note: 660, duration: 2 },    // E5 (was E4)
             
             // "Happy birthday to you" (second line)
-            { note: 264, duration: 0.75 },
-            { note: 264, duration: 0.25 },
-            { note: 297, duration: 1 },
-            { note: 264, duration: 1 },
-            { note: 396, duration: 1 },    // G4
-            { note: 352, duration: 2 },    // F4
+            { note: 528, duration: 0.75 },
+            { note: 528, duration: 0.25 },
+            { note: 594, duration: 1 },
+            { note: 528, duration: 1 },
+            { note: 792, duration: 1 },    // G5 (was G4)
+            { note: 704, duration: 2 },    // F5 (was F4)
             
             // "Happy birthday dear [name]" (third line)
-            { note: 264, duration: 0.75 },
-            { note: 264, duration: 0.25 },
-            { note: 528, duration: 1 },    // C5
-            { note: 440, duration: 1 },    // A4
-            { note: 352, duration: 1 },    // F4
-            { note: 330, duration: 1 },    // E4
-            { note: 297, duration: 2 },    // D4
+            { note: 528, duration: 0.75 },
+            { note: 528, duration: 0.25 },
+            { note: 1056, duration: 1 },   // C6 (was C5)
+            { note: 880, duration: 1 },    // A5 (was A4)
+            { note: 704, duration: 1 },    // F5 (was F4)
+            { note: 660, duration: 1 },    // E5 (was E4)
+            { note: 594, duration: 2 },    // D5 (was D4)
             
             // "Happy birthday to you" (final line)
-            { note: 466, duration: 0.75 }, // Bb4
-            { note: 466, duration: 0.25 },
-            { note: 440, duration: 1 },    // A4
-            { note: 352, duration: 1 },    // F4
-            { note: 396, duration: 1 },    // G4
-            { note: 352, duration: 3 },    // F4
+            { note: 932, duration: 0.75 }, // Bb5 (was Bb4)
+            { note: 932, duration: 0.25 },
+            { note: 880, duration: 1 },    // A5 (was A4)
+            { note: 704, duration: 1 },    // F5 (was F4)
+            { note: 792, duration: 1 },    // G5 (was G4)
+            { note: 704, duration: 3 },    // F5 (was F4)
         ];
         
         let currentTime = window.audioContext.currentTime;
         
         melody.forEach((note) => {
             if (musicPlaying) {
-                playNote(note.note, currentTime, note.duration * 0.6);
-                currentTime += note.duration * 0.6;
+                playNote(note.note, currentTime, note.duration * 0.5); // Also made faster tempo
+                currentTime += note.duration * 0.5;
             }
         });
         
-        // Loop the melody after a short pause
+        // Loop the melody after a shorter pause for more lively feel
         if (musicPlaying) {
-            const totalDuration = melody.reduce((sum, note) => sum + note.duration * 0.6, 0);
+            const totalDuration = melody.reduce((sum, note) => sum + note.duration * 0.5, 0);
             currentMelodyTimeout = setTimeout(() => {
                 if (musicPlaying) playFullBirthdayMelody();
-            }, (totalDuration + 2) * 1000);
+            }, (totalDuration + 1.5) * 1000);
         }
     } catch (error) {
         console.log('Web Audio API not supported in this browser');
@@ -670,21 +623,41 @@ function playFullBirthdayMelody() {
 function playNote(frequency, startTime, duration) {
     if (!window.audioContext) return;
     
+    // Main oscillator with brighter tone
     const oscillator = window.audioContext.createOscillator();
     const gainNode = window.audioContext.createGain();
     
+    // Add a second oscillator for harmonics (makes it more cheerful)
+    const harmonic = window.audioContext.createOscillator();
+    const harmonicGain = window.audioContext.createGain();
+    
     oscillator.connect(gainNode);
+    harmonic.connect(harmonicGain);
     gainNode.connect(window.audioContext.destination);
+    harmonicGain.connect(window.audioContext.destination);
     
+    // Main note
     oscillator.frequency.setValueAtTime(frequency, startTime);
-    oscillator.type = 'sine';
+    oscillator.type = 'triangle'; // Brighter than sine
     
+    // Harmonic at 5th (adds brightness and cheerfulness)
+    harmonic.frequency.setValueAtTime(frequency * 1.5, startTime);
+    harmonic.type = 'sine';
+    
+    // Main note volume
     gainNode.gain.setValueAtTime(0, startTime);
-    gainNode.gain.linearRampToValueAtTime(0.1, startTime + 0.1);
+    gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.1);
     gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+    
+    // Harmonic volume (softer)
+    harmonicGain.gain.setValueAtTime(0, startTime);
+    harmonicGain.gain.linearRampToValueAtTime(0.04, startTime + 0.1);
+    harmonicGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
     
     oscillator.start(startTime);
     oscillator.stop(startTime + duration);
+    harmonic.start(startTime);
+    harmonic.stop(startTime + duration);
 }
 
 // ===== SOUND EFFECTS =====
@@ -718,48 +691,19 @@ function playBlowSoundEffect() {
     }
 }
 
-function playSparklerSound() {
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Create sparkler crackling sound
-        for (let i = 0; i < 10; i++) {
-            setTimeout(() => {
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.setValueAtTime(1000 + Math.random() * 2000, audioContext.currentTime);
-                oscillator.type = 'sawtooth';
-                
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.05, audioContext.currentTime + 0.01);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            }, i * 100);
-        }
-    } catch (error) {
-        console.log('Audio not supported');
-    }
-}
-
 function playApplauseSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Create applause sound using noise
-        for (let i = 0; i < 20; i++) {
+        // Create realistic applause sound using filtered noise
+        for (let i = 0; i < 30; i++) {
             setTimeout(() => {
-                const bufferSize = audioContext.sampleRate * 0.1;
+                const bufferSize = audioContext.sampleRate * 0.15;
                 const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
                 const output = buffer.getChannelData(0);
                 
                 for (let j = 0; j < bufferSize; j++) {
-                    output[j] = Math.random() * 2 - 1;
+                    output[j] = (Math.random() * 2 - 1) * 0.8;
                 }
                 
                 const whiteNoise = audioContext.createBufferSource();
@@ -767,19 +711,54 @@ function playApplauseSound() {
                 
                 const bandpass = audioContext.createBiquadFilter();
                 bandpass.type = 'bandpass';
-                bandpass.frequency.value = 1000 + Math.random() * 500;
+                bandpass.frequency.value = 800 + Math.random() * 800;
+                bandpass.Q.value = 2;
                 
                 const gainNode = audioContext.createGain();
-                gainNode.gain.setValueAtTime(0.02, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+                gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
                 
                 whiteNoise.connect(bandpass);
                 bandpass.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 
                 whiteNoise.start(audioContext.currentTime);
-                whiteNoise.stop(audioContext.currentTime + 0.1);
-            }, i * 50 + Math.random() * 100);
+                whiteNoise.stop(audioContext.currentTime + 0.15);
+            }, i * 80 + Math.random() * 150);
+        }
+    } catch (error) {
+        console.log('Audio not supported');
+    }
+}
+
+function playCheeringSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create cheering "Yay!" sounds with varying pitches
+        const cheerPitches = [400, 500, 600, 700, 800];
+        
+        for (let i = 0; i < 8; i++) {
+            setTimeout(() => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Random pitch for variety
+                const pitch = cheerPitches[Math.floor(Math.random() * cheerPitches.length)];
+                oscillator.frequency.setValueAtTime(pitch, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(pitch * 1.5, audioContext.currentTime + 0.3);
+                oscillator.type = 'triangle';
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.4);
+            }, i * 200 + Math.random() * 300);
         }
     } catch (error) {
         console.log('Audio not supported');
@@ -839,7 +818,7 @@ function previousPhoto() {
 function startGalleryAutoSlide() {
     galleryAutoSlideTimeout = setInterval(() => {
         nextPhoto();
-    }, 2500); // Auto slide every 2.5 seconds
+    }, 2000); // Auto slide every 2 seconds
 }
 
 function stopGalleryAutoSlide() {

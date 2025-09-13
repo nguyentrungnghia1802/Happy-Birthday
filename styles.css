@@ -544,6 +544,58 @@ body {
     50% { background-position: 100% 50%; }
 }
 
+/* ===== LIGHTING OVERLAY =====*/
+.lighting-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        ellipse 800px 600px at 50% 50%, 
+        transparent 0%, 
+        transparent 30%, 
+        rgba(0, 0, 0, 0.95) 70%
+    );
+    z-index: 500;
+    pointer-events: none;
+    transition: opacity 2s ease-out;
+    opacity: 1;
+}
+
+.lighting-overlay.lights-on {
+    opacity: 0;
+}
+
+/* Ensure cake area is always visible */
+.cake-section {
+    position: relative;
+    z-index: 600;
+}
+
+/* ===== AUTHOR CREDIT ===== */
+.author-credit {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    padding: 8px 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 400;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.author-credit:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
 /* ===== MUSIC CONTROL ===== */
 .music-control {
     position: fixed;
@@ -601,10 +653,10 @@ body {
 
 .party-hat-frame {
     position: relative;
-    width: 600px;
-    height: 500px;
-    max-width: 90vw;
-    max-height: 80vh;
+    width: 800px;
+    height: 650px;
+    max-width: 95vw;
+    max-height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -678,10 +730,10 @@ body {
 /* Photo Display */
 .photo-display {
     position: relative;
-    width: 500px;
-    height: 350px;
-    max-width: 80vw;
-    max-height: 60vh;
+    width: 700px;
+    height: 500px;
+    max-width: 85vw;
+    max-height: 70vh;
     background: white;
     border-radius: 20px;
     overflow: hidden;
@@ -904,8 +956,8 @@ body {
     }
     
     .photo-display {
-        width: 350px;
-        height: 250px;
+        width: 450px;
+        height: 320px;
     }
     
     .prev-btn {
@@ -943,13 +995,13 @@ body {
     }
     
     .party-hat-frame {
-        width: 300px;
-        height: 280px;
+        width: 350px;
+        height: 320px;
     }
     
     .photo-display {
-        width: 280px;
-        height: 200px;
+        width: 330px;
+        height: 240px;
     }
     
     .gallery-nav {
