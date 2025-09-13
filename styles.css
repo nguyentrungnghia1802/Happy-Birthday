@@ -1,3 +1,20 @@
+/* Highlight cho tên sinh nhật trong subtitle */
+.highlight-name {
+    background: linear-gradient(90deg, #ff6b6b, #feca57, #54a0ff);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+}
+.highlight-name:hover {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 4px 16px rgba(255, 215, 0, 0.28);
+    cursor: pointer;
+}
 /* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
@@ -588,7 +605,22 @@ body {
     font-weight: 400;
     z-index: 1000;
     transition: all 0.3s ease;
+    cursor: pointer;
 }
+
+.author-credit:hover {
+    background: linear-gradient(90deg, #ff9ff3, #54a0ff);
+    color: #222;
+    border-color: #fff;
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+.author-credit:active {
+    background: linear-gradient(90deg, #feca57, #ff6b6b);
+    color: #fff;
+    transform: scale(0.98) rotate(2deg);
+}
+
 
 .author-credit:hover {
     background: rgba(0, 0, 0, 0.8);

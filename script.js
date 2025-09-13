@@ -1,3 +1,12 @@
+// Hiệu ứng click vào mục tác giả chuyển hướng tới trang profile
+document.addEventListener('DOMContentLoaded', function() {
+    var authorCredit = document.getElementById('authorCredit');
+    if (authorCredit) {
+        authorCredit.addEventListener('click', function() {
+            window.open('https://nguyentrungnghia1802.github.io/Profile/', '_blank');
+        });
+    }
+});
 // ===== GLOBAL VARIABLES =====
 let candlesBlownOut = 0;
 let musicPlaying = true; // Default to true (music on)
@@ -5,6 +14,9 @@ let wishIndex = 0;
 const totalCandles = 5;
 let currentMelodyTimeout = null;
 let candlesHaveBeenBlown = false; // Track if candles have been blown once
+
+// Biến tên sinh nhật để dễ tái sử dụng
+const birthdayName = "Anh Tài";
 
 // Gallery variables
 let currentPhotoIndex = 0;
@@ -32,17 +44,17 @@ const photoData = [
   },
     {
         src: "res\\img\\tai_5.jpg",
-        title: "� Khoảnh Khắc Bên Gia Đình",
+        title: "🏡 Khoảnh Khắc Bên Gia Đình",
         description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
     },
     {
         src: "res\\img\\tai_6.jpg",
-        title: "� Bạn Bè Vui Vẻ",
+        title: "👫 Bạn Bè Vui Vẻ",
         description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
     },
     {
         src: "res\\img\\tai_7.jpg",
-        title: "� Bánh Kem Ngọt Ngào",
+        title: "🍰 Bánh Kem Ngọt Ngào",
         description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
     },
     {
@@ -62,11 +74,15 @@ let birthdaySong, blowSound;
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
     initializeDOM();
+    // Cập nhật tên sinh nhật vào subtitle
+    const nameSpan = document.getElementById('birthdayName');
+    if (nameSpan) {
+        nameSpan.textContent = birthdayName;
+    }
     initializeWishRotation();
     initializeEventListeners();
     createBackgroundAnimations();
     playIntroAnimation();
-    
     // Music will only start when blowing candles, not auto-start
 });
 
@@ -831,7 +847,7 @@ function previousPhoto() {
 function startGalleryAutoSlide() {
     galleryAutoSlideTimeout = setInterval(() => {
         nextPhoto();
-    }, 2000); // Auto slide every 2 seconds
+    }, 2500); // Auto slide every 2.5 seconds
 }
 
 function stopGalleryAutoSlide() {
