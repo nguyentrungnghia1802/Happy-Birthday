@@ -3,18 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Chúc Mừng Sinh Nhật    <!-- Sound effects sẽ được tạo bằng Web Audio API trong JavaScript -->
-    <audio id="blowSound" preload="auto">
-        <!-- Blow sound effect sẽ được tạo động -->
-    </audio>
-    
-    <audio id="applauseSound" preload="auto">
-        <!-- Applause sound effect sẽ được tạo động -->
-    </audio>
-    
-    <audio id="sparklerSound" preload="auto">
-        <!-- Sparkler sound effect sẽ được tạo động -->
-    </audio></title>
+    <title>🎉 Chúc Mừng Sinh Nhật! 🎂</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -131,6 +120,11 @@
         </div>
     </div>
 
+    <!-- Author Credit -->
+    <div class="author-credit">
+        <span>💻 Tác giả: Nguyen Trung Nghia</span>
+    </div>
+
     <!-- Confetti Container -->
     <div id="confetti-container"></div>
 
@@ -189,9 +183,13 @@
         <!-- Spotify không thể được nhúng trực tiếp vào audio element do bảo vệ bản quyền -->
     </audio>
 
-    <audio id="blowSound">
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQE" type="audio/wav">
-    </audio>
+    <!-- Lighting Overlay -->
+    <div id="lightingOverlay" class="lighting-overlay"></div>
+
+    <!-- Sound effects sẽ được tạo bằng Web Audio API trong JavaScript -->
+    <audio id="blowSound" preload="auto"></audio>
+    <audio id="applauseSound" preload="auto"></audio>
+    <audio id="cheeringSound" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
