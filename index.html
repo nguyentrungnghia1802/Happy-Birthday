@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Chúc Mừng Sinh Nhật! 🎂</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="stars"></div>
+    <div class="balloons">
+        <div class="balloon balloon-1"></div>
+        <div class="balloon balloon-2"></div>
+        <div class="balloon balloon-3"></div>
+        <div class="balloon balloon-4"></div>
+        <div class="balloon balloon-5"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="main-title">
+                <span class="title-line">🎉 Chúc Mừng</span>
+                <span class="title-line rainbow-text">Sinh Nhật</span>
+                <span class="title-line">🎂</span>
+            </h1>
+            <p class="subtitle">Chúc bạn một ngày sinh nhật thật tuyệt vời!</p>
+        </header>
+
+        <!-- Birthday Cake Section -->
+        <div class="cake-section">
+            <div class="cake-container">
+                <!-- Cake Base -->
+                <div class="cake">
+                    <!-- Top Layer -->
+                    <div class="cake-layer cake-top">
+                        <div class="cake-decoration">
+                            <div class="cherry">🍒</div>
+                            <div class="strawberry">🍓</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Middle Layer -->
+                    <div class="cake-layer cake-middle">
+                        <div class="cake-cream"></div>
+                    </div>
+                    
+                    <!-- Bottom Layer -->
+                    <div class="cake-layer cake-bottom"></div>
+                    
+                    <!-- Cake Base/Plate -->
+                    <div class="cake-plate"></div>
+                </div>
+
+                <!-- Candles -->
+                <div class="candles">
+                    <div class="candle candle-1">
+                        <div class="candle-body"></div>
+                        <div class="flame flame-1"></div>
+                    </div>
+                    <div class="candle candle-2">
+                        <div class="candle-body"></div>
+                        <div class="flame flame-2"></div>
+                    </div>
+                    <div class="candle candle-3">
+                        <div class="candle-body"></div>
+                        <div class="flame flame-3"></div>
+                    </div>
+                    <div class="candle candle-4">
+                        <div class="candle-body"></div>
+                        <div class="flame flame-4"></div>
+                    </div>
+                    <div class="candle candle-5">
+                        <div class="candle-body"></div>
+                        <div class="flame flame-5"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blow Button -->
+            <div class="blow-section">
+                <button id="blowButton" class="blow-button">
+                    <span class="blow-text">🌬️ Thổi Nến</span>
+                    <div class="blow-effect"></div>
+                </button>
+                <p class="blow-instruction">Nhấp để thổi tắt những ngọn nến!</p>
+            </div>
+        </div>
+
+        <!-- Wishes Section -->
+        <div class="wishes-section">
+            <div class="wish-card">
+                <h2>💝 Lời Chúc Sinh Nhật</h2>
+                <div class="wishes-container">
+                    <p class="wish active">🌟 Chúc bạn luôn khỏe mạnh và hạnh phúc!</p>
+                    <p class="wish">🎈 Mong tất cả ước mơ của bạn đều thành hiện thực!</p>
+                    <p class="wish">🌺 Chúc năm tuổi mới đầy niềm vui và thành công!</p>
+                    <p class="wish">🎁 Sinh nhật vui vẻ và nhiều điều tuyệt vời nhé!</p>
+                    <p class="wish">✨ Chúc bạn ngày càng xinh đẹp và tỏa sáng!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Surprise Button -->
+        <div class="surprise-section">
+            <button id="surpriseButton" class="surprise-button">
+                <span>🎊 Bất Ngờ Đặc Biệt</span>
+            </button>
+        </div>
+
+        <!-- Music Control -->
+        <div class="music-control">
+            <button id="musicToggle" class="music-button">
+                <span id="musicIcon">🎵</span>
+                <span id="musicText">Bật Nhạc</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div id="confetti-container"></div>
+
+    <!-- Fireworks Container -->
+    <div id="fireworks-container"></div>
+
+    <!-- Audio Elements -->
+    <audio id="birthdaySong" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    </audio>
+
+    <audio id="blowSound">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQEKXbH8N2QQQoUXrTp66hVFApGn+DyvmEaAzuS2O/HdSQE" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
