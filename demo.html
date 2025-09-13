@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Demo - Happy Birthday Website 🎂</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .demo-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: white;
+            text-decoration: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .demo-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        .features {
+            margin: 40px 0;
+            text-align: left;
+        }
+        .features h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .feature-card h3 {
+            margin-top: 0;
+            color: #feca57;
+        }
+        .instructions {
+            margin: 40px 0;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .keyboard-shortcuts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .shortcut {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .key {
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🎉 Happy Birthday Website Demo 🎂</h1>
+        
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">
+            Chào mừng bạn đến với trang web chúc mừng sinh nhật tương tác và đẹp mắt nhất!
+        </p>
+
+        <a href="index.html" class="demo-button">
+            🚀 Khám Phá Ngay
+        </a>
+
+        <div class="features">
+            <h2>✨ Tính Năng Nổi Bật</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🕯️ Thổi Nến Tương Tác</h3>
+                    <p>5 ngọn nến có thể thổi tắt từng cái hoặc tất cả cùng lúc. Hiệu ứng khói và âm thanh thực tế.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎂 Bánh Gato 3D</h3>
+                    <p>Bánh sinh nhật 3 tầng đẹp mắt với trang trí cherry, strawberry và kem.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎊 Hiệu Ứng Pháo Hoa</h3>
+                    <p>Confetti bay rộn ràng, pháo hoa đa màu sắc và bóng bay lơ lửng.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎵 Nhạc Nền</h3>
+                    <p>Giai điệu sinh nhật tự động với Web Audio API và hiệu ứng âm thanh.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>💝 Lời Chúc Tự Động</h3>
+                    <p>5 lời chúc khác nhau tự động xoay vòng mỗi 3 giây.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📱 Responsive Design</h3>
+                    <p>Tối ưu cho mọi thiết bị: desktop, tablet và mobile.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>🎮 Hướng Dẫn Sử Dụng</h2>
+            
+            <div style="text-align: left; margin: 20px 0;">
+                <h3>🖱️ Cách Tương Tác:</h3>
+                <ul>
+                    <li><strong>Thổi nến:</strong> Click nút "Thổi Nến" hoặc click trực tiếp vào nến</li>
+                    <li><strong>Bất ngờ:</strong> Click nút "Bất Ngờ Đặc Biệt" để kích hoạt confetti và pháo hoa</li>
+                    <li><strong>Nhạc:</strong> Click biểu tượng 🎵 ở góc dưới để bật/tắt nhạc</li>
+                    <li><strong>Mobile:</strong> Chạm đa điểm để tạo hiệu ứng bất ngờ</li>
+                </ul>
+            </div>
+
+            <h3>⌨️ Phím Tắt:</h3>
+            <div class="keyboard-shortcuts">
+                <div class="shortcut">
+                    <span>Thổi tất cả nến:</span>
+                    <span class="key">Space</span>
+                </div>
+                <div class="shortcut">
+                    <span>Thổi tất cả nến:</span>
+                    <span class="key">Enter</span>
+                </div>
+                <div class="shortcut">
+                    <span>Bất ngờ đặc biệt:</span>
+                    <span class="key">S</span>
+                </div>
+                <div class="shortcut">
+                    <span>Bật/tắt nhạc:</span>
+                    <span class="key">M</span>
+                </div>
+                <div class="shortcut">
+                    <span>Thổi nến 1-5:</span>
+                    <span class="key">1-5</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 40px 0; padding: 20px; background: rgba(255, 255, 255, 0.1); border-radius: 15px;">
+            <h3>🌟 Trải Nghiệm Tốt Nhất:</h3>
+            <ul style="text-align: left;">
+                <li>Sử dụng trình duyệt hiện đại (Chrome, Firefox, Safari, Edge)</li>
+                <li>Bật âm thanh để nghe hiệu ứng và nhạc nền</li>
+                <li>Sử dụng chế độ toàn màn hình cho trải nghiệm tốt nhất</li>
+                <li>Thử nghiệm trên cả desktop và mobile</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="demo-button">
+            🎂 Bắt Đầu Bữa Tiệc!
+        </a>
+
+        <p style="margin-top: 40px; opacity: 0.8;">
+            Được phát triển với ❤️ bằng HTML5, CSS3 và JavaScript<br>
+            Tương thích với GitHub Pages
+        </p>
+    </div>
+
+    <script>
+        // Add some sparkles to demo page
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.textContent = Math.random() > 0.5 ? '✨' : '🎊';
+            sparkle.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * window.innerWidth}px;
+                top: ${Math.random() * window.innerHeight}px;
+                font-size: ${10 + Math.random() * 15}px;
+                pointer-events: none;
+                z-index: 1000;
+                animation: sparkleDemo 3s ease-out forwards;
+            `;
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                if (sparkle.parentElement) {
+                    sparkle.parentElement.removeChild(sparkle);
+                }
+            }, 3000);
+        }
+
+        // Add CSS for sparkle animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleDemo {
+                0% { opacity: 0; transform: scale(0) rotate(0deg); }
+                50% { opacity: 1; transform: scale(1) rotate(180deg); }
+                100% { opacity: 0; transform: scale(0) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 2000);
+    </script>
+</body>
+</html>
