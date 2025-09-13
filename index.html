@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Chúc Mừng Sinh Nhật! 🎂</title>
+    <title>🎉 Chúc Mừng Sinh Nhật    <!-- Sound effects sẽ được tạo bằng Web Audio API trong JavaScript -->
+    <audio id="blowSound" preload="auto">
+        <!-- Blow sound effect sẽ được tạo động -->
+    </audio>
+    
+    <audio id="applauseSound" preload="auto">
+        <!-- Applause sound effect sẽ được tạo động -->
+    </audio>
+    
+    <audio id="sparklerSound" preload="auto">
+        <!-- Sparkler sound effect sẽ được tạo động -->
+    </audio></title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -99,7 +110,7 @@
                     <p class="wish">🎈 Mong tất cả ước mơ của bạn đều thành hiện thực!</p>
                     <p class="wish">🌺 Chúc năm tuổi mới đầy niềm vui và thành công!</p>
                     <p class="wish">🎁 Sinh nhật vui vẻ và nhiều điều tuyệt vời nhé!</p>
-                    <p class="wish">✨ Chúc bạn ngày càng xinh đẹp và tỏa sáng!</p>
+                    <p class="wish">✨ Chúc bạn ngày càng tươi vui và rực rỡ!</p>
                 </div>
             </div>
         </div>
@@ -126,9 +137,56 @@
     <!-- Fireworks Container -->
     <div id="fireworks-container"></div>
 
+    <!-- Photo Gallery Modal -->
+    <div id="photoGallery" class="photo-gallery-modal">
+        <div class="gallery-container">
+            <div class="party-hat-frame">
+                <!-- Party Hat Decoration -->
+                <div class="party-hat">
+                    <div class="hat-body"></div>
+                    <div class="hat-tip"></div>
+                    <div class="hat-dots">
+                        <span>•</span><span>•</span><span>•</span><span>•</span><span>•</span>
+                    </div>
+                </div>
+                
+                <!-- Photo Display Area -->
+                <div class="photo-display">
+                    <img id="galleryImage" src="" alt="Birthday Memory" />
+                    <div class="photo-overlay">
+                        <h3 id="photoTitle">Kỷ Niệm Sinh Nhật</h3>
+                        <p id="photoDescription">Những khoảnh khắc đáng nhớ</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <button class="gallery-nav prev-btn" id="prevPhoto">
+                    <span>‹</span>
+                </button>
+                <button class="gallery-nav next-btn" id="nextPhoto">
+                    <span>›</span>
+                </button>
+                
+                <!-- Progress Indicator -->
+                <div class="gallery-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text"><span id="currentPhotoNum">1</span> / <span id="totalPhotos">5</span></span>
+                </div>
+            </div>
+            
+            <!-- Close Button -->
+            <button class="gallery-close" id="closeGallery">
+                <span>✕</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Audio Elements -->
-    <audio id="birthdaySong" loop>
-        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+    <audio id="birthdaySong" loop preload="auto">
+        <!-- Happy Birthday melody - sẽ được tạo bởi Web Audio API -->
+        <!-- Spotify không thể được nhúng trực tiếp vào audio element do bảo vệ bản quyền -->
     </audio>
 
     <audio id="blowSound">
