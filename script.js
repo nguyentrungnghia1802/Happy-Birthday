@@ -10,31 +10,46 @@ let candlesHaveBeenBlown = false; // Track if candles have been blown once
 let currentPhotoIndex = 0;
 let galleryAutoSlideTimeout = null;
 const photoData = [
+  {
+    src: "res\\img\\tai_1.jpg",
+    title: "🎂 Sinh Nhật Vui Vẻ",
+    description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+  },
+  {
+    src: "res\\img\\tai_2.jpg",
+    title: "🎈 Tiệc Sinh Nhật",
+    description: "Bóng bay và niềm vui không ngừng",
+  },
+  {
+    src: "res\\img\\tai_3.jpg",
+    title: "🎁 Món Quà Đặc Biệt",
+    description: "Những món quà đầy ý nghĩa",
+  },
+  {
+    src: "res\\img\\tai_4.jpg",
+    title: "🕯️ Ước Mơ Thành Thật",
+    description: "Thổi nến và ước những điều tốt đẹp",
+  },
     {
-        src: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&q=80',
-        title: '🎂 Sinh Nhật Vui Vẻ',
-        description: 'Những khoảnh khắc hạnh phúc bên bánh kem'
+        src: "res\\img\\tai_5.jpg",
+        title: "� Khoảnh Khắc Bên Gia Đình",
+        description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
     },
     {
-        src: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=500&q=80',
-        title: '🎈 Tiệc Sinh Nhật',
-        description: 'Bóng bay và niềm vui không ngừng'
+        src: "res\\img\\tai_6.jpg",
+        title: "� Bạn Bè Vui Vẻ",
+        description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
     },
     {
-        src: 'https://images.unsplash.com/photo-1558618666-fbd65c2cd40b?w=500&q=80',
-        title: '🎁 Món Quà Đặc Biệt',
-        description: 'Những món quà đầy ý nghĩa'
+        src: "res\\img\\tai_7.jpg",
+        title: "� Bánh Kem Ngọt Ngào",
+        description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
     },
     {
-        src: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=80',
-        title: '🕯️ Ước Mơ Thành Thật',
-        description: 'Thổi nến và ước những điều tốt đẹp'
+        src: "res\\img\\tai_8.jpg",
+        title: "✨ Ước Mơ Tuổi Mới",
+        description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
     },
-    {
-        src: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=500&q=80',
-        title: '🎊 Kỷ Niệm Đáng Nhớ',
-        description: 'Những kỷ niệm sinh nhật không thể nào quên'
-    }
 ];
 
 // ===== DOM ELEMENTS (Will be initialized after DOM loads) =====
@@ -517,9 +532,7 @@ function startMusic() {
         birthdaySong.currentTime = 0;
         birthdaySong.play().catch(e => console.log('Audio play failed:', e));
     }
-    
-    // Also create melody using Web Audio API as backup
-    playFullBirthdayMelody();
+    // Không phát Web Audio API nữa để tránh bị đè tiếng chuông
 }
 
 function stopMusic() {
@@ -646,13 +659,13 @@ function playNote(frequency, startTime, duration) {
     
     // Main note volume
     gainNode.gain.setValueAtTime(0, startTime);
-    gainNode.gain.linearRampToValueAtTime(0.12, startTime + 0.1);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+    gainNode.gain.linearRampToValueAtTime(0.9, startTime + 0.1); // 0.12 * 6
+    gainNode.gain.exponentialRampToValueAtTime(0.3, startTime + duration); // 0.01 * 6
     
     // Harmonic volume (softer)
     harmonicGain.gain.setValueAtTime(0, startTime);
-    harmonicGain.gain.linearRampToValueAtTime(0.04, startTime + 0.1);
-    harmonicGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+    harmonicGain.gain.linearRampToValueAtTime(0.9, startTime + 0.1); // 0.04 * 6
+    harmonicGain.gain.exponentialRampToValueAtTime(0.03, startTime + duration); // 0.001 * 6
     
     oscillator.start(startTime);
     oscillator.stop(startTime + duration);
@@ -680,9 +693,9 @@ function playBlowSoundEffect() {
         oscillator.type = 'white';
         oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
         
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.1); // 0.1 * 6
+    gainNode.gain.exponentialRampToValueAtTime(0.06, audioContext.currentTime + 0.5); // 0.01 * 6
         
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.5);
@@ -715,8 +728,8 @@ function playApplauseSound() {
                 bandpass.Q.value = 2;
                 
                 const gainNode = audioContext.createGain();
-                gainNode.gain.setValueAtTime(0.03, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.15);
+                gainNode.gain.setValueAtTime(0.18, audioContext.currentTime); // 0.03 * 6
+                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.15); // 0.001 * 6
                 
                 whiteNoise.connect(bandpass);
                 bandpass.connect(gainNode);
@@ -753,8 +766,8 @@ function playCheeringSound() {
                 oscillator.type = 'triangle';
                 
                 gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.08, audioContext.currentTime + 0.05);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.4);
+                gainNode.gain.linearRampToValueAtTime(0.48, audioContext.currentTime + 0.05); // 0.08 * 6
+                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.4); // 0.001 * 6
                 
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
