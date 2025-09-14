@@ -593,15 +593,15 @@ body {
 @media (max-width: 480px) {
     .lighting-overlay {
         background: radial-gradient(
-            ellipse 280px 200px at 50% 35%, 
+            ellipse 320px 280px at 50% 42%, 
             transparent 0%, 
-            transparent 15%, 
-            rgba(0, 0, 0, 0.88) 55%
+            transparent 25%, 
+            rgba(0, 0, 0, 0.85) 65%
         );
     }
     
     .cake-section {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
     }
 }
 
@@ -926,10 +926,10 @@ body {
 /* Photo Display */
 .photo-display {
     position: relative;
-    width: 700px;
-    height: 500px;
-    max-width: 85vw;
-    max-height: 70vh;
+    width: 800px;
+    height: 600px;
+    max-width: 90vw;
+    max-height: 75vh;
     background: white;
     border-radius: 20px;
     overflow: hidden;
@@ -1193,13 +1193,13 @@ body {
     }
     
     .party-hat-frame {
-        width: 350px;
-        height: 320px;
+        width: 380px;
+        height: 350px;
     }
     
     .photo-display {
-        width: 330px;
-        height: 240px;
+        width: 360px;
+        height: 280px;
     }
     
     .gallery-nav {
