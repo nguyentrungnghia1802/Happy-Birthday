@@ -8,7 +8,7 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
-  default: {
+  anhtai: {
     name: "Anh Tài",
     photoSet: "anhtai",
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
