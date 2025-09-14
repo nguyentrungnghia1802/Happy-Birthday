@@ -147,7 +147,74 @@ Happy-Birthday/
    - File `.github/workflows/gh-pages.yml` sẽ tự động deploy
    - Mỗi lần push code sẽ tự động update trang web
 
-## 🎁 Tùy Chỉnh
+## 🎁 Personalization - Tùy Chỉnh Cho Từng Người
+
+### 🔧 Hệ Thống Personalization
+Website hỗ trợ tùy chỉnh tên, ảnh và theme cho từng người nhận khác nhau thông qua URL parameters.
+
+### 📋 Admin Panel
+Truy cập `admin.html` để:
+- Xem danh sách tất cả người đã config
+- Tạo link personalized cho từng người  
+- Copy link để chia sẻ
+- Hướng dẫn thêm người mới
+
+### 🔗 Cách Sử Dụng URL
+- **Default**: `https://yoursite.com/` (dùng config mặc định)
+- **Personalized**: `https://yoursite.com/?person=john` (dùng config của John)
+
+### ➕ Thêm Người Mới
+
+1. **Chỉnh sửa `config.js`** - Thêm vào `PERSON_CONFIGS`:
+```javascript
+'newperson': {
+    name: 'Tên Người',
+    photoSet: 'newperson', 
+    customMessage: 'Chúc {name} sinh nhật vui vẻ!',
+    themeColor: '#ff6b6b'
+}
+```
+
+2. **Thêm ảnh** vào `res/img/`:
+```
+res/img/newperson_1.jpg
+res/img/newperson_2.jpg
+res/img/newperson_3.jpg
+...
+```
+
+3. **Thêm photo set** vào `PHOTO_SETS`:
+```javascript
+'newperson': [
+    {
+        src: "res/img/newperson_1.jpg",
+        title: "� Sinh Nhật Vui Vẻ", 
+        description: "Mô tả ảnh"
+    }
+    // ... thêm ảnh khác
+]
+```
+
+### 🎨 Theme Colors
+Mỗi người có thể có màu theme riêng:
+- `#ffd700` - Vàng (default)
+- `#4ecdc4` - Xanh ngọc
+- `#ff6b6b` - Hồng đỏ  
+- `#96c93d` - Xanh lá
+
+### 🚀 Deploy Tips
+- Upload tất cả ảnh vào thư mục `res/img/`
+- Đảm bảo tên file ảnh khớp với config
+- Test trên `admin.html` trước khi chia sẻ
+- Sử dụng ảnh tối ưu (< 1MB mỗi ảnh)
+
+### 📱 Chia Sẻ
+1. Mở `admin.html` 
+2. Click "Copy" link của người cần gửi
+3. Gửi link qua tin nhắn/email  
+4. Người nhận sẽ thấy trang sinh nhật với tên và ảnh riêng của họ
+
+### Thay Đổi Khác
 
 ### Thay Đổi Lời Chúc
 Chỉnh sửa mảng `wishes` trong `script.js`:
@@ -156,15 +223,6 @@ const messages = [
     '🎊 Lời chúc tùy chỉnh của bạn! 🎊',
     // Thêm lời chúc khác...
 ];
-```
-
-### Thay Đổi Màu Sắc
-Chỉnh sửa CSS variables trong `styles.css`:
-```css
-:root {
-    --primary-gradient: linear-gradient(135deg, #your-colors);
-    --accent-color: #your-accent;
-}
 ```
 
 ### Thêm Hiệu Ứng

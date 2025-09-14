@@ -15,54 +15,14 @@ const totalCandles = 5;
 let currentMelodyTimeout = null;
 let candlesHaveBeenBlown = false; // Track if candles have been blown once
 
-// Biến tên sinh nhật để dễ tái sử dụng
-const birthdayName = "Anh Tài";
+// Personalization variables - sẽ được khởi tạo từ URL parameters
+let birthdayName = "Anh Tài"; // Default value
+let personalConfig = {};
+let photoData = [];
 
 // Gallery variables
 let currentPhotoIndex = 0;
 let galleryAutoSlideTimeout = null;
-const photoData = [
-  {
-    src: "res\\img\\tai_1.jpg",
-    title: "🎂 Sinh Nhật Vui Vẻ",
-    description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-  },
-  {
-    src: "res\\img\\tai_2.jpg",
-    title: "🎈 Tiệc Sinh Nhật",
-    description: "Bóng bay và niềm vui không ngừng",
-  },
-  {
-    src: "res\\img\\tai_3.jpg",
-    title: "🎁 Món Quà Đặc Biệt",
-    description: "Những món quà đầy ý nghĩa",
-  },
-  {
-    src: "res\\img\\tai_4.jpg",
-    title: "🕯️ Ước Mơ Thành Thật",
-    description: "Thổi nến và ước những điều tốt đẹp",
-  },
-    {
-        src: "res\\img\\tai_5.jpg",
-        title: "🏡 Khoảnh Khắc Bên Gia Đình",
-        description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-        src: "res\\img\\tai_6.jpg",
-        title: "👫 Bạn Bè Vui Vẻ",
-        description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-        src: "res\\img\\tai_7.jpg",
-        title: "🍰 Bánh Kem Ngọt Ngào",
-        description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
-    },
-    {
-        src: "res\\img\\tai_8.jpg",
-        title: "✨ Ước Mơ Tuổi Mới",
-        description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-];
 
 // ===== DOM ELEMENTS (Will be initialized after DOM loads) =====
 let blowButton, surpriseButton, musicToggle, musicIcon, musicText;
@@ -74,18 +34,84 @@ let birthdaySong, blowSound;
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
+    // Khởi tạo personalization trước tiên
+    initializePersonalization();
+    
     initializeDOM();
     // Cập nhật tên sinh nhật vào subtitle
     const nameSpan = document.getElementById('birthdayName');
     if (nameSpan) {
         nameSpan.textContent = birthdayName;
     }
+    
+    // Cập nhật subtitle message
+    updateSubtitleMessage();
+    
     initializeWishRotation();
     initializeEventListeners();
     createBackgroundAnimations();
     playIntroAnimation();
     // Music will only start when blowing candles, not auto-start
 });
+
+// ===== PERSONALIZATION INITIALIZATION =====
+function initializePersonalization() {
+    // Lấy config từ URL parameters
+    if (typeof window.PersonalizationConfig !== 'undefined') {
+        personalConfig = window.PersonalizationConfig.getPersonConfig();
+        birthdayName = personalConfig.name;
+        photoData = personalConfig.photos;
+        
+        // Áp dụng theme color nếu có
+        if (personalConfig.themeColor) {
+            applyThemeColor(personalConfig.themeColor);
+        }
+        
+        console.log('Personalization loaded:', personalConfig);
+    } else {
+        console.warn('PersonalizationConfig not found, using default values');
+        // Fallback to default photos
+        photoData = [
+            {
+                src: "res/img/tai_1.jpg",
+                title: "🎂 Sinh Nhật Vui Vẻ",
+                description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+            },
+            // ... thêm các ảnh default khác
+        ];
+    }
+}
+
+function updateSubtitleMessage() {
+    const subtitleElement = document.querySelector('.subtitle');
+    if (subtitleElement && personalConfig.customMessage) {
+        const messageText = personalConfig.customMessage.replace('{name}', `<span id="birthdayName" class="highlight-name">${birthdayName}</span>`);
+        subtitleElement.innerHTML = messageText;
+    }
+}
+
+function applyThemeColor(color) {
+    // Áp dụng theme color cho các elements
+    const root = document.documentElement;
+    root.style.setProperty('--theme-color', color);
+    
+    // Cập nhật CSS động
+    const style = document.createElement('style');
+    style.textContent = `
+        .highlight-name {
+            color: ${color} !important;
+        }
+        .explosion-image {
+            border-color: ${color} !important;
+            box-shadow: 0 10px 30px ${color}66 !important;
+        }
+        .explosion-close {
+            border-color: ${color} !important;
+            color: ${color} !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
 
 // ===== DOM INITIALIZATION =====
 function initializeDOM() {
@@ -1257,6 +1283,6 @@ if ('ontouchstart' in window) {
     
     // Add mobile-specific instructions
     setTimeout(() => {
-        showMessage('📱 Mẹo: Chạm đa điểm để tạo bất ngờ! Chạm nến để thổi từng cái một!');
+        showMessage('📱Chạm Thổi nến để thổi bùng lên điều ước của bạn!');
     }, 5000);
 }

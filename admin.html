@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎂 Birthday Admin - Tạo Link Sinh Nhật</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .person-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .person-info {
+            flex: 1;
+        }
+        .person-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .person-details {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-preview {
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            color: white;
+        }
+        .btn-copy {
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            color: #333;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .url-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            word-break: break-all;
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .add-person {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>🎂 Birthday Link Generator</h1>
+        
+        <div class="instructions">
+            <h3>📋 Hướng Dẫn Sử Dụng:</h3>
+            <ul>
+                <li><strong>Preview:</strong> Xem trước trang sinh nhật</li>
+                <li><strong>Copy Link:</strong> Sao chép link để chia sẻ</li>
+                <li>Mỗi người sẽ có tên, ảnh và màu theme riêng</li>
+                <li>Để thêm người mới, chỉnh sửa file <code>config.js</code></li>
+            </ul>
+        </div>
+
+        <div id="personList">
+            <!-- Sẽ được tạo bởi JavaScript -->
+        </div>
+
+        <button class="add-person" onclick="showAddPersonInstructions()">
+            ➕ Hướng Dẫn Thêm Người Mới
+        </button>
+
+        <div id="addPersonModal" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
+            <h3>🔧 Cách Thêm Người Mới:</h3>
+            <ol>
+                <li>Mở file <code>config.js</code></li>
+                <li>Thêm entry mới vào <code>PERSON_CONFIGS</code>:
+                    <pre style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; overflow-x: auto;">
+'newperson': {
+    name: 'Tên Người',
+    photoSet: 'newperson',
+    customMessage: 'Chúc {name} sinh nhật vui vẻ!',
+    themeColor: '#ff6b6b'
+}</pre>
+                </li>
+                <li>Thêm ảnh vào thư mục <code>res/img/</code> với tên: <code>newperson_1.jpg, newperson_2.jpg, ...</code></li>
+                <li>Thêm photo set vào <code>PHOTO_SETS</code></li>
+                <li>Reload trang này để thấy người mới</li>
+            </ol>
+            <button class="btn btn-copy" onclick="hideAddPersonInstructions()">Đóng</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        function generatePersonList() {
+            const personList = document.getElementById('personList');
+            const configs = window.PersonalizationConfig.PERSON_CONFIGS;
+            
+            personList.innerHTML = '';
+            
+            Object.keys(configs).forEach(key => {
+                const person = configs[key];
+                const personDiv = document.createElement('div');
+                personDiv.className = 'person-card';
+                
+                const baseURL = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
+                const personURL = key === 'default' ? baseURL : `${baseURL}?person=${key}`;
+                
+                personDiv.innerHTML = `
+                    <div class="person-info">
+                        <div class="person-name">
+                            <span class="color-preview" style="background: ${person.themeColor}"></span>
+                            ${person.name}
+                        </div>
+                        <div class="person-details">
+                            Theme: ${person.themeColor} | Photos: ${person.photoSet}
+                        </div>
+                        <div class="url-display">${personURL}</div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="${personURL}" target="_blank" class="btn btn-preview">👁️ Preview</a>
+                        <button class="btn btn-copy" onclick="copyToClipboard('${personURL}')">📋 Copy</button>
+                    </div>
+                `;
+                
+                personList.appendChild(personDiv);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('✅ Đã sao chép link: ' + text);
+            }, function(err) {
+                console.error('❌ Lỗi sao chép: ', err);
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('✅ Đã sao chép link: ' + text);
+            });
+        }
+
+        function showAddPersonInstructions() {
+            document.getElementById('addPersonModal').style.display = 'block';
+        }
+
+        function hideAddPersonInstructions() {
+            document.getElementById('addPersonModal').style.display = 'none';
+        }
+
+        // Khởi tạo khi trang load
+        document.addEventListener('DOMContentLoaded', generatePersonList);
+    </script>
+</body>
+</html>
