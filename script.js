@@ -69,6 +69,7 @@ let blowButton, surpriseButton, musicToggle, musicIcon, musicText;
 let confettiContainer, fireworksContainer, lightingOverlay;
 let photoGallery, galleryImage, photoTitle, photoDescription;
 let prevPhotoBtn, nextPhotoBtn, closeGalleryBtn, currentPhotoNum, totalPhotosSpan, progressFill;
+let explosionGallery, closeExplosion;
 let birthdaySong, blowSound;
 
 // ===== INITIALIZATION =====
@@ -110,6 +111,10 @@ function initializeDOM() {
     totalPhotosSpan = document.getElementById('totalPhotos');
     progressFill = document.querySelector('.progress-fill');
     
+    // Explosion gallery elements
+    explosionGallery = document.getElementById('explosionGallery');
+    closeExplosion = document.getElementById('closeExplosion');
+    
     // Audio elements
     birthdaySong = document.getElementById('birthdaySong');
     blowSound = document.getElementById('blowSound');
@@ -137,6 +142,9 @@ function initializeEventListeners() {
             closePhotoGallery();
         }
     });
+    
+    // Explosion gallery event listeners
+    closeExplosion.addEventListener('click', closeExplosionGallery);
     
     // Add keyboard support
     document.addEventListener('keydown', handleKeyPress);
@@ -256,10 +264,10 @@ function celebrateAllCandlesBlown() {
 
 function turnLightsOn() {
     if (lightingOverlay) {
-        lightingOverlay.style.opacity = '0';
+        lightingOverlay.classList.add('lights-on');
         setTimeout(() => {
             lightingOverlay.style.display = 'none';
-        }, 500);
+        }, 2000); // Match CSS transition duration
     }
 }
 
@@ -309,8 +317,8 @@ function triggerSurprise() {
         surpriseButton.style.transform = 'scale(1)';
     }, 150);
     
-    // Open photo gallery
-    openPhotoGallery();
+    // Open 3D explosion gallery instead of regular gallery
+    openExplosionGallery();
     
     // Multiple surprise effects
     createConfettiExplosion(30);
@@ -794,6 +802,55 @@ function playCheeringSound() {
     }
 }
 
+function playExplosionSound() {
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Create dramatic explosion sound effect
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                // Bass explosion
+                const bassOsc = audioContext.createOscillator();
+                const bassGain = audioContext.createGain();
+                
+                bassOsc.connect(bassGain);
+                bassGain.connect(audioContext.destination);
+                
+                bassOsc.frequency.setValueAtTime(80, audioContext.currentTime);
+                bassOsc.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.3);
+                bassOsc.type = 'sawtooth';
+                
+                bassGain.gain.setValueAtTime(0, audioContext.currentTime);
+                bassGain.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.02);
+                bassGain.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.3);
+                
+                bassOsc.start(audioContext.currentTime);
+                bassOsc.stop(audioContext.currentTime + 0.3);
+                
+                // High frequency sparkle
+                const sparkleOsc = audioContext.createOscillator();
+                const sparkleGain = audioContext.createGain();
+                
+                sparkleOsc.connect(sparkleGain);
+                sparkleGain.connect(audioContext.destination);
+                
+                sparkleOsc.frequency.setValueAtTime(2000 + Math.random() * 2000, audioContext.currentTime);
+                sparkleOsc.frequency.exponentialRampToValueAtTime(4000 + Math.random() * 2000, audioContext.currentTime + 0.2);
+                sparkleOsc.type = 'triangle';
+                
+                sparkleGain.gain.setValueAtTime(0, audioContext.currentTime);
+                sparkleGain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                sparkleGain.gain.exponentialRampToValueAtTime(0.003, audioContext.currentTime + 0.2);
+                
+                sparkleOsc.start(audioContext.currentTime);
+                sparkleOsc.stop(audioContext.currentTime + 0.2);
+            }, i * 100);
+        }
+    } catch (error) {
+        console.log('Audio not supported');
+    }
+}
+
 // ===== PHOTO GALLERY SYSTEM =====
 function initializeGallery() {
     if (totalPhotosSpan) {
@@ -860,6 +917,98 @@ function stopGalleryAutoSlide() {
 function resetAutoSlideTimer() {
     stopGalleryAutoSlide();
     startGalleryAutoSlide();
+}
+
+// ===== 3D EXPLOSION GALLERY =====
+function openExplosionGallery() {
+    if (explosionGallery) {
+        explosionGallery.classList.add('active');
+        createExplosionImages();
+        // Play special explosion sound
+        playExplosionSound();
+    }
+}
+
+function closeExplosionGallery() {
+    if (explosionGallery) {
+        explosionGallery.classList.remove('active');
+        // Clear all explosion images
+        const explosionImages = explosionGallery.querySelectorAll('.explosion-image');
+        explosionImages.forEach(img => img.remove());
+    }
+}
+
+function createExplosionImages() {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    // Responsive radius calculation
+    const isMobile = window.innerWidth <= 480;
+    const isTablet = window.innerWidth <= 768;
+    
+    const baseRadius = isMobile ? 150 : isTablet ? 250 : 300;
+    const radiusVariation = isMobile ? 50 : isTablet ? 100 : 200;
+    
+    photoData.forEach((photo, index) => {
+        setTimeout(() => {
+            const explosionImg = document.createElement('div');
+            explosionImg.className = 'explosion-image animate';
+            
+            // Calculate position in a circle around center
+            const angle = (index / photoData.length) * Math.PI * 2;
+            const radius = baseRadius + Math.random() * radiusVariation;
+            const orbitRadius = radius * 0.3; // Smaller orbit for rotation
+            
+            const imgWidth = isMobile ? 150 : 200;
+            const imgHeight = isMobile ? 112 : 150;
+            
+            const finalX = centerX + Math.cos(angle) * radius - imgWidth/2;
+            const finalY = centerY + Math.sin(angle) * radius - imgHeight/2;
+            
+            // Orbit calculation for rotation animation
+            const orbitX = Math.cos(angle) * orbitRadius;
+            const orbitY = Math.sin(angle) * orbitRadius;
+            
+            // Random rotation for 3D effect
+            const rotateX = Math.random() * 60 - 30;
+            const rotateY = Math.random() * 60 - 30;
+            const rotateZ = Math.random() * 30 - 15;
+            
+            explosionImg.innerHTML = `<img src="${photo.src}" alt="${photo.title}">`;
+            
+            // Set initial position at center
+            explosionImg.style.left = centerX - imgWidth/2 + 'px';
+            explosionImg.style.top = centerY - imgHeight/2 + 'px';
+            
+            // Set CSS variables for animation
+            explosionImg.style.setProperty('--final-x', finalX + 'px');
+            explosionImg.style.setProperty('--final-y', finalY + 'px');
+            explosionImg.style.setProperty('--orbit-x', orbitX + 'px');
+            explosionImg.style.setProperty('--orbit-y', orbitY + 'px');
+            explosionImg.style.setProperty('--rotate-x', rotateX + 'deg');
+            explosionImg.style.setProperty('--rotate-y', rotateY + 'deg');
+            explosionImg.style.setProperty('--rotate-z', rotateZ + 'deg');
+            
+            // Add click handler to open regular gallery
+            explosionImg.addEventListener('click', () => {
+                currentPhotoIndex = index;
+                closeExplosionGallery();
+                setTimeout(() => {
+                    openPhotoGallery();
+                }, 300);
+            });
+            
+            explosionGallery.appendChild(explosionImg);
+            
+            // Animate to final position
+            setTimeout(() => {
+                explosionImg.style.left = explosionImg.style.getPropertyValue('--final-x');
+                explosionImg.style.top = explosionImg.style.getPropertyValue('--final-y');
+                // Initial transform will be handled by CSS animation
+            }, 50);
+            
+        }, index * 150); // Stagger the animations
+    });
 }
 
 // ===== WISH ROTATION =====
@@ -949,6 +1098,17 @@ function showMessage(message) {
 
 // ===== KEYBOARD SUPPORT =====
 function handleKeyPress(event) {
+    // Explosion gallery navigation
+    if (explosionGallery && explosionGallery.classList.contains('active')) {
+        switch(event.key) {
+            case 'Escape':
+                event.preventDefault();
+                closeExplosionGallery();
+                break;
+        }
+        return;
+    }
+    
     // Gallery navigation when gallery is open
     if (photoGallery && photoGallery.classList.contains('active')) {
         switch(event.key) {
