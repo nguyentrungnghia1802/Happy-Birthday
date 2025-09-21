@@ -20,6 +20,12 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
+  lanhuong: {
+    name: "Lan Hương",
+    photoSet: "lanhuong",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
 };
 
 // Bộ ảnh cho từng người
@@ -104,6 +110,49 @@ const PHOTO_SETS = {
     },
     {
       src: "res/img/thuy-tien/tien-8.jpg",
+      title: "✨ Ước Mơ Tuổi Mới",
+      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
+    },
+  ],
+
+  lanhuong: [
+    {
+      src: "res/img/lan-huong/huong-1.png",
+      title: "🎂 Sinh Nhật Vui Vẻ",
+      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    },
+    {
+      src: "res/img/lan-huong/huong-2.png",
+      title: "🎈 Tiệc Sinh Nhật",
+      description: "Bóng bay và niềm vui không ngừng",
+    },
+    {
+      src: "res/img/lan-huong/huong-1.png",
+      title: "🎁 Món Quà Đặc Biệt",
+      description: "Những món quà đầy ý nghĩa",
+    },
+    {
+      src: "res/img/lan-huong/huong-2.png",
+      title: "🕯️ Ước Mơ Thành Thật",
+      description: "Thổi nến và ước những điều tốt đẹp",
+    },
+    {
+      src: "res/img/lan-huong/huong-1.png",
+      title: "🏡 Khoảnh Khắc Bên Gia Đình",
+      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+    {
+      src: "res/img/lan-huong/huong-2.png",
+      title: "👫 Bạn Bè Vui Vẻ",
+      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+    },
+    {
+      src: "res/img/lan-huong/huong-1.png",
+      title: "🍰 Bánh Kem Ngọt Ngào",
+      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
+    },
+    {
+      src: "res/img/lan-huong/huong-2.png",
       title: "✨ Ước Mơ Tuổi Mới",
       description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
     },
