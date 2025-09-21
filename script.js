@@ -972,8 +972,9 @@ function createExplosionImages() {
     const isMobile = window.innerWidth <= 480;
     const isTablet = window.innerWidth <= 768;
     
-    const baseRadius = isMobile ? 150 : isTablet ? 250 : 300;
-    const radiusVariation = isMobile ? 50 : isTablet ? 100 : 200;
+    // Giảm bán kính để ảnh không bay ra ngoài khung trên desktop/tablet
+    const baseRadius = isMobile ? 150 : isTablet ? 140 : 180;
+    const radiusVariation = isMobile ? 50 : isTablet ? 40 : 60;
     
     photoData.forEach((photo, index) => {
         setTimeout(() => {
