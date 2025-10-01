@@ -26,6 +26,12 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
+  bichhang: {
+    name: "Bích Hằng",
+    photoSet: "bichhang",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
 };
 
 // Bộ ảnh cho từng người
@@ -157,31 +163,68 @@ const PHOTO_SETS = {
       description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
     },
   ],
+  bichhang: [
+    {
+      src: "res/img/bich-hang/hang-1.png",
+      title: "🎂 Sinh Nhật Vui Vẻ",
+      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    },
+    {
+      src: "res/img/bich-hang/hang-2.png",
+      title: "🎈 Tiệc Sinh Nhật",
+      description: "Bóng bay và niềm vui không ngừng",
+    },
+    {
+      src: "res/img/bich-hang/hang-3.png",
+      title: "🎁 Món Quà Đặc Biệt",
+      description: "Những món quà đầy ý nghĩa",
+    },
+    {
+      src: "res/img/bich-hang/hang-4.png",
+      title: "🕯️ Ước Mơ Thành Thật",
+      description: "Thổi nến và ước những điều tốt đẹp",
+    },
+    {
+      src: "res/img/bich-hang/hang-5.jpg",
+      title: "🏡 Khoảnh Khắc Bên Gia Đình",
+      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+    {
+      src: "res/img/bich-hang/hang-6.jpg",
+      title: "👫 Bạn Bè Vui Vẻ",
+      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+    },
+    {
+      src: "res/img/bich-hang/hang-7.jpg",
+      title: "✨ Ước Mơ Tuổi Mới",
+      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
+    },
+  ],
 };
 
 // Hàm lấy config dựa trên URL parameters
 function getPersonConfig() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const personKey = urlParams.get('person') || 'default';
-    
-    const config = PERSON_CONFIGS[personKey] || PERSON_CONFIGS['default'];
-    const photos = PHOTO_SETS[config.photoSet] || PHOTO_SETS['tai'];
-    
-    return {
-        ...config,
-        photos: photos
-    };
+  const urlParams = new URLSearchParams(window.location.search);
+  const personKey = urlParams.get("person") || "default";
+
+  const config = PERSON_CONFIGS[personKey] || PERSON_CONFIGS["default"];
+  const photos = PHOTO_SETS[config.photoSet] || PHOTO_SETS["tai"];
+
+  return {
+    ...config,
+    photos: photos,
+  };
 }
 
 // Hàm tạo URL cho từng người
 function generatePersonalURL(personKey) {
-    const baseURL = window.location.origin + window.location.pathname;
-    return `${baseURL}?person=${personKey}`;
+  const baseURL = window.location.origin + window.location.pathname;
+  return `${baseURL}?person=${personKey}`;
 }
 
 // Export để sử dụng trong script.js
 window.PersonalizationConfig = {
-    getPersonConfig,
-    generatePersonalURL,
-    PERSON_CONFIGS
+  getPersonConfig,
+  generatePersonalURL,
+  PERSON_CONFIGS,
 };
