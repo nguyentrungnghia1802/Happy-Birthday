@@ -1,252 +1,219 @@
-# 🎉 Happy Birthday - Trang Web Chúc Mừng Sinh Nhật 🎂
+<div align="center">
+  <h1>🎉 Happy Birthday - 誕生日おめでとうウェブサイト 🎂</h1>
+  <a href="https://nguyentrungnghia1802.github.io/Happy-Birthday/" style="font-size:2em; color:#e91e63; font-weight:bold; text-decoration:underline;">🌐 ウェブサイトはこちら！</a>
+</div>
 
-Một trang web chúc mừng sinh nhật tương tác và đẹp mắt được thiết kế để tạo ra những khoảnh khắc đặc biệt và bất ngờ thú vị!
+インタラクティブで美しい誕生日お祝いサイト。特別な瞬間やサプライズを演出します！
 
-## ✨ Tính Năng Nổi Bật
+## ✨ 主な特徴
 
-### 🕯️ Bánh Gato Tương Tác
-- Bánh sinh nhật 3 tầng với thiết kế gradient đẹp mắt
-- 5 ngọn nến có thể thổi tắt từng cái một
-- Hiệu ứng khói khi thổi nến
-- Nút "Thổi Nến" để tắt tất cả cùng lúc
-- Nến tự động thắp lại sau 5 giây
+### 🕯️ インタラクティブケーキ
+- 3段ケーキ、グラデーションデザイン
+- 5本のろうそくを個別に吹き消せる
+- 吹き消すと煙エフェクト
+- 「ろうそくを吹く」ボタンで一括消灯
+- 5秒後に自動で再点灯
 
-### 🎊 Hiệu Ứng Bất Ngờ
-- **Confetti**: Mảnh giấy bay rộn ràng với nhiều màu sắc
-- **Pháo hoa**: Hiệu ứng pháo hoa đa màu sắc
-- **Bóng bay**: Bóng bay bay lơ lửng với animation tự nhiên
-- **Ngôi sao**: Nền trời đêm với ngôi sao lấp lánh
-- **Hạt bay**: Particles bay lên từ dưới lên
+### 🎊 サプライズエフェクト
+- **紙吹雪**: カラフルな紙片が舞う
+- **花火**: カラフルな花火アニメーション
+- **風船**: 自然なアニメーションで浮かぶ
+- **星空**: きらめく星の背景
+- **パーティクル**: 下から上に舞い上がる
 
-### 🎵 Âm Thanh & Nhạc
-- Nhạc sinh nhật tự động phát (sử dụng Web Audio API)
-- Hiệu ứng âm thanh khi thổi nến
-- Âm thanh celebration khi hoàn thành
-- Nút bật/tắt nhạc tiện lợi
+### 🎵 サウンド＆音楽
+- 誕生日ソング自動再生（Web Audio API）
+- ろうそくを吹くと効果音
+- 祝福時のサウンド
+- 音楽ON/OFFボタン
 
-### 💝 Lời Chúc Tự Động
-- 5 lời chúc sinh nhật khác nhau
-- Tự động chuyển đổi mỗi 3 giây
-- Lời chúc đặc biệt khi thổi tắt tất cả nến
-- Hiệu ứng text động và gradient
+### 💝 自動メッセージ
+- 5種類の誕生日メッセージ
+- 3秒ごとに自動切替
+- 全てのろうそくを消すと特別メッセージ
+- アニメーション＆グラデーションテキスト
 
-### 🎮 Tương Tác Đa Dạng
-- **Click**: Nhấp vào từng nến để thổi tắt
-- **Keyboard**: 
-  - `Space/Enter`: Thổi tất cả nến
-  - `S`: Kích hoạt bất ngờ
-  - `M`: Bật/tắt nhạc
-  - `1-5`: Thổi nến theo số thứ tự
-- **Mobile**: Chạm đa điểm để tạo bất ngờ
+### 🎮 多彩なインタラクション
+- **クリック**: ろうそくを個別に消す
+- **キーボード**:
+  - `Space/Enter`: 全部消す
+  - `S`: サプライズ発動
+  - `M`: 音楽ON/OFF
+  - `1-5`: 各ろうそくを消す
+- **モバイル**: マルチタッチでサプライズ
 
-## 🚀 Cách Sử Dụng
+## 🚀 使い方
 
-### Trên GitHub Pages
-1. Truy cập: `https://[username].github.io/Happy-Birthday`
-2. Trang web sẽ tự động load với hiệu ứng chào mừng
-3. Tương tác với các nút và tính năng
+### GitHub Pagesで利用
+1. アクセス: https://nguyentrungnghia1802.github.io/Happy-Birthday/
+2. サイトが自動でロード＆ウェルカムエフェクト
+3. 各種ボタンや機能で遊ぶ
 
-### Chạy Cục Bộ
-1. Clone repository này
-2. Mở file `index.html` trong trình duyệt web
-3. Hoặc sử dụng Live Server trong VS Code
+### ローカルで実行
+1. このリポジトリをクローン
+2. `index.html`をブラウザで開く
+3. またはVS CodeのLive Serverを利用
 
-## 🎯 Hướng Dẫn Tương Tác
+## 🎯 インタラクションガイド
 
-### 🕯️ Thổi Nến
-- **Cách 1**: Nhấp nút "🌬️ Thổi Nến" để tắt tất cả
-- **Cách 2**: Click trực tiếp vào từng ngọn nến
-- **Cách 3**: Dùng phím `Space` hoặc `Enter`
-- **Cách 4**: Dùng phím số `1-5` cho từng nến
+### 🕯️ ろうそくを消す
+- **方法1**: 「🌬️ ろうそくを吹く」ボタン
+- **方法2**: 各ろうそくをクリック
+- **方法3**: `Space`または`Enter`キー
+- **方法4**: 数字キー`1-5`
 
-### 🎊 Kích Hoạt Bất Ngờ
-- Nhấp nút "🎊 Bất Ngở Đặc Biệt"
-- Hoặc nhấn phím `S`
-- Trên mobile: Chạm đa điểm
+### 🎊 サプライズ発動
+- 「🎊 サプライズ」ボタン
+- `S`キー
+- モバイル: マルチタッチ
 
-### 🎵 Điều Khiển Nhạc
-- Nhấp nút 🎵 ở góc dưới bên phải
-- Hoặc nhấn phím `M`
+### 🎵 音楽操作
+- 右下の🎵ボタン
+- `M`キー
 
-## 🎨 Thiết Kế & Hiệu Ứng
+## 🎨 デザイン＆エフェクト
 
-### 🌈 Màu Sắc
-- Nền gradient động với 3 màu chính
-- Palette màu tươi sáng và vui nhộn
-- Hiệu ứng rainbow cho text chính
+### 🌈 カラーパレット
+- 動的グラデーション背景
+- 明るく楽しい配色
+- メインテキストにレインボーエフェクト
 
-### ✨ Animation
-- **Fade in/out**: Xuất hiện mượt mà
-- **Bounce**: Hiệu ứng nảy tự nhiên
-- **Float**: Bóng bay và elements bay lơ lửng
-- **Sparkle**: Ngôi sao và particles lấp lánh
-- **Gradient shift**: Nền đổi màu liên tục
+### ✨ アニメーション
+- **Fade in/out**: なめらかな表示/非表示
+- **Bounce**: 自然なバウンス
+- **Float**: 風船や要素が浮遊
+- **Sparkle**: 星やパーティクルがきらめく
+- **Gradient shift**: 背景色が変化
 
-### 📱 Responsive Design
-- Tối ưu cho desktop, tablet và mobile
-- Tự động điều chỉnh kích thước elements
-- Touch-friendly cho thiết bị di động
+### 📱 レスポンシブデザイン
+- デスクトップ/タブレット/モバイル最適化
+- 要素サイズ自動調整
+- タッチ操作対応
 
-## 🛠️ Công Nghệ Sử Dụng
+## 🛠️ 技術スタック
 
-- **HTML5**: Cấu trúc semantic và accessibility
+- **HTML5**: セマンティック構造＆アクセシビリティ
 - **CSS3**: 
-  - Flexbox & Grid layout
-  - Animations & Transitions
-  - Gradient & Box-shadow
-  - Media queries cho responsive
+  - Flexbox & Grid
+  - アニメーション＆トランジション
+  - グラデーション＆ボックスシャドウ
+  - メディアクエリ
 - **JavaScript ES6+**:
-  - Web Audio API cho âm thanh
-  - DOM manipulation
-  - Event handling
-  - Animation control
+  - Web Audio API
+  - DOM操作
+  - イベントハンドリング
+  - アニメーション制御
 
-## 🌟 Tính Năng Đặc Biệt
+## 🌟 特別機能
 
-### 🎂 Bánh Gato Realistic
-- 3 tầng với kích thước khác nhau
-- Decorations: cherry và strawberry
-- Đĩa bánh với hiệu ứng bóng đổ
-- Kem trang trí trên mỗi tầng
+### 🎂 リアルなケーキ
+- 3段、異なるサイズ
+- チェリー＆イチゴ装飾
+- 影付きプレート
+- 各段にクリームデコレーション
 
-### 🕯️ Nến Thông Minh
-- Ngọn lửa nhấp nháy realistic
-- Hiệu ứng khói khi tắt
-- Âm thanh "thổi" thực tế
-- Auto-relight sau một thời gian
+### 🕯️ スマートろうそく
+- リアルな炎アニメ
+- 消すと煙エフェクト
+- 本物のような吹き音
+- 一定時間後に自動再点灯
 
-### 🎊 Celebration System
-- Confetti với physics tự nhiên
-- Fireworks explode theo pattern
-- Balloon dance animation
-- Cake jump effect
+### 🎊 セレブレーションシステム
+- 物理演算付き紙吹雪
+- パターン花火
+- バルーンダンス
+- ケーキジャンプ
 
-## 📁 Cấu Trúc File
+## 📁 ファイル構成
 
 ```
 Happy-Birthday/
-├── index.html          # Trang chính
-├── styles.css          # Stylesheet chính
-├── script.js           # JavaScript tương tác
-├── README.md           # Documentation
+├── index.html
+├── styles.css
+├── script.js
+├── README.md
 └── .github/
     └── workflows/
-        ├── gh-pages.yml    # GitHub Pages deployment
-        └── static.yml      # Static site config
+        ├── gh-pages.yml
+        └── static.yml
 ```
 
-## 🚀 Deploy lên GitHub Pages
+## 🚀 GitHub Pagesデプロイ
 
-1. **Enable GitHub Pages**:
-   - Vào Settings > Pages
-   - Chọn source: Deploy from a branch
-   - Chọn branch: main
+1. **GitHub Pages有効化**:
+   - Settings > Pages
+   - Source: Deploy from a branch
+   - Branch: main
    - Folder: / (root)
 
-2. **Hoặc sử dụng GitHub Actions** (đã có workflow):
-   - File `.github/workflows/gh-pages.yml` sẽ tự động deploy
-   - Mỗi lần push code sẽ tự động update trang web
+2. **GitHub Actions利用**:
+   - `.github/workflows/gh-pages.yml`で自動デプロイ
+   - pushごとに自動更新
 
-## 🎁 Personalization - Tùy Chỉnh Cho Từng Người
+## 🎁 パーソナライズ機能
 
-### 🔧 Hệ Thống Personalization
-Website hỗ trợ tùy chỉnh tên, ảnh và theme cho từng người nhận khác nhau thông qua URL parameters.
+### 🔧 パーソナライズシステム
+URLパラメータで名前・画像・テーマ色を切替
 
-### 📋 Admin Panel
-Truy cập `admin.html` để:
-- Xem danh sách tất cả người đã config
-- Tạo link personalized cho từng người  
-- Copy link để chia sẻ
-- Hướng dẫn thêm người mới
+### 📋 管理パネル
+`admin.html`で：
+- 全ユーザー一覧
+- 個別リンク生成
+- コピーしてシェア
+- 新規追加ガイド
 
-### 🔗 Cách Sử Dụng URL
-- **Default**: `https://yoursite.com/` (dùng config mặc định)
-- **Personalized**: `https://yoursite.com/?person=john` (dùng config của John)
+### 🔗 URL利用方法
+- **デフォルト**: https://nguyentrungnghia1802.github.io/Happy-Birthday/
+- **個別**: https://nguyentrungnghia1802.github.io/Happy-Birthday/?person=john
 
-### ➕ Thêm Người Mới
+### ➕ 新規ユーザー追加
+1. `config.js`の`PERSON_CONFIGS`に追加
+2. 画像を`res/img/`に追加
+3. `PHOTO_SETS`にセット追加
 
-1. **Chỉnh sửa `config.js`** - Thêm vào `PERSON_CONFIGS`:
-```javascript
-'newperson': {
-    name: 'Tên Người',
-    photoSet: 'newperson', 
-    customMessage: 'Chúc {name} sinh nhật vui vẻ!',
-    themeColor: '#ff6b6b'
-}
-```
+### 🎨 テーマカラー例
+- `#ffd700` - ゴールド
+- `#4ecdc4` - エメラルド
+- `#ff6b6b` - ピンクレッド
+- `#96c93d` - グリーン
 
-2. **Thêm ảnh** vào `res/img/`:
-```
-res/img/newperson_1.jpg
-res/img/newperson_2.jpg
-res/img/newperson_3.jpg
-...
-```
+### 🚀 デプロイTips
+- 画像は`res/img/`にアップロード
+- ファイル名はconfigと一致
+- `admin.html`でテスト
+- 画像は1MB未満推奨
 
-3. **Thêm photo set** vào `PHOTO_SETS`:
-```javascript
-'newperson': [
-    {
-        src: "res/img/newperson_1.jpg",
-        title: "� Sinh Nhật Vui Vẻ", 
-        description: "Mô tả ảnh"
-    }
-    // ... thêm ảnh khác
-]
-```
+### 📱 シェア方法
+1. `admin.html`を開く
+2. コピーリンクをクリック
+3. メッセ/メールで送信
+4. 受信者は自分専用ページを閲覧
 
-### 🎨 Theme Colors
-Mỗi người có thể có màu theme riêng:
-- `#ffd700` - Vàng (default)
-- `#4ecdc4` - Xanh ngọc
-- `#ff6b6b` - Hồng đỏ  
-- `#96c93d` - Xanh lá
+### メッセージ変更
+`script.js`の`wishes`配列を編集
 
-### 🚀 Deploy Tips
-- Upload tất cả ảnh vào thư mục `res/img/`
-- Đảm bảo tên file ảnh khớp với config
-- Test trên `admin.html` trước khi chia sẻ
-- Sử dụng ảnh tối ưu (< 1MB mỗi ảnh)
+### エフェクト追加
+`script.js`にfunction追加＆イベントで呼び出し
 
-### 📱 Chia Sẻ
-1. Mở `admin.html` 
-2. Click "Copy" link của người cần gửi
-3. Gửi link qua tin nhắn/email  
-4. Người nhận sẽ thấy trang sinh nhật với tên và ảnh riêng của họ
+## 🐛 トラブルシューティング
 
-### Thay Đổi Khác
+### 音が出ない
+- ブラウザの自動再生許可
+- クリック後に音楽ON
+- デバイス音量確認
 
-### Thay Đổi Lời Chúc
-Chỉnh sửa mảng `wishes` trong `script.js`:
-```javascript
-const messages = [
-    '🎊 Lời chúc tùy chỉnh của bạn! 🎊',
-    // Thêm lời chúc khác...
-];
-```
+### エフェクトが重い
+- 紙吹雪数を減らす
+- 不要なアニメ無効化
+- デバイス性能確認
 
-### Thêm Hiệu Ứng
-Thêm functions mới vào `script.js` và gọi trong event handlers.
+### モバイル問題
+- viewport metaタグ確認
+- 複数画面サイズでテスト
+- click→touchイベント対応
 
-## 🐛 Troubleshooting
+## 🎉 結論
 
-### Âm Thanh Không Chạy
-- Đảm bảo trình duyệt cho phép autoplay
-- Click vào trang trước khi bật nhạc
-- Kiểm tra volume của thiết bị
+このHappy Birthdayサイトは、思い出に残る誕生日体験を提供します。多彩なエフェクト、音楽、レスポンシブデザインで、特別な人に笑顔を届けましょう！
 
-### Hiệu Ứng Lag
-- Giảm số lượng particles trong confetti
-- Tắt một số animations không cần thiết
-- Kiểm tra performance của thiết bị
-
-### Mobile Issues
-- Đảm bảo viewport meta tag đúng
-- Test trên nhiều kích thước màn hình
-- Sử dụng touch events thay vì click
-
-## 🎉 Kết Luận
-
-Trang web Happy Birthday này được thiết kế để tạo ra trải nghiệm sinh nhật đáng nhớ và vui nhộn. Với nhiều hiệu ứng tương tác, âm thanh sống động và thiết kế responsive, nó sẽ mang lại nụ cười cho người nhận món quà đặc biệt này!
-
-Hãy tùy chỉnh và chia sẻ niềm vui sinh nhật với những người thân yêu! 🎂✨
+カスタマイズして、誕生日の喜びをシェアしよう！ 🎂✨
