@@ -242,7 +242,7 @@ function getPersonConfig() {
   const personKey = urlParams.get("person") || "default";
 
   const config = PERSON_CONFIGS[personKey] || PERSON_CONFIGS["default"];
-  const photos = PHOTO_SETS[config.photoSet] || PHOTO_SETS["tai"];
+  const photos = PHOTO_SETS[config.photoSet] || [];
 
   return {
     ...config,
