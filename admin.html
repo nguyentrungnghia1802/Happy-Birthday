@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .admin-container {
             max-width: 800px;
             margin: 0 auto;
@@ -22,12 +24,14 @@
             padding: 40px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
+
         h1 {
             text-align: center;
             font-size: 2.5rem;
             margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
+
         .person-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
@@ -38,22 +42,27 @@
             align-items: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .person-info {
             flex: 1;
         }
+
         .person-name {
             font-size: 1.3rem;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .person-details {
             font-size: 0.9rem;
             opacity: 0.8;
         }
+
         .action-buttons {
             display: flex;
             gap: 10px;
         }
+
         .btn {
             padding: 10px 20px;
             border: none;
@@ -64,18 +73,22 @@
             text-decoration: none;
             display: inline-block;
         }
+
         .btn-preview {
             background: linear-gradient(45deg, #ff9a9e, #fecfef);
             color: white;
         }
+
         .btn-copy {
             background: linear-gradient(45deg, #a8edea, #fed6e3);
             color: #333;
         }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
+
         .url-display {
             background: rgba(0, 0, 0, 0.3);
             padding: 10px;
@@ -85,12 +98,14 @@
             margin-top: 10px;
             word-break: break-all;
         }
+
         .instructions {
             background: rgba(255, 255, 255, 0.05);
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 30px;
         }
+
         .add-person {
             background: linear-gradient(45deg, #4facfe, #00f2fe);
             color: white;
@@ -103,6 +118,7 @@
             margin-top: 20px;
             width: 100%;
         }
+
         .color-preview {
             width: 20px;
             height: 20px;
@@ -113,10 +129,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="admin-container">
         <h1>🎂 Birthday Link Generator</h1>
-        
+
         <div class="instructions">
             <h3>📋 Hướng Dẫn Sử Dụng:</h3>
             <ul>
@@ -135,7 +152,8 @@
             ➕ Hướng Dẫn Thêm Người Mới
         </button>
 
-        <div id="addPersonModal" style="display: none; margin-top: 20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
+        <div id="addPersonModal"
+            style="display: none; margin-top: 20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
             <h3>🔧 Cách Thêm Người Mới:</h3>
             <ol>
                 <li>Mở file <code>config.js</code></li>
@@ -148,7 +166,8 @@
     themeColor: '#ff6b6b'
 }</pre>
                 </li>
-                <li>Thêm ảnh vào thư mục <code>res/img/</code> với tên: <code>newperson_1.jpg, newperson_2.jpg, ...</code></li>
+                <li>Thêm ảnh vào thư mục <code>res/img/</code> với tên:
+                    <code>newperson_1.jpg, newperson_2.jpg, ...</code></li>
                 <li>Thêm photo set vào <code>PHOTO_SETS</code></li>
                 <li>Reload trang này để thấy người mới</li>
             </ol>
@@ -161,17 +180,17 @@
         function generatePersonList() {
             const personList = document.getElementById('personList');
             const configs = window.PersonalizationConfig.PERSON_CONFIGS;
-            
+
             personList.innerHTML = '';
-            
+
             Object.keys(configs).forEach(key => {
                 const person = configs[key];
                 const personDiv = document.createElement('div');
                 personDiv.className = 'person-card';
-                
+
                 const baseURL = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
                 const personURL = key === 'default' ? baseURL : `${baseURL}?person=${key}`;
-                
+
                 personDiv.innerHTML = `
                     <div class="person-info">
                         <div class="person-name">
@@ -188,15 +207,15 @@
                         <button class="btn btn-copy" onclick="copyToClipboard('${personURL}')">📋 Copy</button>
                     </div>
                 `;
-                
+
                 personList.appendChild(personDiv);
             });
         }
 
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(function() {
+            navigator.clipboard.writeText(text).then(function () {
                 alert('✅ Đã sao chép link: ' + text);
-            }, function(err) {
+            }, function (err) {
                 console.error('❌ Lỗi sao chép: ', err);
                 // Fallback
                 const textArea = document.createElement('textarea');
@@ -221,4 +240,5 @@
         document.addEventListener('DOMContentLoaded', generatePersonList);
     </script>
 </body>
+
 </html>
