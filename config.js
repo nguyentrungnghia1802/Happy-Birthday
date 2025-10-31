@@ -38,6 +38,18 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
+  minhanh: {
+    name: "Minh Anh",
+    photoSet: "minhanh",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
+  anhtusempai: {
+    name: "Sempai Anh Tú",
+    photoSet: "anhtusempai",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",  
+  },
 };
 
 // Bộ ảnh cho từng người
@@ -230,6 +242,34 @@ const PHOTO_SETS = {
     },
     {
       src: "res/img/phuong-phuong/phuong-5.jpg",
+      title: "🏡 Khoảnh Khắc Bên Gia Đình",
+      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+  ],
+
+  minhanh: [
+    {
+      src: "res/img/minh-anh/anh-1.jpg",
+      title: "🎂 Sinh Nhật Vui Vẻ",
+      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    },
+    {
+      src: "res/img/minh-anh/anh-2.jpg",
+      title: "🎈 Tiệc Sinh Nhật",
+      description: "Bóng bay và niềm vui không ngừng",
+    },
+    {
+      src: "res/img/minh-anh/anh-3.jpg",
+      title: "🎁 Món Quà Đặc Biệt",
+      description: "Những món quà đầy ý nghĩa",
+    },
+    {
+      src: "res/img/minh-anh/anh-4.jpg",
+      title: "🕯️ Ước Mơ Thành Thật",
+      description: "Thổi nến và ước những điều tốt đẹp",
+    },
+    {
+      src: "res/img/minh-anh/anh-5.jpg",
       title: "🏡 Khoảnh Khắc Bên Gia Đình",
       description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
     },
