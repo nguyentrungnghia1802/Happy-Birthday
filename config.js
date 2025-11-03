@@ -50,6 +50,12 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",  
   },
+  truclinh: {
+    name: "Trúc Linh",
+    photoSet: "truclinh",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
 };
 
 // Bộ ảnh cho từng người
@@ -272,6 +278,49 @@ const PHOTO_SETS = {
       src: "res/img/minh-anh/anh-5.jpg",
       title: "🏡 Khoảnh Khắc Bên Gia Đình",
       description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+  ],
+
+  truclinh: [
+    {
+      src: "res/img/truc-linh/linh-1.jpg",  
+      title: "🎂 Sinh Nhật Vui Vẻ",
+      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    },
+    {
+      src: "res/img/truc-linh/linh-2.jpg",  
+      title: "🎈 Tiệc Sinh Nhật",
+      description: "Bóng bay và niềm vui không ngừng",
+    },
+    {
+      src: "res/img/truc-linh/linh-3.jpg",  
+      title: "🎁 Món Quà Đặc Biệt",
+      description: "Những món quà đầy ý nghĩa",
+    },
+    {
+      src: "res/img/truc-linh/linh-4.jpg",
+      title: "🕯️ Ước Mơ Thành Thật",
+      description: "Thổi nến và ước những điều tốt đẹp",
+    },
+    {
+      src: "res/img/truc-linh/linh-5.jpg",  
+      title: "🏡 Khoảnh Khắc Bên Gia Đình",
+      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+    {
+      src: "res/img/truc-linh/linh-6.jpg",
+      title: "👫 Bạn Bè Vui Vẻ",
+      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+    },
+    {
+      src: "res/img/truc-linh/linh-7.jpg",
+      title: "🍰 Bánh Kem Ngọt Ngào",
+      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
+    },
+    {
+      src: "res/img/truc-linh/linh-8.jpg",
+      title: "✨ Ước Mơ Tuổi Mới",
+      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
     },
   ],
 };
