@@ -68,6 +68,12 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
+  phuongthao: {
+    name: "Phương Thảo",
+    photoSet: "phuongthao",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  }
 };
 
 // Bộ ảnh cho từng người
