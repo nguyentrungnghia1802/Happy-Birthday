@@ -73,6 +73,12 @@ const PERSON_CONFIGS = {
     photoSet: "phuongthao",
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
+  },
+  thuyduong: {
+    name: "Thuỳ Dương",
+    photoSet: "thuyduong",
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
   }
 };
 
@@ -340,6 +346,39 @@ const PHOTO_SETS = {
       title: "✨ Ước Mơ Tuổi Mới",
       description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
     },
+  ],
+
+  thuyduong: [
+    {
+      src: "res/img/thuy-duong/duong-1.jpg",
+      title: "🎂 Sinh Nhật Vui Vẻ",
+      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    },
+    {
+      src: "res/img/thuy-duong/duong-2.jpg",
+      title: "🎈 Tiệc Sinh Nhật",
+      description: "Bóng bay và niềm vui không ngừng",
+    },
+    {
+      src: "res/img/thuy-duong/duong-3.png",
+      title: "🎁 Món Quà Đặc Biệt",
+      description: "Những món quà đầy ý nghĩa",
+    },
+    {
+      src: "res/img/thuy-duong/duong-4.png",
+      title: "🕯️ Ước Mơ Thành Thật",
+      description: "Thổi nến và ước những điều tốt đẹp",
+    },
+    {
+      src: "res/img/thuy-duong/duong-5.png",
+      title: "🏡 Khoảnh Khắc Bên Gia Đình",
+      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    },
+    {
+      src: "res/img/thuy-duong/duong-6.png",
+      title: "👫 Bạn Bè Vui Vẻ",
+      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+    }
   ],
 };
 
