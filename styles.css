@@ -802,6 +802,34 @@ body {
     transform: rotate(90deg) scale(1.1);
 }
 
+.explosion-instruction {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        opacity: 0.9;
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        opacity: 1;
+    }
+}
+
 @keyframes explosionBackdrop {
     0% { 
         background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.95) 100%);
@@ -1273,6 +1301,13 @@ body {
         right: 20px;
     }
 
+    .explosion-instruction {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        bottom: 50px;
+        max-width: 90%;
+    }
+
     @keyframes rotateAroundMobile {
         0% {
             transform: 
@@ -1311,6 +1346,12 @@ body {
         font-size: 1.6rem;
         top: 25px;
         right: 25px;
+    }
+
+    .explosion-instruction {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        bottom: 60px;
     }
 
     @keyframes rotateAround {
