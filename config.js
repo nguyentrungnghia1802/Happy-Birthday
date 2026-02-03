@@ -123,35 +123,35 @@ const PERSON_CONFIGS = {
 const PHOTO_TITLES = [
   {
     title: "🎂 Sinh Nhật Vui Vẻ",
-    description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+    description: "Khoảnh khắc hạnh phúc bên bánh kem",
   },
   {
     title: "🎈 Tiệc Sinh Nhật",
-    description: "Bóng bay và niềm vui không ngừng",
+    description: "Niềm vui bên bóng bay",
   },
   {
     title: "🎁 Món Quà Đặc Biệt",
-    description: "Những món quà đầy ý nghĩa",
+    description: "Quà tặng đầy ý nghĩa",
   },
   {
     title: "🕯️ Ước Mơ Thành Thật",
-    description: "Thổi nến và ước những điều tốt đẹp",
+    description: "Thổi nến và ước điều tốt đẹp",
   },
   {
-    title: "🏡 Khoảnh Khắc Bên Gia Đình",
-    description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+    title: "🏡 Bên Gia Đình",
+    description: "Quây quần trong ngày đặc biệt",
   },
   {
     title: "👫 Bạn Bè Vui Vẻ",
-    description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+    description: "Tiếng cười bên bạn thân",
   },
   {
     title: "🍰 Bánh Kem Ngọt Ngào",
-    description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
+    description: "Khoảnh khắc thổi nến cắt bánh",
   },
   {
     title: "✨ Ước Mơ Tuổi Mới",
-    description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
+    description: "Lời chúc cho năm tuổi mới",
   },
 ];
 
