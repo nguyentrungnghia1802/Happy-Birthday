@@ -727,6 +727,7 @@ function playNote(frequency, startTime, duration) {
 function playBlowSoundEffect() {
     // Use HTML5 audio element if available
     if (blowSound) {
+        blowSound.volume = 0.5; // Giảm volume xuống 50%
         blowSound.currentTime = 0;
         blowSound.play().catch(e => console.log('Blow sound failed:', e));
     }
@@ -744,8 +745,8 @@ function playBlowSoundEffect() {
         oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
         
     gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.1); // 0.1 * 6
-    gainNode.gain.exponentialRampToValueAtTime(0.06, audioContext.currentTime + 0.5); // 0.01 * 6
+    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1); // Giảm 50%: 0.6 -> 0.3
+    gainNode.gain.exponentialRampToValueAtTime(0.03, audioContext.currentTime + 0.5); // Giảm 50%: 0.06 -> 0.03
         
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.5);

@@ -1,386 +1,172 @@
 // ===== PERSONALIZATION CONFIG =====
 
 // Cấu hình cho từng người nhận
+// Format mới: chỉ cần folder, extension và số lượng ảnh
 const PERSON_CONFIGS = {
   default: {
     name: "Name",
-    photoSet: "empty",
+    folder: "empty",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   anhtai: {
     name: "Anh Tài",
-    photoSet: "anhtai",
+    folder: "anh-tai",
+    extension: "jpg",
+    photoCount: 8,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   thuytien: {
     name: "Thuỷ Tiên",
-    photoSet: "thuytien",
+    folder: "thuy-tien",
+    extension: "jpg",
+    photoCount: 8,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   lanhuong: {
     name: "Lan Hương",
-    photoSet: "lanhuong",
+    folder: "lan-huong",
+    extension: "png",
+    photoCount: 2,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   bichhang: {
     name: "Bích Hằng",
-    photoSet: "bichhang",
+    folder: "bich-hang",
+    extension: "png",  // File 1-4 là .png, file 5-7 là .jpg (mixed)
+    photoCount: 7,
+    extensionMap: {1:'png',2:'png',3:'png',4:'png',5:'jpg',6:'jpg',7:'jpg'}, // Map cho mixed extensions
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   phuongphuong: {
     name: "Phương Phương",
-    photoSet: "phuongphuong",
+    folder: "phuong-phuong",
+    extension: "jpg",
+    photoCount: 5,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   minhanh: {
     name: "Minh Anh",
-    photoSet: "minhanh",
+    folder: "minh-anh",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   anhtusempai: {
     name: "Sempai Anh Tú",
-    photoSet: "anhtusempai",
+    folder: "anh-tu-sempai",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",  
   },
   truclinh: {
     name: "Trúc Linh",
-    photoSet: "truclinh",
+    folder: "truc-linh",
+    extension: "jpg",
+    photoCount: 8,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   chitrang: {
     name: "Chị Trang",
-    photoSet: "chitrang",
+    folder: "chi-trang",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   van: {
     name: "Vân",
-    photoSet: "van",
+    folder: "van",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   phuongthao: {
     name: "Phương Thảo",
-    photoSet: "phuongthao",
+    folder: "phuong-thao",
+    extension: "jpg",
+    photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
   thuyduong: {
     name: "Thuỳ Dương",
-    photoSet: "thuyduong",
+    folder: "thuy-duong",
+    extension: "jpg",  // File 1-2 là .jpg, file 3-6 là .png (mixed)
+    photoCount: 6,
+    extensionMap: {1:'jpg',2:'jpg',3:'png',4:'png',5:'png',6:'png'}, // Map cho mixed extensions
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   }
 };
 
-// Bộ ảnh cho từng người
-const PHOTO_SETS = {
-  anhtai: [
-    {
-      src: "res/img/anh-tai/tai_1.jpg",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/anh-tai/tai_2.jpg",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/anh-tai/tai_3.jpg",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/anh-tai/tai_4.jpg",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/anh-tai/tai_5.jpg",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/anh-tai/tai_6.jpg",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-      src: "res/img/anh-tai/tai_7.jpg",
-      title: "🍰 Bánh Kem Ngọt Ngào",
-      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
-    },
-    {
-      src: "res/img/anh-tai/tai_8.jpg",
-      title: "✨ Ước Mơ Tuổi Mới",
-      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-  ],
-  thuytien: [
-    {
-      src: "res/img/thuy-tien/tien-1.jpg",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/thuy-tien/tien-2.jpg",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/thuy-tien/tien-3.jpg",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/thuy-tien/tien-4.jpg",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/thuy-tien/tien-5.jpg",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/thuy-tien/tien-6.jpg",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-      src: "res/img/thuy-tien/tien-7.jpg",
-      title: "🍰 Bánh Kem Ngọt Ngào",
-      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
-    },
-    {
-      src: "res/img/thuy-tien/tien-8.jpg",
-      title: "✨ Ước Mơ Tuổi Mới",
-      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-  ],
+// Danh sách tiêu đề và mô tả mẫu cho từng ảnh
+const PHOTO_TITLES = [
+  {
+    title: "🎂 Sinh Nhật Vui Vẻ",
+    description: "Những khoảnh khắc hạnh phúc bên bánh kem",
+  },
+  {
+    title: "🎈 Tiệc Sinh Nhật",
+    description: "Bóng bay và niềm vui không ngừng",
+  },
+  {
+    title: "🎁 Món Quà Đặc Biệt",
+    description: "Những món quà đầy ý nghĩa",
+  },
+  {
+    title: "🕯️ Ước Mơ Thành Thật",
+    description: "Thổi nến và ước những điều tốt đẹp",
+  },
+  {
+    title: "🏡 Khoảnh Khắc Bên Gia Đình",
+    description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
+  },
+  {
+    title: "👫 Bạn Bè Vui Vẻ",
+    description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
+  },
+  {
+    title: "🍰 Bánh Kem Ngọt Ngào",
+    description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
+  },
+  {
+    title: "✨ Ước Mơ Tuổi Mới",
+    description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
+  },
+];
 
-  lanhuong: [
-    {
-      src: "res/img/lan-huong/huong-1.png",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/lan-huong/huong-2.png",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/lan-huong/huong-1.png",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/lan-huong/huong-2.png",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/lan-huong/huong-1.png",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/lan-huong/huong-2.png",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-      src: "res/img/lan-huong/huong-1.png",
-      title: "🍰 Bánh Kem Ngọt Ngào",
-      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
-    },
-    {
-      src: "res/img/lan-huong/huong-2.png",
-      title: "✨ Ước Mơ Tuổi Mới",
-      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-  ],
-  bichhang: [
-    {
-      src: "res/img/bich-hang/hang-1.png",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/bich-hang/hang-2.png",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/bich-hang/hang-3.png",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/bich-hang/hang-4.png",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/bich-hang/hang-5.jpg",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/bich-hang/hang-6.jpg",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-      src: "res/img/bich-hang/hang-7.jpg",
-      title: "✨ Ước Mơ Tuổi Mới",
-      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-  ],
-
-  phuongphuong: [
-    {
-      src: "res/img/phuong-phuong/phuong-1.jpg",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/phuong-phuong/phuong-2.jpg",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/phuong-phuong/phuong-3.jpg",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/phuong-phuong/phuong-4.jpg",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/phuong-phuong/phuong-5.jpg",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-  ],
-
-  minhanh: [
-    {
-      src: "res/img/minh-anh/anh-1.jpg",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/minh-anh/anh-2.jpg",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/minh-anh/anh-3.jpg",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/minh-anh/anh-4.jpg",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/minh-anh/anh-5.jpg",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-  ],
-
-  truclinh: [
-    {
-      src: "res/img/truc-linh/linh-1.jpg",  
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/truc-linh/linh-2.jpg",  
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/truc-linh/linh-3.jpg",  
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/truc-linh/linh-4.jpg",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/truc-linh/linh-5.jpg",  
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/truc-linh/linh-6.jpg",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    },
-    {
-      src: "res/img/truc-linh/linh-7.jpg",
-      title: "🍰 Bánh Kem Ngọt Ngào",
-      description: "Khoảnh khắc thổi nến và cắt bánh kem tuyệt vời.",
-    },
-    {
-      src: "res/img/truc-linh/linh-8.jpg",
-      title: "✨ Ước Mơ Tuổi Mới",
-      description: "Những lời chúc và ước mơ cho năm tuổi mới thật rực rỡ.",
-    },
-  ],
-
-  thuyduong: [
-    {
-      src: "res/img/thuy-duong/duong-1.jpg",
-      title: "🎂 Sinh Nhật Vui Vẻ",
-      description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-    },
-    {
-      src: "res/img/thuy-duong/duong-2.jpg",
-      title: "🎈 Tiệc Sinh Nhật",
-      description: "Bóng bay và niềm vui không ngừng",
-    },
-    {
-      src: "res/img/thuy-duong/duong-3.png",
-      title: "🎁 Món Quà Đặc Biệt",
-      description: "Những món quà đầy ý nghĩa",
-    },
-    {
-      src: "res/img/thuy-duong/duong-4.png",
-      title: "🕯️ Ước Mơ Thành Thật",
-      description: "Thổi nến và ước những điều tốt đẹp",
-    },
-    {
-      src: "res/img/thuy-duong/duong-5.png",
-      title: "🏡 Khoảnh Khắc Bên Gia Đình",
-      description: "Cùng gia đình quây quần bên nhau trong ngày đặc biệt.",
-    },
-    {
-      src: "res/img/thuy-duong/duong-6.png",
-      title: "👫 Bạn Bè Vui Vẻ",
-      description: "Những tiếng cười và niềm vui bên bạn bè thân thiết.",
-    }
-  ],
-};
+// Hàm tự động generate danh sách ảnh từ folder và extension
+// Hỗ trợ cả mixed extensions thông qua extensionMap
+function generatePhotoSet(folder, extension, photoCount, extensionMap) {
+  const photos = [];
+  
+  for (let i = 1; i <= photoCount; i++) {
+    const titleData = PHOTO_TITLES[(i - 1) % PHOTO_TITLES.length];
+    
+    // Nếu có extensionMap, dùng extension cụ thể cho từng file
+    // Nếu không, dùng extension chung
+    const fileExtension = extensionMap && extensionMap[i] ? extensionMap[i] : extension;
+    
+    photos.push({
+      src: `res/img/${folder}/${i}.${fileExtension}`,
+      title: titleData.title,
+      description: titleData.description,
+    });
+  }
+  return photos;
+}
 
 // Hàm lấy config dựa trên URL parameters
 function getPersonConfig() {
@@ -388,7 +174,7 @@ function getPersonConfig() {
   const personKey = urlParams.get("person") || "default";
 
   const config = PERSON_CONFIGS[personKey] || PERSON_CONFIGS["default"];
-  const photos = PHOTO_SETS[config.photoSet] || [];
+  const photos = generatePhotoSet(config.folder, config.extension, config.photoCount, config.extensionMap);
 
   return {
     ...config,
