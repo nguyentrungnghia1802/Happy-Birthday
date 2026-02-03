@@ -108,6 +108,14 @@ const PERSON_CONFIGS = {
     extensionMap: {1:'jpg',2:'jpg',3:'png',4:'png',5:'png',6:'png'}, // Map cho mixed extensions
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
+  },
+  thanhhuyen: {
+    name: "Thanh Huyền",
+    folder: "thanh-huyen",
+    extension: "png",
+    photoCount: 14,
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
   }
 };
 
