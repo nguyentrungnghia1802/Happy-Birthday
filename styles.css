@@ -671,6 +671,31 @@ body {
     transform: translateY(-2px);
 }
 
+/* ===== RESPONSIVE FOR MOBILE ===== */
+@media (max-width: 768px) {
+    .author-credit {
+        font-size: 0.45rem;
+        padding: 4px 8px;
+        bottom: 10px;
+        left: 10px;
+        opacity: 0.5;
+        border-radius: 15px;
+    }
+
+    .music-control {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .music-button {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+        opacity: 0.5;
+        border-radius: 25px;
+        gap: 4px;
+    }
+}
+
 /* ===== PHOTO GALLERY MODAL ===== */
 .photo-gallery-modal {
     position: fixed;

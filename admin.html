@@ -154,22 +154,25 @@
 
         <div id="addPersonModal"
             style="display: none; margin-top: 20px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
-            <h3>🔧 Cách Thêm Người Mới:</h3>
+            <h3>🔧 Cách Thêm Người Mới (Format Mới - Tối Ưu):</h3>
             <ol>
-                <li>Mở file <code>config.js</code></li>
-                <li>Thêm entry mới vào <code>PERSON_CONFIGS</code>:
+                <li><strong>Bước 1:</strong> Tạo folder trong <code>res/img/</code> (ví dụ: <code>nguyen-van-a</code>)</li>
+                <li><strong>Bước 2:</strong> Thêm ảnh với tên: <code>1.jpg, 2.jpg, 3.jpg, ...</code>
+                    <br><small>⚠️ Ảnh phải đánh số liên tục từ 1, không được bỏ số</small>
+                </li>
+                <li><strong>Bước 3:</strong> Mở file <code>config.js</code> và thêm vào <code>PERSON_CONFIGS</code>:
                     <pre style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; overflow-x: auto;">
-'newperson': {
-    name: 'Tên Người',
-    photoSet: 'newperson',
+nguyenvana: {
+    name: 'Nguyễn Văn A',
+    folder: 'nguyen-van-a',        // tên folder
+    extension: 'jpg',              // đuôi file ảnh
+    photoCount: 5,                 // số lượng ảnh
     customMessage: 'Chúc {name} sinh nhật vui vẻ!',
-    themeColor: '#ff6b6b'
+    themeColor: '#ffd700'
 }</pre>
                 </li>
-                <li>Thêm ảnh vào thư mục <code>res/img/</code> với tên:
-                    <code>newperson_1.jpg, newperson_2.jpg, ...</code></li>
-                <li>Thêm photo set vào <code>PHOTO_SETS</code></li>
                 <li>Reload trang này để thấy người mới</li>
+                <li>📖 <a href="HUONG_DAN_THEM_NGUOI.md" target="_blank" style="color: #feca57;">Xem hướng dẫn chi tiết</a></li>
             </ol>
             <button class="btn btn-copy" onclick="hideAddPersonInstructions()">Đóng</button>
         </div>
@@ -198,7 +201,7 @@
                             ${person.name}
                         </div>
                         <div class="person-details">
-                            Theme: ${person.themeColor} | Photos: ${person.photoSet}
+                            Theme: ${person.themeColor} | Folder: ${person.folder} | Photos: ${person.photoCount}
                         </div>
                         <div class="url-display">${personURL}</div>
                     </div>
