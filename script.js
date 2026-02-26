@@ -212,6 +212,7 @@ function blowCandles() {
     blowButton.disabled = true;
     blowButton.style.opacity = '0.6';
     blowButton.style.cursor = 'not-allowed';
+    blowButton.querySelector('.blow-text').textContent = '🌬️ Đang Thổi...';
     
     // Blow out all remaining candles
     document.querySelectorAll('.flame:not(.blown-out)').forEach((flame, index) => {
@@ -238,12 +239,6 @@ function blowCandles() {
 }
 
 function blowSingleCandle(candleIndex) {
-    // Check if candles have already been blown once
-    if (candlesHaveBeenBlown) {
-        showMessage('🕯️ Nến đã được thổi rồi! Hãy tận hưởng khoảnh khắc này! 🎉');
-        return;
-    }
-
     const flame = document.querySelector(`.flame-${candleIndex + 1}`);
     if (flame && !flame.classList.contains('blown-out')) {
         flame.classList.add('blown-out');
@@ -251,20 +246,24 @@ function blowSingleCandle(candleIndex) {
         
         // Play blow sound effect
         playBlowSoundEffect();
-        // Phát nhạc ngay lập tức khi thổi nến
-        startMusic();
+        // Phát nhạc ngay lập tức khi thổi nến đầu tiên
+        if (candlesBlownOut === 1) {
+            startMusic();
+        }
         
         createSmokeEffect(flame);
         
-        // If this is the first candle being blown, mark as blown and disable button
+        // If this is the first candle being blown, disable button to encourage individual blowing
         if (candlesBlownOut === 1) {
-            candlesHaveBeenBlown = true;
             blowButton.disabled = true;
             blowButton.style.opacity = '0.6';
             blowButton.style.cursor = 'not-allowed';
+            blowButton.querySelector('.blow-text').textContent = '🌬️ Đang Thổi...';
         }
         
+        // Check if all candles are blown out
         if (candlesBlownOut >= totalCandles) {
+            candlesHaveBeenBlown = true;
             setTimeout(() => {
                 celebrateAllCandlesBlown();
             }, 500);
