@@ -347,6 +347,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.candle:hover {
+    transform: scale(1.1);
+}
+
+.candle:active {
+    transform: scale(0.95);
 }
 
 .candle-body {
@@ -410,7 +420,7 @@ body {
 /* ===== BLOW SECTION ===== */
 .blow-section {
     text-align: center;
-    animation: fadeIn 1s ease-out 2s both;
+    opacity: 1;
 }
 
 .blow-button {
