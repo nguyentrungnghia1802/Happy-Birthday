@@ -47,6 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cập nhật subtitle message
     updateSubtitleMessage();
     
+    // Ẩn/hiện món quà đặc biệt dựa trên config
+    if (personalConfig.showSurprise === false) {
+        const surpriseSection = document.querySelector('.surprise-section');
+        if (surpriseSection) {
+            surpriseSection.style.display = 'none';
+        }
+    }
+    
     initializeWishRotation();
     initializeEventListeners();
     createBackgroundAnimations();
