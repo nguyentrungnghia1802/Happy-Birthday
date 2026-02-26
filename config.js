@@ -10,6 +10,7 @@ const PERSON_CONFIGS = {
     photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
+    showSurprise: true, // Hiển thị món quà đặc biệt (nút surprise)
   },
   anhtai: {
     name: "Anh Tài",
@@ -93,12 +94,13 @@ const PERSON_CONFIGS = {
     themeColor: "#ffd700",
   },
   phuongthao: {
-    name: "Phương Thảo",
+    name: "Chị Phương Thảo",
     folder: "phuong-thao",
     extension: "jpg",
     photoCount: 0,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
+    showSurprise: false, // Không hiển thị món quà đặc biệt
   },
   thuyduong: {
     name: "Thuỳ Dương",
