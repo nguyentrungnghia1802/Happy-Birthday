@@ -118,7 +118,16 @@ const PERSON_CONFIGS = {
     photoCount: 14,
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
-  }
+  },
+  minhtrang: {
+    name: "Minh Trang",
+    folder: "minh-trang",
+    extension: "png",
+    photoCount: 10,
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
+
 };
 
 // Danh sách tiêu đề và mô tả mẫu cho từng ảnh
