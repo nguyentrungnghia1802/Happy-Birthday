@@ -127,6 +127,14 @@ const PERSON_CONFIGS = {
     customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     themeColor: "#ffd700",
   },
+  phuonglee: {
+    name: "Phương",
+    folder: "phuong-lee",
+    extension: "png",
+    photoCount: 4,
+    customMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
+    themeColor: "#ffd700",
+  },
 
 };
 
