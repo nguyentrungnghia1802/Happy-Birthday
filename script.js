@@ -477,18 +477,6 @@ function createSmokeEffect(flame) {
         pointer-events: none;
     `;
 
-    if (!document.querySelector('#smoke-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'smoke-styles';
-        styleSheet.textContent = `
-            @keyframes smokeRise {
-                0% { opacity: 0.7; transform: translateX(-50%) translateY(0) scale(1); }
-                100% { opacity: 0; transform: translateX(-50%) translateY(-30px) scale(2); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
-
     flame.parentElement.appendChild(smoke);
 
     setTimeout(() => {
@@ -541,49 +529,17 @@ function animateCake() {
     const cake = document.querySelector('.cake');
     if (cake) {
         cake.style.animation = 'none';
-
-        setTimeout(() => {
-            cake.style.animation = 'cakeJump 1s ease-out';
-        }, 50);
-
-        if (!document.querySelector('#cake-jump-styles')) {
-            const styleSheet = document.createElement('style');
-            styleSheet.id = 'cake-jump-styles';
-            styleSheet.textContent = `
-                @keyframes cakeJump {
-                    0%, 100% { transform: translateY(0) scale(1); }
-                    25% { transform: translateY(-20px) scale(1.1); }
-                    50% { transform: translateY(-30px) scale(1.05); }
-                    75% { transform: translateY(-10px) scale(1.02); }
-                }
-            `;
-            document.head.appendChild(styleSheet);
-        }
+        void cake.offsetWidth;
+        cake.style.animation = 'cakeJump 1s ease-out';
     }
 }
 
 function triggerBalloonDance() {
     document.querySelectorAll('.balloon').forEach((balloon, index) => {
         balloon.style.animation = 'none';
-
-        setTimeout(() => {
-            balloon.style.animation = `balloonDance 2s ease-in-out ${index * 0.2}s`;
-        }, 50);
+        void balloon.offsetWidth;
+        balloon.style.animation = `balloonDance 2s ease-in-out ${index * 0.2}s`;
     });
-
-    if (!document.querySelector('#balloon-dance-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'balloon-dance-styles';
-        styleSheet.textContent = `
-            @keyframes balloonDance {
-                0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
-                25% { transform: translateY(-30px) rotate(10deg) scale(1.1); }
-                50% { transform: translateY(-50px) rotate(-5deg) scale(1.05); }
-                75% { transform: translateY(-20px) rotate(5deg) scale(1.02); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
 }
 
 // ===== CONFETTI SYSTEM =====
@@ -621,24 +577,6 @@ function createConfettiPiece(colors) {
         z-index: 1000;
     `;
 
-    if (!document.querySelector('#confetti-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'confetti-styles';
-        styleSheet.textContent = `
-            @keyframes confetti-fall {
-                0% {
-                    transform: translateY(-100vh) rotate(0deg);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translateY(100vh) rotate(720deg);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
-
     if (confettiContainer) {
         confettiContainer.appendChild(confetti);
     } else {
@@ -664,7 +602,7 @@ function createFireworks() {
 }
 
 function createFirework(colors) {
-    const x = 100 + Math.random() * (window.innerWidth - 200);
+    const x = 50 + Math.random() * (window.innerWidth - 100);
     const y = 50 + Math.random() * (window.innerHeight / 2);
 
     const particleCount = 12;
@@ -675,7 +613,7 @@ function createFirework(colors) {
         particle.className = 'firework';
 
         const angle = (i / particleCount) * Math.PI * 2;
-        const velocity = 50 + Math.random() * 50;
+        const velocity = 40 + Math.random() * 40;
         const deltaX = Math.cos(angle) * velocity;
         const deltaY = Math.sin(angle) * velocity;
 
@@ -693,28 +631,6 @@ function createFirework(colors) {
             pointer-events: none;
             z-index: 1000;
         `;
-
-        if (!document.querySelector('#firework-styles')) {
-            const styleSheet = document.createElement('style');
-            styleSheet.id = 'firework-styles';
-            styleSheet.textContent = `
-                @keyframes firework-explosion {
-                    0% {
-                        transform: scale(0);
-                        opacity: 1;
-                    }
-                    50% {
-                        transform: scale(1);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: scale(2);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(styleSheet);
-        }
 
         if (fireworksContainer) {
             fireworksContainer.appendChild(particle);
@@ -791,6 +707,20 @@ function updateMusicButtonState() {
 }
 
 // ===== SOUND EFFECTS =====
+function getAudioContext() {
+    try {
+        if (!window._sharedAudioCtx || window._sharedAudioCtx.state === 'closed') {
+            window._sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (window._sharedAudioCtx.state === 'suspended') {
+            window._sharedAudioCtx.resume();
+        }
+        return window._sharedAudioCtx;
+    } catch (e) {
+        return null;
+    }
+}
+
 function playBlowSoundEffect() {
     if (blowSound) {
         blowSound.volume = 0.5;
@@ -799,7 +729,9 @@ function playBlowSoundEffect() {
     }
 
     try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = getAudioContext();
+        if (!audioContext) return;
+
         const bufferSize = Math.floor(audioContext.sampleRate * 0.5); // 0.5 giây tiếng thổi
         const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
         const output = buffer.getChannelData(0);
@@ -835,11 +767,13 @@ function playBlowSoundEffect() {
 
 function playApplauseSound() {
     try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = getAudioContext();
+        if (!audioContext) return;
 
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 20; i++) {
             setTimeout(() => {
-                const bufferSize = audioContext.sampleRate * 0.15;
+                if (audioContext.state === 'closed') return;
+                const bufferSize = Math.floor(audioContext.sampleRate * 0.15);
                 const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
                 const output = buffer.getChannelData(0);
 
@@ -865,7 +799,7 @@ function playApplauseSound() {
 
                 whiteNoise.start(audioContext.currentTime);
                 whiteNoise.stop(audioContext.currentTime + 0.15);
-            }, i * 80 + Math.random() * 150);
+            }, i * 80 + Math.random() * 120);
         }
     } catch (error) {
         console.log('Audio not supported');
@@ -874,11 +808,13 @@ function playApplauseSound() {
 
 function playCheeringSound() {
     try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = getAudioContext();
+        if (!audioContext) return;
         const cheerPitches = [400, 500, 600, 700, 800];
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 6; i++) {
             setTimeout(() => {
+                if (audioContext.state === 'closed') return;
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
 
@@ -891,12 +827,12 @@ function playCheeringSound() {
                 oscillator.type = 'triangle';
 
                 gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.48, audioContext.currentTime + 0.05);
+                gainNode.gain.linearRampToValueAtTime(0.4, audioContext.currentTime + 0.05);
                 gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.4);
 
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
-            }, i * 200 + Math.random() * 300);
+            }, i * 200 + Math.random() * 200);
         }
     } catch (error) {
         console.log('Audio not supported');
@@ -905,10 +841,12 @@ function playCheeringSound() {
 
 function playExplosionSound() {
     try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const audioContext = getAudioContext();
+        if (!audioContext) return;
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             setTimeout(() => {
+                if (audioContext.state === 'closed') return;
                 // Bass explosion
                 const bassOsc = audioContext.createOscillator();
                 const bassGain = audioContext.createGain();
@@ -921,7 +859,7 @@ function playExplosionSound() {
                 bassOsc.type = 'sawtooth';
 
                 bassGain.gain.setValueAtTime(0, audioContext.currentTime);
-                bassGain.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.02);
+                bassGain.gain.linearRampToValueAtTime(0.5, audioContext.currentTime + 0.02);
                 bassGain.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.3);
 
                 bassOsc.start(audioContext.currentTime);
@@ -939,7 +877,7 @@ function playExplosionSound() {
                 sparkleOsc.type = 'triangle';
 
                 sparkleGain.gain.setValueAtTime(0, audioContext.currentTime);
-                sparkleGain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+                sparkleGain.gain.linearRampToValueAtTime(0.25, audioContext.currentTime + 0.01);
                 sparkleGain.gain.exponentialRampToValueAtTime(0.003, audioContext.currentTime + 0.2);
 
                 sparkleOsc.start(audioContext.currentTime);
@@ -1152,51 +1090,15 @@ function showMessage(message) {
     messageDiv.className = 'floating-message';
     messageDiv.textContent = message;
 
-    messageDiv.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 255, 255, 0.95);
-        color: #333;
-        padding: 14px 28px;
-        border-radius: 25px;
-        font-weight: 600;
-        font-size: 1.05rem;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
-        z-index: 10000;
-        animation: messageSlideIn 0.5s ease-out;
-        backdrop-filter: blur(10px);
-        border: 2px solid rgba(255, 215, 0, 0.6);
-        max-width: 90%;
-        text-align: center;
-    `;
-
-    if (!document.querySelector('#message-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'message-styles';
-        styleSheet.textContent = `
-            @keyframes messageSlideIn {
-                0% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
-                100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-            }
-            @keyframes messageSlideOut {
-                0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
-                100% { opacity: 0; transform: translateX(-50%) translateY(-20px) scale(0.9); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
-
     document.body.appendChild(messageDiv);
 
     setTimeout(() => {
-        messageDiv.style.animation = 'messageSlideOut 0.5s ease-out';
+        messageDiv.classList.add('closing');
         setTimeout(() => {
             if (messageDiv.parentElement) {
                 messageDiv.parentElement.removeChild(messageDiv);
             }
-        }, 500);
+        }, 400);
     }, 3200);
 }
 
@@ -1256,8 +1158,17 @@ function handleKeyPress(event) {
 
 // ===== BACKGROUND ANIMATIONS =====
 function createBackgroundAnimations() {
-    setInterval(createFloatingParticle, 2000);
-    setInterval(createSparkle, 1500);
+    const isMobile = window.innerWidth <= 768;
+    const particleInterval = isMobile ? 4000 : 2000;
+    const sparkleInterval = isMobile ? 3500 : 1500;
+
+    setInterval(() => {
+        if (!document.hidden) createFloatingParticle();
+    }, particleInterval);
+
+    setInterval(() => {
+        if (!document.hidden) createSparkle();
+    }, sparkleInterval);
 }
 
 function createFloatingParticle() {
@@ -1269,25 +1180,11 @@ function createFloatingParticle() {
         background: rgba(255, 255, 255, 0.6);
         border-radius: 50%;
         left: ${Math.random() * window.innerWidth}px;
-        top: ${window.innerHeight + 10}px;
+        bottom: -10px;
         pointer-events: none;
         z-index: 5;
         animation: floatUp 8s linear forwards;
     `;
-
-    if (!document.querySelector('#particle-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'particle-styles';
-        styleSheet.textContent = `
-            @keyframes floatUp {
-                0% { transform: translateY(0) translateX(0); opacity: 0; }
-                10% { opacity: 1; }
-                90% { opacity: 1; }
-                100% { transform: translateY(-${window.innerHeight + 100}px) translateX(${-50 + Math.random() * 100}px); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
 
     document.body.appendChild(particle);
 
@@ -1304,25 +1201,12 @@ function createSparkle() {
     sparkle.style.cssText = `
         position: fixed;
         left: ${Math.random() * window.innerWidth}px;
-        top: ${Math.random() * window.innerHeight}px;
-        font-size: ${10 + Math.random() * 20}px;
+        top: ${Math.random() * (window.innerHeight * 0.8)}px;
+        font-size: ${10 + Math.random() * 18}px;
         pointer-events: none;
         z-index: 5;
         animation: sparkleAnimation 2s ease-out forwards;
     `;
-
-    if (!document.querySelector('#sparkle-styles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'sparkle-styles';
-        styleSheet.textContent = `
-            @keyframes sparkleAnimation {
-                0% { opacity: 0; transform: scale(0) rotate(0deg); }
-                50% { opacity: 1; transform: scale(1) rotate(180deg); }
-                100% { opacity: 0; transform: scale(0) rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-    }
 
     document.body.appendChild(sparkle);
 
@@ -1338,7 +1222,7 @@ function playIntroAnimation() {
     setTimeout(() => {
         const welcomeMsg = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('welcomeMessage', currentLang)
-            : '🎂 お誕生日パーティーへようこそ！ 🎂';
+            : (currentLang === 'vi' ? '🎂 Chào mừng đến với bữa tiệc sinh nhật! 🎂' : '🎂 お誕生日パーティーへようこそ！ 🎂');
         showMessage(welcomeMsg);
     }, 1000);
 
@@ -1349,17 +1233,10 @@ function playIntroAnimation() {
 
 // ===== MOBILE TOUCH SUPPORT =====
 if ('ontouchstart' in window) {
-    document.addEventListener('touchstart', function (e) {
-        if (e.touches.length > 1) {
-            e.preventDefault();
-            triggerSurprise();
-        }
-    });
-
     setTimeout(() => {
         const mobileInstruction = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('mobileInstruction', currentLang)
-            : '📱画面をタップして、素敵な願いを込めましょう！';
+            : (currentLang === 'vi' ? '📱 Thổi từng ngọn nến để ước các điều ước' : '📱 ろうそくを1本ずつ吹き消して、願いを込めましょう！');
         showMessage(mobileInstruction);
-    }, 5000);
+    }, 4500);
 }

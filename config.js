@@ -15,7 +15,7 @@ const TRANSLATIONS = {
     defaultCustomMessage: "{name}、心よりお誕生日をお祝い申し上げます！",
     blowButton: "🌬️ ろうそくを吹き消す",
     blowingButton: "🌬️ 吹き消しています...",
-    blowInstruction: "ろうそくをタップするか、上のボタンを押して吹き消してくださいね！",
+    blowInstruction: "ろうそくを1本ずつ吹き消して、願いを込めてくださいね！",
     wishesTitle: "💝 お祝いメッセージ",
     wishes: [
       "🌟 いつも温かいご指導とサポートをありがとうございます！健康で幸せな日々をお過ごしください。",
@@ -36,7 +36,7 @@ const TRANSLATIONS = {
     allBlownMessage: "🎉 おめでとうございます！すべての願いが叶い、幸多き一年になりますように 🎉",
     specialWish: "✨ すべてのろうそくが吹き消されました！素晴らしい夢がたくさん叶いますように ✨",
     lightsOnMessage: "💡 明かりがつきました！心よりお誕生日をお祝い申し上げます 🎂",
-    mobileInstruction: "📱画面をタップして、素敵な願いを込めてくださいね！",
+    mobileInstruction: "📱 ろうそくを1本ずつ吹き消して、願いを込めましょう！",
     surpriseMessages: [
       "🎊 お誕生日おめでとうございます！いつも本当にありがとうございます 🎊",
       "🎁 日頃の感謝の気持ちを込めて、特別なプレゼントをお届けします 🎁",
@@ -54,7 +54,7 @@ const TRANSLATIONS = {
     defaultCustomMessage: "Chúc {name} một ngày sinh nhật thật tuyệt vời!",
     blowButton: "🌬️ Thổi Nến",
     blowingButton: "🌬️ Đang Thổi...",
-    blowInstruction: "Nhấp vào từng ngọn nến hoặc nút bên trên để thổi tắt!",
+    blowInstruction: "Thổi từng ngọn nến để ước các điều ước",
     wishesTitle: "💝 Lời Chúc Sinh Nhật",
     wishes: [
       "🌟 Chúc bạn luôn khỏe mạnh và hạnh phúc!",
@@ -75,7 +75,7 @@ const TRANSLATIONS = {
     allBlownMessage: "🎉 Chúc mừng! Tất cả ước mơ sẽ thành hiện thực! 🎉",
     specialWish: "✨ Chúc mừng bạn đã thổi tắt tất cả nến! Mọi ước mơ đều sẽ thành hiện thực! ✨",
     lightsOnMessage: "💡 Đèn đã được bật lại! Chúc mừng sinh nhật! 🎂",
-    mobileInstruction: "📱Chạm Thổi nến để thổi bùng lên điều ước của bạn!",
+    mobileInstruction: "📱 Thổi từng ngọn nến để ước các điều ước",
     surpriseMessages: [
       "🎊 Bất ngờ! Chúc bạn sinh nhật vui vẻ! 🎊",
       "🎁 Món quà đặc biệt dành cho bạn! 🎁",
