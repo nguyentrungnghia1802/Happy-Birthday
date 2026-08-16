@@ -1,17 +1,17 @@
 /* ===== HIGHLIGHT NAME & ROOT VARIABLES ===== */
 :root {
     --theme-color: #ffd700;
-    --gold-gradient: linear-gradient(135deg, #ffe066 0%, #ffd700 50%, #f39c12 100%);
-    --festive-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 25%, #feca57 50%, #48dbfb 75%, #ff9ff3 100%);
+    --gold-gradient: linear-gradient(135deg, #fef3c7 0%, #ffd700 50%, #d97706 100%);
+    --festive-gradient: linear-gradient(135deg, #f59e0b 0%, #38bdf8 25%, #ffd700 50%, #4f46e5 75%, #2563eb 100%);
     --card-bg: rgba(255, 255, 255, 0.12);
-    --card-border: rgba(255, 255, 255, 0.28);
-    --glass-blur: blur(20px);
+    --card-border: rgba(255, 215, 0, 0.35);
+    --glass-blur: blur(18px);
 }
 
 .highlight-name {
     color: var(--theme-color, #ffd700);
     font-weight: 800;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     display: inline-block;
     padding: 0 4px;
 }
@@ -27,16 +27,24 @@ body {
     font-family: 'Zen Maru Gothic', 'Outfit', 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Meiryo', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    background: radial-gradient(circle at 50% 20%, #2e1065 0%, #1e1b4b 35%, #0f172a 75%, #020617 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 25%, #1e3a8a 50%, #312e81 75%, #0f172a 100%);
+    background-size: 250% 250%;
+    animation: matureShift 14s ease-in-out infinite alternate;
     position: relative;
     color: #ffffff;
 }
 
-/* ===== AMBIENT AURORA GLOW ORBS ===== */
+@keyframes matureShift {
+    0% { background-position: 0% 30%; }
+    50% { background-position: 100% 70%; }
+    100% { background-position: 0% 30%; }
+}
+
+/* ===== AMBIENT GLOW ORBS (ELEGANT GOLD & SAPPHIRE) ===== */
 .ambient-glow {
     position: fixed;
     border-radius: 50%;
-    filter: blur(90px);
+    filter: blur(85px);
     pointer-events: none;
     z-index: 0;
     opacity: 0.55;
@@ -44,11 +52,11 @@ body {
 }
 
 .glow-1 {
-    top: -10%;
+    top: -5%;
     left: -5%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.6) 0%, rgba(168, 85, 247, 0.3) 60%, transparent 80%);
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.5) 0%, rgba(217, 119, 6, 0.3) 60%, transparent 80%);
 }
 
 .glow-2 {
@@ -56,23 +64,23 @@ body {
     right: -5%;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(99, 102, 241, 0.35) 60%, transparent 80%);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.55) 0%, rgba(30, 58, 138, 0.35) 60%, transparent 80%);
     animation-delay: -5s;
 }
 
 .glow-3 {
-    top: 40%;
-    left: 45%;
-    width: 450px;
-    height: 450px;
-    background: radial-gradient(circle, rgba(251, 191, 36, 0.35) 0%, rgba(244, 63, 94, 0.2) 60%, transparent 80%);
+    top: 35%;
+    left: 40%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.45) 0%, rgba(99, 102, 241, 0.25) 60%, transparent 80%);
     animation-delay: -9s;
 }
 
 @keyframes floatGlow {
     0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(40px, -30px) scale(1.15); }
-    100% { transform: translate(-30px, 40px) scale(0.95); }
+    50% { transform: translate(35px, -25px) scale(1.12); }
+    100% { transform: translate(-25px, 35px) scale(0.95); }
 }
 
 /* ===== BACKGROUND STARS & SHOOTING STARS ===== */
@@ -94,13 +102,13 @@ body {
     height: 100%;
     background-image: 
         radial-gradient(2px 2px at 25px 35px, #ffffff, transparent),
-        radial-gradient(2.5px 2.5px at 60px 85px, #ffd700, transparent),
-        radial-gradient(1.5px 1.5px at 110px 45px, #a5b4fc, transparent),
+        radial-gradient(2.5px 2.5px at 60px 85px, #fef08a, transparent),
+        radial-gradient(2px 2px at 110px 45px, #ffffff, transparent),
         radial-gradient(2px 2px at 160px 110px, #ffffff, transparent),
-        radial-gradient(1.5px 1.5px at 210px 30px, #fbcfe8, transparent),
-        radial-gradient(2.5px 2.5px at 280px 90px, #ffd700, transparent);
+        radial-gradient(2.5px 2.5px at 210px 30px, #fde047, transparent),
+        radial-gradient(3px 3px at 280px 90px, #ffffff, transparent);
     background-repeat: repeat;
-    background-size: 320px 180px;
+    background-size: 300px 180px;
     animation: starTwinkle 4s ease-in-out infinite alternate;
 }
 
@@ -108,13 +116,13 @@ body {
     background-size: 450px 260px;
     animation-delay: 2s;
     animation-duration: 6s;
-    opacity: 0.7;
+    opacity: 0.85;
 }
 
 @keyframes starTwinkle {
-    0% { opacity: 0.3; transform: scale(0.98); }
-    50% { opacity: 0.9; }
-    100% { opacity: 0.4; transform: scale(1.02); }
+    0% { opacity: 0.35; transform: scale(0.98); }
+    50% { opacity: 0.95; }
+    100% { opacity: 0.45; transform: scale(1.02); }
 }
 
 /* Shooting Stars */
@@ -130,32 +138,32 @@ body {
 
 .shooting-star {
     position: absolute;
-    top: 10%;
-    left: 20%;
-    width: 100px;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 215, 0, 0.5), transparent);
+    top: 8%;
+    left: 15%;
+    width: 120px;
+    height: 2.5px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(254, 240, 138, 0.7), transparent);
     transform: rotate(-35deg);
     opacity: 0;
-    animation: shootStar 8s linear infinite;
+    animation: shootStar 7s linear infinite;
 }
 
 .shooting-star:nth-child(2) {
-    top: 25%;
-    left: 65%;
-    width: 130px;
-    animation-delay: 4.5s;
-    animation-duration: 10s;
+    top: 22%;
+    left: 60%;
+    width: 140px;
+    animation-delay: 3.5s;
+    animation-duration: 9s;
 }
 
 @keyframes shootStar {
     0% { transform: rotate(-35deg) translateX(-150px); opacity: 0; }
     3% { opacity: 1; }
-    8% { transform: rotate(-35deg) translateX(300px); opacity: 0; }
-    100% { transform: rotate(-35deg) translateX(300px); opacity: 0; }
+    8% { transform: rotate(-35deg) translateX(320px); opacity: 0; }
+    100% { transform: rotate(-35deg) translateX(320px); opacity: 0; }
 }
 
-/* ===== FLOATING BALLOONS ===== */
+/* ===== FLOATING BALLOONS (MATURE PALETTE: NAVY, GOLD, EMERALD, RUBY, SAPPHIRE) ===== */
 .balloons {
     position: fixed;
     top: 0;
@@ -164,7 +172,7 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 2;
-    opacity: 0.7; /* Làm mờ 30% để hòa vào nền tinh tế hơn */
+    opacity: 0.7;
 }
 
 .balloon {
@@ -173,7 +181,7 @@ body {
     height: 85px;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     animation: balloonFloat 7s ease-in-out infinite;
-    box-shadow: inset -8px -8px 15px rgba(0, 0, 0, 0.2), 0 8px 20px rgba(0, 0, 0, 0.25);
+    box-shadow: inset -6px -6px 12px rgba(0, 0, 0, 0.25), 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .balloon-highlight {
@@ -182,7 +190,7 @@ body {
     left: 22%;
     width: 15px;
     height: 25px;
-    background: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     transform: rotate(-25deg);
 }
@@ -194,39 +202,39 @@ body {
     transform: translateX(-50%);
     width: 2px;
     height: 35px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.15));
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.2));
 }
 
 .balloon-1 {
-    background: radial-gradient(circle at 35% 35%, #ff7675, #d63031);
+    background: radial-gradient(circle at 35% 35%, #f59e0b, #b45309);
     top: 18%;
     left: 4%;
     animation-delay: 0s;
 }
 
 .balloon-2 {
-    background: radial-gradient(circle at 35% 35%, #74b9ff, #0984e3);
+    background: radial-gradient(circle at 35% 35%, #38bdf8, #0284c7);
     top: 28%;
     right: 6%;
     animation-delay: 1.8s;
 }
 
 .balloon-3 {
-    background: radial-gradient(circle at 35% 35%, #55efc4, #00b894);
+    background: radial-gradient(circle at 35% 35%, #34d399, #059669);
     top: 14%;
     left: 88%;
     animation-delay: 3.5s;
 }
 
 .balloon-4 {
-    background: radial-gradient(circle at 35% 35%, #fd79a8, #e84393);
+    background: radial-gradient(circle at 35% 35%, #818cf8, #4338ca);
     top: 42%;
     left: 8%;
     animation-delay: 2.2s;
 }
 
 .balloon-5 {
-    background: radial-gradient(circle at 35% 35%, #ffeaa7, #fdcb6e);
+    background: radial-gradient(circle at 35% 35%, #fbbf24, #d97706);
     top: 22%;
     right: 14%;
     animation-delay: 4.8s;
@@ -256,7 +264,7 @@ body {
 /* ===== HEADER & FESTIVE HERO ===== */
 .header {
     text-align: center;
-    margin-bottom: 3.8rem; /* Tăng khoảng cách cách dòng trên máy tính */
+    margin-bottom: 3.8rem;
     animation: headerFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -264,33 +272,34 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 215, 0, 0.4);
-    padding: 6px 18px;
+    border: 1.5px solid rgba(255, 215, 0, 0.6);
+    padding: 7px 20px;
     border-radius: 50px;
     margin-bottom: 1.2rem;
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15), inset 0 0 15px rgba(255, 215, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.15);
     animation: badgePulse 3s ease-in-out infinite;
 }
 
 .badge-text {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    color: #ffd700;
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #fde047;
     text-transform: uppercase;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .badge-sparkle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     animation: sparkleSpin 4s linear infinite;
 }
 
 @keyframes badgePulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15); }
-    50% { transform: scale(1.03); box-shadow: 0 6px 28px rgba(255, 215, 0, 0.3); }
+    0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.25); }
+    50% { transform: scale(1.04); box-shadow: 0 6px 28px rgba(255, 215, 0, 0.45); }
 }
 
 @keyframes sparkleSpin {
@@ -312,9 +321,9 @@ body {
 
 .title-line {
     color: #ffffff;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 25px rgba(255, 255, 255, 0.3);
     animation: titlePopIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    white-space: nowrap; /* Tránh rớt chữ xuống dòng lẻ loi */
+    white-space: nowrap;
     word-break: keep-all;
     display: inline-block;
 }
@@ -329,13 +338,13 @@ body {
 }
 
 .rainbow-text {
-    background: linear-gradient(135deg, #ff7675 0%, #fd79a8 20%, #ffd700 40%, #55efc4 65%, #74b9ff 85%, #a29bfe 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #fde047 30%, #fbbf24 55%, #38bdf8 80%, #ffffff 100%);
     background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: rainbowGlowFlow 4s ease infinite;
-    filter: drop-shadow(0 4px 15px rgba(255, 107, 107, 0.4));
+    filter: drop-shadow(0 4px 15px rgba(251, 191, 36, 0.45));
 }
 
 @keyframes rainbowGlowFlow {
@@ -345,17 +354,17 @@ body {
 
 .subtitle {
     font-size: 1.35rem;
-    color: rgba(255, 255, 255, 0.92);
-    font-weight: 500;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     display: inline-block;
-    padding: 10px 24px;
+    padding: 10px 26px;
     border-radius: 50px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
     animation: fadeIn 1.2s ease-out 0.8s both;
     max-width: 95%;
     word-break: keep-all;
@@ -371,12 +380,12 @@ body {
     100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* ===== CAKE SECTION & 3D REALISTIC CAKE ===== */
+/* ===== CAKE SECTION (SANG TRỌNG, TRƯỞNG THÀNH, PHONG CÁCH HOÀNG GIA & PATISSERIE) ===== */
 .cake-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 3.5rem 0 2.5rem; /* Tăng khoảng cách cách dòng phía trên của bánh trên máy tính */
+    margin: 3.5rem 0 2.5rem;
     position: relative;
     z-index: 600;
     animation: cakeFloatIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
@@ -393,74 +402,80 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 15px 30px rgba(15, 23, 42, 0.5));
 }
 
-/* Cake Layers */
+/* Cake Layers - Màu Bánh Ngọt Cao Cấp, Viền Trắng Sứ Tinh Khôi */
 .cake-layer {
-    border-radius: 18px;
+    border-radius: 20px;
     position: relative;
-    border: 2.5px solid rgba(255, 255, 255, 0.85);
-    box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.4), 0 8px 20px rgba(0, 0, 0, 0.25);
+    border: 3.5px solid #ffffff;
+    box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.8), 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
+/* Top Layer: Vani Hổ Phách & Caramel Hoàng Gia */
 .cake-top {
     width: 210px;
     height: 65px;
-    background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 60%, #ff758c 100%);
+    background: linear-gradient(180deg, #fef3c7 0%, #fde68a 45%, #f59e0b 100%);
     margin-bottom: -6px;
     z-index: 3;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
 }
 
+/* Middle Layer: Xanh Lam Ngọc Sapphire Quý Phái */
 .cake-middle {
     width: 265px;
     height: 75px;
-    background: linear-gradient(180deg, #a1c4fd 0%, #c2e9fb 60%, #89f7fe 100%);
+    background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
     margin-bottom: -6px;
     z-index: 2;
+    box-shadow: 0 8px 25px rgba(2, 132, 199, 0.4);
 }
 
+/* Bottom Layer: Royal Navy & Indigo Velvet Đĩnh Đạc */
 .cake-bottom {
     width: 320px;
     height: 85px;
-    background: linear-gradient(180deg, #fbc2eb 0%, #a6c1ee 60%, #fdcbf1 100%);
+    background: linear-gradient(180deg, #818cf8 0%, #4f46e5 50%, #3730a3 100%);
     z-index: 1;
+    box-shadow: 0 10px 30px rgba(55, 48, 163, 0.45);
 }
 
-/* Dripping Cream on Top Layer */
+/* Dripping Cream on Top Layer - Kem Tươi Trắng Sáng Bóng */
 .cake-cream-drips {
     position: absolute;
     bottom: -1px;
     left: 0;
     width: 100%;
-    height: 15px;
+    height: 16px;
     display: flex;
     justify-content: space-around;
 }
 
 .drip {
-    width: 16px;
+    width: 18px;
     background: #ffffff;
-    border-radius: 0 0 10px 10px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.9);
 }
-.drip-1 { height: 12px; }
-.drip-2 { height: 18px; }
-.drip-3 { height: 10px; }
-.drip-4 { height: 16px; }
-.drip-5 { height: 13px; }
+.drip-1 { height: 13px; }
+.drip-2 { height: 20px; }
+.drip-3 { height: 11px; }
+.drip-4 { height: 17px; }
+.drip-5 { height: 14px; }
 
 /* Cream Swirls & Pearls */
 .cake-cream-swirls {
     position: absolute;
-    top: -8px;
+    top: -9px;
     left: 50%;
     transform: translateX(-50%);
     width: 230px;
-    height: 16px;
+    height: 18px;
     background: #ffffff;
     border-radius: 50px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.95);
 }
 
 .cake-pearls {
@@ -473,11 +488,11 @@ body {
 }
 
 .cake-pearls span {
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle at 35% 35%, #ffffff, #ffd700);
+    width: 12px;
+    height: 12px;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #fde047 50%, #d97706 100%);
     border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.9);
 }
 
 .cake-ribbon {
@@ -485,15 +500,15 @@ body {
     bottom: 12px;
     left: 0;
     width: 100%;
-    height: 10px;
-    background: linear-gradient(90deg, #ffd700, #ff9ff3, #ffd700);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    height: 12px;
+    background: linear-gradient(90deg, #ffd700, #ffffff, #ffd700);
+    box-shadow: 0 2px 8px rgba(255, 215, 0, 0.5);
 }
 
 /* Fruit Toppers */
 .cake-decoration {
     position: absolute;
-    top: -24px;
+    top: -26px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -502,8 +517,8 @@ body {
 }
 
 .cherry, .strawberry, .berry {
-    font-size: 1.8rem;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    font-size: 1.9rem;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
     animation: fruitBob 2.5s ease-in-out infinite alternate;
 }
 
@@ -512,19 +527,19 @@ body {
 
 @keyframes fruitBob {
     0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(-6px) scale(1.05); }
+    100% { transform: translateY(-6px) scale(1.06); }
 }
 
-/* Plate */
+/* Plate - Sứ Trắng Tinh Khiết & Viền Vàng 24K Hoàng Gia */
 .cake-plate {
     width: 370px;
     height: 24px;
-    background: linear-gradient(180deg, #f8fafc 0%, #cbd5e1 60%, #94a3b8 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 50%, #f1f5f9 100%);
     border-radius: 50px;
     margin-top: -12px;
     position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.8);
+    border: 3.5px solid #ffd700;
+    box-shadow: 0 12px 35px rgba(251, 191, 36, 0.35), 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .plate-inner-rim {
@@ -533,9 +548,9 @@ body {
     left: 15px;
     right: 15px;
     height: 6px;
-    border-top: 1.5px solid #ffd700;
+    border-top: 2px solid #ffd700;
     border-radius: 50%;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* ===== CANDLES & FLAMES ===== */
@@ -565,54 +580,54 @@ body {
 .candle-wick {
     width: 2px;
     height: 8px;
-    background: #475569;
+    background: #ffffff;
     margin-bottom: -1px;
 }
 
 .candle-body {
     width: 10px;
     height: 36px;
-    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #ff6b6b 4px, #ff6b6b 8px);
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #d97706 4px, #d97706 8px);
     border-radius: 5px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35), inset -2px 0 4px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25), inset -1px 0 3px rgba(255, 255, 255, 0.5);
+    border: 1.5px solid #ffffff;
 }
 
 .candle:nth-child(2) .candle-body {
-    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #48dbfb 4px, #48dbfb 8px);
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #0284c7 4px, #0284c7 8px);
 }
 
 .candle:nth-child(3) .candle-body {
-    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #feca57 4px, #feca57 8px);
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #ffd700 4px, #ffd700 8px);
 }
 
 .candle:nth-child(4) .candle-body {
-    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #1dd1a1 4px, #1dd1a1 8px);
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #059669 4px, #059669 8px);
 }
 
 .candle:nth-child(5) .candle-body {
-    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #ff9ff3 4px, #ff9ff3 8px);
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #4f46e5 4px, #4f46e5 8px);
 }
 
-/* Flame & Ambient Flame Glow */
+/* Flame & Radiant Warm Glow */
 .flame {
-    width: 14px;
-    height: 20px;
-    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fff700 25%, #ff9f43 55%, #ee5253 90%, transparent 100%);
+    width: 15px;
+    height: 22px;
+    background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fef08a 30%, #f59e0b 60%, #ea580c 95%, transparent 100%);
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     position: absolute;
-    top: -22px;
+    top: -24px;
     animation: flameFlicker 1.2s ease-in-out infinite alternate;
-    box-shadow: 0 0 12px #ff9f43, 0 0 24px #ff5252, 0 0 38px #ff793f;
+    box-shadow: 0 0 15px #fde047, 0 0 30px #f59e0b, 0 0 45px #d97706;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .flame-glow {
     position: absolute;
-    top: -30px;
-    width: 32px;
-    height: 32px;
-    background: radial-gradient(circle, rgba(255, 193, 7, 0.45) 0%, transparent 70%);
+    top: -34px;
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, rgba(254, 240, 138, 0.6) 0%, transparent 70%);
     border-radius: 50%;
     pointer-events: none;
     animation: flameGlowPulse 1.5s ease-in-out infinite alternate;
@@ -635,8 +650,8 @@ body {
 }
 
 @keyframes flameGlowPulse {
-    0% { transform: scale(0.85); opacity: 0.4; }
-    100% { transform: scale(1.25); opacity: 0.8; }
+    0% { transform: scale(0.85); opacity: 0.5; }
+    100% { transform: scale(1.3); opacity: 0.9; }
 }
 
 @keyframes cakeFloatIn {
@@ -651,25 +666,25 @@ body {
 }
 
 .blow-button {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #d97706 100%);
     background-size: 200% 200%;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 50px;
-    padding: 16px 36px;
+    padding: 16px 38px;
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 800;
     color: #ffffff;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4), 0 0 20px rgba(236, 72, 153, 0.2);
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.45), 0 0 25px rgba(217, 119, 6, 0.35);
     transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     animation: gradientShift 6s ease infinite, blowBtnGlow 3s ease-in-out infinite;
 }
 
 .blow-button:hover {
-    transform: translateY(-4px) scale(1.04);
-    box-shadow: 0 15px 40px rgba(139, 92, 246, 0.55), 0 0 30px rgba(236, 72, 153, 0.4);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(37, 99, 235, 0.6), 0 0 35px rgba(217, 119, 6, 0.5);
 }
 
 .blow-button:active {
@@ -694,19 +709,19 @@ body {
 }
 
 @keyframes blowBtnGlow {
-    0%, 100% { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4), 0 0 15px rgba(236, 72, 153, 0.2); }
-    50% { box-shadow: 0 12px 35px rgba(236, 72, 153, 0.5), 0 0 25px rgba(255, 215, 0, 0.35); }
+    0%, 100% { box-shadow: 0 10px 30px rgba(37, 99, 235, 0.45), 0 0 15px rgba(217, 119, 6, 0.3); }
+    50% { box-shadow: 0 12px 35px rgba(217, 119, 6, 0.6), 0 0 30px rgba(254, 240, 138, 0.45); }
 }
 
 .blow-instruction {
-    color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
     font-size: 1.05rem;
-    font-weight: 400;
+    font-weight: 500;
     margin-top: 1.1rem;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-/* ===== WISHES SECTION (GLASSMORPHISM 2.0) ===== */
+/* ===== WISHES SECTION (GLASSMORPHISM HOÀNG GIA) ===== */
 .wishes-section {
     margin: 2.5rem 0 1.5rem;
     width: 100%;
@@ -715,14 +730,14 @@ body {
 }
 
 .wish-card {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.12);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border-radius: 28px;
     padding: 2.2rem 2.5rem;
     text-align: center;
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -732,18 +747,18 @@ body {
     top: -10px;
     left: 20px;
     font-size: 5rem;
-    color: rgba(255, 215, 0, 0.12);
+    color: rgba(255, 215, 0, 0.2);
     font-family: Georgia, serif;
     pointer-events: none;
 }
 
 .wish-card h2 {
-    color: #ffd700;
-    font-size: 1.75rem;
+    color: #fde047;
+    font-size: 1.8rem;
     margin-bottom: 1.5rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 15px rgba(251, 191, 36, 0.35);
 }
 
 .wishes-container {
@@ -760,13 +775,13 @@ body {
     left: 0;
     width: 100%;
     transform: translateY(-30%);
-    color: rgba(255, 255, 255, 0.95);
+    color: #ffffff;
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.7;
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .wish.active {
@@ -781,26 +796,26 @@ body {
 }
 
 .surprise-button {
-    background: linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #4f46e5 100%);
     background-size: 200% 200%;
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    border: 2px solid rgba(255, 255, 255, 0.8);
     border-radius: 50px;
-    padding: 16px 36px;
+    padding: 16px 38px;
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 800;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4), 0 0 20px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 10px 30px rgba(217, 119, 6, 0.45), 0 0 25px rgba(79, 70, 229, 0.35);
     animation: surpriseGlow 3s ease infinite, floatMini 4s ease-in-out infinite;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .surprise-button:hover {
     transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 15px 45px rgba(245, 158, 11, 0.6), 0 0 30px rgba(236, 72, 153, 0.5);
+    box-shadow: 0 15px 45px rgba(217, 119, 6, 0.65), 0 0 35px rgba(79, 70, 229, 0.5);
 }
 
 .surprise-button:active {
@@ -836,14 +851,14 @@ body {
 }
 
 .music-button {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     border-radius: 50px;
-    padding: 10px 22px;
+    padding: 10px 24px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #ffffff;
     cursor: pointer;
     display: inline-flex;
@@ -854,10 +869,10 @@ body {
 }
 
 .music-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 215, 0, 0.5);
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #ffd700;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.25);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.35);
 }
 
 .equalizer-bars {
@@ -894,10 +909,10 @@ body {
 }
 
 .lang-toggle-btn {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     border-radius: 50%;
     width: 38px;
     height: 38px;
@@ -906,7 +921,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
     opacity: 0.5;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     outline: none;
@@ -919,7 +934,7 @@ body {
     opacity: 1;
     transform: scale(1.15);
     border-color: #ffd700;
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.45);
 }
 
 .lang-toggle-btn .lang-flag {
@@ -934,27 +949,9 @@ body {
     transform: rotateY(180deg) scale(1.2);
 }
 
-/* ===== LIGHTING OVERLAY ===== */
+/* ===== LIGHTING OVERLAY (TẮT BỎ HOÀN TOÀN) ===== */
 .lighting-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-        ellipse 800px 600px at 50% 50%, 
-        transparent 0%, 
-        transparent 30%, 
-        rgba(0, 0, 0, 0.95) 70%
-    );
-    z-index: 500;
-    pointer-events: none;
-    transition: opacity 2s ease-out;
-    opacity: 1;
-}
-
-.lighting-overlay.lights-on {
-    opacity: 0;
+    display: none;
 }
 
 /* ===== 3D EXPLOSION GALLERY & MODAL ===== */
@@ -984,12 +981,13 @@ body {
     color: #ffffff;
     font-size: 2rem;
     font-weight: 800;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-    background: rgba(0, 0, 0, 0.4);
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background: rgba(15, 23, 42, 0.65);
     backdrop-filter: var(--glass-blur);
     padding: 10px 30px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 215, 0, 0.5);
+    border: 2px solid rgba(255, 215, 0, 0.7);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     z-index: 1002;
     animation: titleFloat 3s ease-in-out infinite alternate;
 }
@@ -999,14 +997,14 @@ body {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.9);
+    color: #ffffff;
     font-size: 1.1rem;
-    font-weight: 500;
-    background: rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+    background: rgba(15, 23, 42, 0.65);
     backdrop-filter: var(--glass-blur);
     padding: 8px 24px;
     border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
     z-index: 1002;
 }
 
@@ -1016,9 +1014,9 @@ body {
     right: 25px;
     width: 44px;
     height: 44px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     color: white;
     font-size: 1.3rem;
@@ -1031,7 +1029,7 @@ body {
 }
 
 .explosion-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.35);
     transform: scale(1.1) rotate(90deg);
 }
 
@@ -1042,8 +1040,8 @@ body {
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    border: 3px solid rgba(255, 255, 255, 0.9);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
 }
 
@@ -1055,7 +1053,7 @@ body {
 
 .gallery-card:hover {
     transform: scale(1.25) translateZ(50px) !important;
-    box-shadow: 0 20px 45px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 20px 45px rgba(251, 191, 36, 0.6);
     border-color: #ffd700;
     z-index: 100;
 }
@@ -1067,7 +1065,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 2000;
@@ -1091,12 +1089,12 @@ body {
 }
 
 .party-hat-frame {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.7);
     backdrop-filter: var(--glass-blur);
-    border: 2px solid rgba(255, 215, 0, 0.5);
+    border: 2.5px solid rgba(255, 215, 0, 0.7);
     border-radius: 24px;
     padding: 20px;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
 }
 
 .photo-display {
@@ -1120,7 +1118,7 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    background: linear-gradient(transparent, rgba(15, 23, 42, 0.9));
     padding: 25px 20px 15px;
     color: white;
     text-align: center;
@@ -1132,9 +1130,9 @@ body {
     transform: translateY(-50%);
     width: 48px;
     height: 48px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     color: white;
     font-size: 1.8rem;
@@ -1150,7 +1148,7 @@ body {
 
 .gallery-nav:hover {
     background: #ffd700;
-    color: #1e1b4b;
+    color: #0f172a;
     transform: translateY(-50%) scale(1.15);
 }
 
@@ -1160,7 +1158,7 @@ body {
     right: -15px;
     width: 40px;
     height: 40px;
-    background: #ff4757;
+    background: #ef4444;
     border: 2px solid white;
     border-radius: 50%;
     color: white;
@@ -1169,7 +1167,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
     transition: transform 0.3s ease;
 }
 
@@ -1185,7 +1183,7 @@ body {
 .progress-bar {
     width: 100%;
     height: 5px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 8px;
@@ -1201,10 +1199,10 @@ body {
 /* ===== RESPONSIVE MEDIA QUERIES ===== */
 @media (max-width: 768px) {
     .header {
-        margin-bottom: 3.2rem; /* Cách dòng thoáng giữa chữ và bánh */
+        margin-bottom: 3.2rem;
     }
     .cake-section {
-        margin: 3.5rem 0 2.2rem; /* Thêm khoảng trống phía trên nến */
+        margin: 3.5rem 0 2.2rem;
     }
     .main-title {
         font-size: 2.6rem;
@@ -1233,7 +1231,7 @@ body {
         padding: 20px 12px;
     }
     .header {
-        margin-bottom: 2.8rem; /* Tăng khoảng cách dòng chữ trên điện thoại */
+        margin-bottom: 2.8rem;
     }
     .festive-badge {
         padding: 4px 12px;
@@ -1256,7 +1254,7 @@ body {
         max-width: 94%;
     }
     .cake-section {
-        margin: 3.6rem 0 1.8rem; /* Cách dòng rộng rãi phía trên bánh, tránh nến chạm chữ */
+        margin: 3.6rem 0 1.8rem;
     }
     .cake-top { width: 140px; height: 48px; }
     .cake-middle { width: 185px; height: 58px; }
@@ -1282,7 +1280,7 @@ body {
         padding: 15px 8px;
     }
     .header {
-        margin-bottom: 2.5rem; /* Cách dòng thoải mái trên iPhone SE */
+        margin-bottom: 2.5rem;
     }
     .festive-badge {
         padding: 3px 10px;
@@ -1293,7 +1291,7 @@ body {
         letter-spacing: 1px; 
     }
     .main-title {
-        font-size: 1.5rem; /* Vừa vặn hoàn hảo 1 dòng cho おめでとうございます trên iPhone SE */
+        font-size: 1.5rem;
         gap: 0.15rem;
     }
     .title-line:nth-child(3) { 
@@ -1306,7 +1304,7 @@ body {
         border-radius: 30px;
     }
     .cake-section {
-        margin: 3.2rem 0 1.5rem; /* Đảm bảo ngọn nến không chạm chữ */
+        margin: 3.2rem 0 1.5rem;
     }
     .cake-top { width: 125px; height: 42px; }
     .cake-middle { width: 165px; height: 50px; }
