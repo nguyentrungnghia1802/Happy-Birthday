@@ -1,8 +1,8 @@
 // Hiệu ứng click vào mục tác giả chuyển hướng tới trang profile
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var authorCredit = document.getElementById('authorCredit');
     if (authorCredit) {
-        authorCredit.addEventListener('click', function() {
+        authorCredit.addEventListener('click', function () {
             window.open('https://nguyentrungnghia1802.github.io/Profile/', '_blank');
         });
     }
@@ -39,16 +39,16 @@ let mainTitleLine1, mainTitleLine2, mainTitleLine3, subtitleMessage, blowText, b
 let wishesTitle, wishesContainer, explosionTitle, explosionInstruction;
 
 // ===== INITIALIZATION =====
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Khởi tạo personalization và ngôn ngữ trước tiên
     if (typeof window.PersonalizationConfig !== 'undefined') {
         currentLang = window.PersonalizationConfig.getCurrentLanguage();
     }
-    
+
     initializeDOM();
     initializePersonalization(currentLang);
     applyLanguage(currentLang, false);
-    
+
     // Ẩn/hiện món quà đặc biệt dựa trên config
     if (personalConfig.showSurprise === false) {
         const surpriseSection = document.querySelector('.surprise-section');
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             surpriseSection.style.display = 'none';
         }
     }
-    
+
     initializeEventListeners();
     createBackgroundAnimations();
     playIntroAnimation();
@@ -69,7 +69,7 @@ function initializePersonalization(lang) {
         personalConfig = window.PersonalizationConfig.getPersonConfig(targetLang);
         birthdayName = personalConfig.name;
         photoData = personalConfig.photos;
-        
+
         // Áp dụng theme color nếu có
         if (personalConfig.themeColor) {
             applyThemeColor(personalConfig.themeColor);
@@ -99,10 +99,10 @@ function applyThemeColor(color) {
     const cleanColor = color.trim();
     const root = document.documentElement;
     root.style.setProperty('--theme-color', cleanColor);
-    
+
     const oldStyle = document.getElementById('dynamic-theme-style');
     if (oldStyle) oldStyle.remove();
-    
+
     const style = document.createElement('style');
     style.id = 'dynamic-theme-style';
     style.textContent = `
@@ -136,11 +136,11 @@ function initializeDOM() {
     confettiContainer = document.getElementById('confetti-container');
     fireworksContainer = document.getElementById('fireworks-container');
     lightingOverlay = document.getElementById('lightingOverlay');
-    
+
     // Language switcher toggle button
     langToggleBtn = document.getElementById('langToggleBtn');
     currentLangFlag = document.getElementById('currentLangFlag');
-    
+
     // Localizable text elements
     mainTitleLine1 = document.getElementById('mainTitleLine1');
     mainTitleLine2 = document.getElementById('mainTitleLine2');
@@ -152,7 +152,7 @@ function initializeDOM() {
     wishesContainer = document.getElementById('wishesContainer');
     explosionTitle = document.getElementById('explosionTitle');
     explosionInstruction = document.getElementById('explosionInstruction');
-    
+
     // Gallery elements
     photoGallery = document.getElementById('photoGallery');
     galleryImage = document.getElementById('galleryImage');
@@ -164,11 +164,11 @@ function initializeDOM() {
     currentPhotoNum = document.getElementById('currentPhotoNum');
     totalPhotosSpan = document.getElementById('totalPhotos');
     progressFill = document.querySelector('.progress-fill');
-    
+
     // Explosion gallery elements
     explosionGallery = document.getElementById('explosionGallery');
     closeExplosion = document.getElementById('closeExplosion');
-    
+
     // Audio elements
     birthdaySong = document.getElementById('birthdaySong');
     blowSound = document.getElementById('blowSound');
@@ -179,22 +179,22 @@ function initializeEventListeners() {
     if (blowButton) blowButton.addEventListener('click', blowCandles);
     if (surpriseButton) surpriseButton.addEventListener('click', triggerSurprise);
     if (musicToggle) musicToggle.addEventListener('click', toggleMusic);
-    
+
     // Language Switcher Toggle Event (Switch between JA & VI)
     if (langToggleBtn) {
         langToggleBtn.addEventListener('click', toggleLanguage);
     }
-    
+
     // Add click handlers for individual candles
     document.querySelectorAll('.candle').forEach((candle, index) => {
         candle.addEventListener('click', () => blowSingleCandle(index));
     });
-    
+
     // Gallery event listeners
     if (prevPhotoBtn) prevPhotoBtn.addEventListener('click', previousPhoto);
     if (nextPhotoBtn) nextPhotoBtn.addEventListener('click', nextPhoto);
     if (closeGalleryBtn) closeGalleryBtn.addEventListener('click', closePhotoGallery);
-    
+
     // Close gallery when clicking outside
     if (photoGallery) {
         photoGallery.addEventListener('click', (e) => {
@@ -203,16 +203,16 @@ function initializeEventListeners() {
             }
         });
     }
-    
+
     // Explosion gallery event listeners
     if (closeExplosion) closeExplosion.addEventListener('click', closeExplosionGallery);
-    
+
     // Add keyboard support
     document.addEventListener('keydown', handleKeyPress);
-    
+
     // Initialize gallery
     initializeGallery();
-    
+
     // Initialize music button state
     updateMusicButtonState();
 }
@@ -225,18 +225,18 @@ function toggleLanguage() {
 
 function switchLanguage(lang) {
     if (lang === currentLang) return;
-    
+
     currentLang = lang;
     if (typeof window.PersonalizationConfig !== 'undefined') {
         window.PersonalizationConfig.setCurrentLanguage(lang);
     }
-    
+
     // Cập nhật cấu hình người nhận theo ngôn ngữ mới
     initializePersonalization(lang);
-    
+
     // Cập nhật toàn bộ giao diện
     applyLanguage(lang, true);
-    
+
     // Cập nhật URL query an toàn (chỉ khi trang được phục vụ qua HTTP/HTTPS)
     if (typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
         try {
@@ -252,33 +252,33 @@ function switchLanguage(lang) {
 function applyLanguage(lang, animated = false) {
     if (typeof window.PersonalizationConfig === 'undefined') return;
     const t = (key) => window.PersonalizationConfig.t(key, lang);
-    
+
     // Cập nhật thuộc tính lang của HTML & Tiêu đề trang
     document.documentElement.lang = lang;
     document.title = t('pageTitle');
-    
+
     // Cập nhật Language Toggle Button (Cờ & Tooltip)
     if (currentLangFlag) {
         currentLangFlag.textContent = lang === 'ja' ? '🇯🇵' : '🇻🇳';
     }
     if (langToggleBtn) {
-        langToggleBtn.title = lang === 'ja' 
-            ? 'Tiếng Việtに切り替え / Chuyển sang Tiếng Việt' 
+        langToggleBtn.title = lang === 'ja'
+            ? 'Tiếng Việtに切り替え / Chuyển sang Tiếng Việt'
             : '日本語に切り替え / Chuyển sang 日本語';
         if (animated) {
             langToggleBtn.classList.add('switching');
             setTimeout(() => langToggleBtn.classList.remove('switching'), 400);
         }
     }
-    
+
     // Cập nhật Header
     if (mainTitleLine1) mainTitleLine1.textContent = t('mainTitleLine1');
     if (mainTitleLine2) mainTitleLine2.textContent = t('mainTitleLine2');
     if (mainTitleLine3) mainTitleLine3.textContent = t('mainTitleLine3');
-    
+
     // Cập nhật Subtitle Message
     updateSubtitleMessage();
-    
+
     // Cập nhật Blow Button & Instruction
     if (blowText) {
         if (candlesHaveBeenBlown || candlesBlownOut > 0) {
@@ -290,16 +290,16 @@ function applyLanguage(lang, animated = false) {
     if (blowInstruction) {
         blowInstruction.textContent = t('blowInstruction');
     }
-    
+
     // Cập nhật Wishes Section
     if (wishesTitle) {
         wishesTitle.textContent = t('wishesTitle');
     }
     renderWishesList(lang);
-    
+
     // Cập nhật Music Button
     updateMusicButtonState();
-    
+
     // Cập nhật Surprise Button & Section
     const surpriseSection = document.querySelector('.surprise-section');
     if (surpriseSection) {
@@ -309,21 +309,21 @@ function applyLanguage(lang, animated = false) {
     if (surpriseText) {
         surpriseText.textContent = t('surpriseButton');
     }
-    
+
     // Cập nhật Explosion Gallery
     if (explosionTitle) explosionTitle.textContent = t('explosionTitle');
     if (explosionInstruction) explosionInstruction.textContent = t('explosionInstruction');
-    
+
     // Cập nhật Gallery Display
     updateGalleryDisplay();
 }
 
 function renderWishesList(lang) {
     if (!wishesContainer || typeof window.PersonalizationConfig === 'undefined') return;
-    
+
     const wishesList = window.PersonalizationConfig.t('wishes', lang);
     if (!Array.isArray(wishesList) || wishesList.length === 0) return;
-    
+
     wishesContainer.innerHTML = '';
     wishesList.forEach((wishText, idx) => {
         const p = document.createElement('p');
@@ -331,7 +331,7 @@ function renderWishesList(lang) {
         p.textContent = wishText;
         wishesContainer.appendChild(p);
     });
-    
+
     wishIndex = 0;
     initializeWishRotation();
 }
@@ -346,17 +346,17 @@ function blowCandles() {
         showMessage(msg);
         return;
     }
-    
+
     blowButton.classList.add('active');
-    
+
     // Play blow sound effect
     playBlowSoundEffect();
     // Phát nhạc ngay lập tức khi bấm thổi nến
     startMusic();
-    
+
     // Mark that candles have been blown
     candlesHaveBeenBlown = true;
-    
+
     // Disable the blow button
     blowButton.disabled = true;
     blowButton.style.opacity = '0.6';
@@ -365,16 +365,16 @@ function blowCandles() {
         ? window.PersonalizationConfig.t('blowingButton', currentLang)
         : '🌬️ 吹き消しています...';
     if (blowText) blowText.textContent = blowingText;
-    
+
     // Blow out all remaining candles
     document.querySelectorAll('.flame:not(.blown-out)').forEach((flame, index) => {
         setTimeout(() => {
             flame.classList.add('blown-out');
             candlesBlownOut++;
-            
+
             // Create smoke effect
             createSmokeEffect(flame);
-            
+
             // Check if all candles are blown out
             if (candlesBlownOut >= totalCandles) {
                 setTimeout(() => {
@@ -383,7 +383,7 @@ function blowCandles() {
             }
         }, index * 200);
     });
-    
+
     // Reset button state
     setTimeout(() => {
         blowButton.classList.remove('active');
@@ -395,16 +395,16 @@ function blowSingleCandle(candleIndex) {
     if (flame && !flame.classList.contains('blown-out')) {
         flame.classList.add('blown-out');
         candlesBlownOut++;
-        
+
         // Play blow sound effect
         playBlowSoundEffect();
         // Phát nhạc ngay lập tức khi thổi nến đầu tiên
         if (candlesBlownOut === 1) {
             startMusic();
         }
-        
+
         createSmokeEffect(flame);
-        
+
         // If this is the first candle being blown, disable button to encourage individual blowing
         if (candlesBlownOut === 1) {
             blowButton.disabled = true;
@@ -415,7 +415,7 @@ function blowSingleCandle(candleIndex) {
                 : '🌬️ 吹き消しています...';
             if (blowText) blowText.textContent = blowingText;
         }
-        
+
         // Check if all candles are blown out
         if (candlesBlownOut >= totalCandles) {
             candlesHaveBeenBlown = true;
@@ -427,35 +427,31 @@ function blowSingleCandle(candleIndex) {
 }
 
 function celebrateAllCandlesBlown() {
-    const allBlownMsg = typeof window.PersonalizationConfig !== 'undefined'
-        ? window.PersonalizationConfig.t('allBlownMessage', currentLang)
-        : '🎉 おめでとうございます！すべての願いが叶いますように！ 🎉';
-    showMessage(allBlownMsg);
-    
-    // Play applause and cheering sounds
-    playApplauseSound();
-    playCheeringSound();
-    
-    // Trigger massive confetti
-    createConfettiExplosion(50);
-    
-    // Create fireworks
-    createFireworks();
-    
-    // Change wish to celebration
-    const specialWishMsg = typeof window.PersonalizationConfig !== 'undefined'
-        ? window.PersonalizationConfig.t('specialWish', currentLang)
-        : '✨ ろうそくを全部吹き消しましたね！素敵な夢がたくさん叶いますように！ ✨';
-    showSpecialWish(specialWishMsg);
-    
-    // Turn the lights back on after celebration
+    // 1. Kích hoạt hiệu ứng vòng tròn sáng thu nhỏ từ từ & mượt mà về giữa bánh (1.8s)
+    if (lightingOverlay) {
+        lightingOverlay.classList.add('iris-shrink');
+    }
+
+    // 2. Sau 1.8s khi bóng tối vừa trùm kín tất cả, bắt đầu mở sáng lại TỪ TỪ mượt mà + bùng nổ pháo hoa & âm thanh
     setTimeout(() => {
         turnLightsOn();
-        const lightsOnMsg = typeof window.PersonalizationConfig !== 'undefined'
-            ? window.PersonalizationConfig.t('lightsOnMessage', currentLang)
-            : '💡 明かりがつきました！ハッピーバースデー！ 🎂';
-        showMessage(lightsOnMsg);
-    }, 3000);
+
+        // Âm thanh vỗ tay, reo hò & pháo hoa bùng nổ khi bắt đầu mở sáng
+        playApplauseSound();
+        playCheeringSound();
+        createConfettiExplosion(60);
+        createFireworks();
+
+        const allBlownMsg = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('allBlownMessage', currentLang)
+            : '🎉 おめでとうございます！すべての願いが叶いますように！ 🎉';
+        showMessage(allBlownMsg);
+
+        const specialWishMsg = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('specialWish', currentLang)
+            : '✨ ろうそくを全部吹き消しましたね！素敵な夢がたくさん叶いますように！ ✨';
+        showSpecialWish(specialWishMsg);
+    }, 1800);
 }
 
 function turnLightsOn() {
@@ -463,7 +459,7 @@ function turnLightsOn() {
         lightingOverlay.classList.add('lights-on');
         setTimeout(() => {
             lightingOverlay.style.display = 'none';
-        }, 2000); // Match CSS transition duration
+        }, 2500); // Mở sáng từ từ mượt mà trong 2.5 giây
     }
 }
 
@@ -482,7 +478,7 @@ function createSmokeEffect(flame) {
         animation: smokeRise 2s ease-out forwards;
         pointer-events: none;
     `;
-    
+
     if (!document.querySelector('#smoke-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'smoke-styles';
@@ -494,9 +490,9 @@ function createSmokeEffect(flame) {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
     flame.parentElement.appendChild(smoke);
-    
+
     setTimeout(() => {
         if (smoke.parentElement) {
             smoke.parentElement.removeChild(smoke);
@@ -512,20 +508,20 @@ function triggerSurprise() {
             surpriseButton.style.transform = 'scale(1)';
         }, 150);
     }
-    
+
     // Open 3D explosion gallery
     openExplosionGallery();
-    
+
     // Multiple surprise effects
     createConfettiExplosion(30);
     createFireworks();
-    
+
     // Play applause sound
     playApplauseSound();
-    
+
     triggerBalloonDance();
     showSurpriseMessage();
-    
+
     // Special cake animation
     animateCake();
 }
@@ -538,7 +534,7 @@ function showSurpriseMessage() {
             '🎁 あなたへの特別なプレゼント！ 🎁',
             '🌟 あなたは本当に素晴らしい！ハッピーバースデー！ 🌟'
         ];
-    
+
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     showMessage(randomMessage);
 }
@@ -547,11 +543,11 @@ function animateCake() {
     const cake = document.querySelector('.cake');
     if (cake) {
         cake.style.animation = 'none';
-        
+
         setTimeout(() => {
             cake.style.animation = 'cakeJump 1s ease-out';
         }, 50);
-        
+
         if (!document.querySelector('#cake-jump-styles')) {
             const styleSheet = document.createElement('style');
             styleSheet.id = 'cake-jump-styles';
@@ -571,12 +567,12 @@ function animateCake() {
 function triggerBalloonDance() {
     document.querySelectorAll('.balloon').forEach((balloon, index) => {
         balloon.style.animation = 'none';
-        
+
         setTimeout(() => {
             balloon.style.animation = `balloonDance 2s ease-in-out ${index * 0.2}s`;
         }, 50);
     });
-    
+
     if (!document.querySelector('#balloon-dance-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'balloon-dance-styles';
@@ -595,7 +591,7 @@ function triggerBalloonDance() {
 // ===== CONFETTI SYSTEM =====
 function createConfettiExplosion(count = 20) {
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96c93d', '#feca57', '#ff9ff3', '#54a0ff'];
-    
+
     for (let i = 0; i < count; i++) {
         setTimeout(() => {
             createConfettiPiece(colors);
@@ -606,12 +602,12 @@ function createConfettiExplosion(count = 20) {
 function createConfettiPiece(colors) {
     const confetti = document.createElement('div');
     confetti.className = 'confetti-piece';
-    
+
     const color = colors[Math.floor(Math.random() * colors.length)];
     const x = Math.random() * window.innerWidth;
     const rotation = Math.random() * 360;
     const scale = 0.5 + Math.random() * 0.5;
-    
+
     confetti.style.cssText = `
         position: fixed;
         left: ${x}px;
@@ -626,7 +622,7 @@ function createConfettiPiece(colors) {
         pointer-events: none;
         z-index: 1000;
     `;
-    
+
     if (!document.querySelector('#confetti-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'confetti-styles';
@@ -644,13 +640,13 @@ function createConfettiPiece(colors) {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
     if (confettiContainer) {
         confettiContainer.appendChild(confetti);
     } else {
         document.body.appendChild(confetti);
     }
-    
+
     setTimeout(() => {
         if (confetti.parentElement) {
             confetti.parentElement.removeChild(confetti);
@@ -661,7 +657,7 @@ function createConfettiPiece(colors) {
 // ===== FIREWORKS SYSTEM =====
 function createFireworks() {
     const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96c93d', '#feca57', '#ff9ff3'];
-    
+
     for (let i = 0; i < 5; i++) {
         setTimeout(() => {
             createFirework(colors);
@@ -672,19 +668,19 @@ function createFireworks() {
 function createFirework(colors) {
     const x = 100 + Math.random() * (window.innerWidth - 200);
     const y = 50 + Math.random() * (window.innerHeight / 2);
-    
+
     const particleCount = 12;
     const color = colors[Math.floor(Math.random() * colors.length)];
-    
+
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'firework';
-        
+
         const angle = (i / particleCount) * Math.PI * 2;
         const velocity = 50 + Math.random() * 50;
         const deltaX = Math.cos(angle) * velocity;
         const deltaY = Math.sin(angle) * velocity;
-        
+
         particle.style.cssText = `
             position: fixed;
             left: ${x}px;
@@ -699,7 +695,7 @@ function createFirework(colors) {
             pointer-events: none;
             z-index: 1000;
         `;
-        
+
         if (!document.querySelector('#firework-styles')) {
             const styleSheet = document.createElement('style');
             styleSheet.id = 'firework-styles';
@@ -721,13 +717,13 @@ function createFirework(colors) {
             `;
             document.head.appendChild(styleSheet);
         }
-        
+
         if (fireworksContainer) {
             fireworksContainer.appendChild(particle);
         } else {
             document.body.appendChild(particle);
         }
-        
+
         setTimeout(() => {
             if (particle.parentElement) {
                 particle.parentElement.removeChild(particle);
@@ -748,7 +744,7 @@ function toggleMusic() {
 function startMusic() {
     musicPlaying = true;
     updateMusicButtonState();
-    
+
     if (birthdaySong) {
         birthdaySong.currentTime = 0;
         birthdaySong.play().catch(e => console.log('Audio play failed:', e));
@@ -758,17 +754,17 @@ function startMusic() {
 function stopMusic() {
     musicPlaying = false;
     updateMusicButtonState();
-    
+
     if (birthdaySong) {
         birthdaySong.pause();
         birthdaySong.currentTime = 0;
     }
-    
+
     if (currentMelodyTimeout) {
         clearTimeout(currentMelodyTimeout);
         currentMelodyTimeout = null;
     }
-    
+
     if (window.audioContext) {
         window.audioContext.close();
         window.audioContext = null;
@@ -783,7 +779,7 @@ function updateMusicButtonState() {
         const musicPlayText = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('musicPlay', currentLang)
             : '音楽 ON';
-            
+
         if (musicPlaying) {
             musicIcon.textContent = '🎵';
             musicText.textContent = musicPauseText;
@@ -803,35 +799,35 @@ function playBlowSoundEffect() {
         blowSound.currentTime = 0;
         blowSound.play().catch(e => console.log('Blow sound audio element failed:', e));
     }
-    
+
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const bufferSize = Math.floor(audioContext.sampleRate * 0.5); // 0.5 giây tiếng thổi
         const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
         const output = buffer.getChannelData(0);
-        
+
         for (let i = 0; i < bufferSize; i++) {
             output[i] = (Math.random() * 2 - 1) * 0.5;
         }
-        
+
         const noise = audioContext.createBufferSource();
         noise.buffer = buffer;
-        
+
         // Lowpass filter tạo hiệu ứng tiếng phù / thổi hơi nhẹ nhàng
         const filter = audioContext.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(500, audioContext.currentTime);
         filter.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.5);
-        
+
         const gainNode = audioContext.createGain();
         gainNode.gain.setValueAtTime(0, audioContext.currentTime);
         gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.08);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-        
+
         noise.connect(filter);
         filter.connect(gainNode);
         gainNode.connect(audioContext.destination);
-        
+
         noise.start(audioContext.currentTime);
         noise.stop(audioContext.currentTime + 0.5);
     } catch (error) {
@@ -842,33 +838,33 @@ function playBlowSoundEffect() {
 function playApplauseSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
+
         for (let i = 0; i < 30; i++) {
             setTimeout(() => {
                 const bufferSize = audioContext.sampleRate * 0.15;
                 const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
                 const output = buffer.getChannelData(0);
-                
+
                 for (let j = 0; j < bufferSize; j++) {
                     output[j] = (Math.random() * 2 - 1) * 0.8;
                 }
-                
+
                 const whiteNoise = audioContext.createBufferSource();
                 whiteNoise.buffer = buffer;
-                
+
                 const bandpass = audioContext.createBiquadFilter();
                 bandpass.type = 'bandpass';
                 bandpass.frequency.value = 800 + Math.random() * 800;
                 bandpass.Q.value = 2;
-                
+
                 const gainNode = audioContext.createGain();
                 gainNode.gain.setValueAtTime(0.18, audioContext.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.15);
-                
+
                 whiteNoise.connect(bandpass);
                 bandpass.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 whiteNoise.start(audioContext.currentTime);
                 whiteNoise.stop(audioContext.currentTime + 0.15);
             }, i * 80 + Math.random() * 150);
@@ -882,24 +878,24 @@ function playCheeringSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const cheerPitches = [400, 500, 600, 700, 800];
-        
+
         for (let i = 0; i < 8; i++) {
             setTimeout(() => {
                 const oscillator = audioContext.createOscillator();
                 const gainNode = audioContext.createGain();
-                
+
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
-                
+
                 const pitch = cheerPitches[Math.floor(Math.random() * cheerPitches.length)];
                 oscillator.frequency.setValueAtTime(pitch, audioContext.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(pitch * 1.5, audioContext.currentTime + 0.3);
                 oscillator.type = 'triangle';
-                
+
                 gainNode.gain.setValueAtTime(0, audioContext.currentTime);
                 gainNode.gain.linearRampToValueAtTime(0.48, audioContext.currentTime + 0.05);
                 gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.4);
-                
+
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
             }, i * 200 + Math.random() * 300);
@@ -912,42 +908,42 @@ function playCheeringSound() {
 function playExplosionSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
+
         for (let i = 0; i < 5; i++) {
             setTimeout(() => {
                 // Bass explosion
                 const bassOsc = audioContext.createOscillator();
                 const bassGain = audioContext.createGain();
-                
+
                 bassOsc.connect(bassGain);
                 bassGain.connect(audioContext.destination);
-                
+
                 bassOsc.frequency.setValueAtTime(80, audioContext.currentTime);
                 bassOsc.frequency.exponentialRampToValueAtTime(40, audioContext.currentTime + 0.3);
                 bassOsc.type = 'sawtooth';
-                
+
                 bassGain.gain.setValueAtTime(0, audioContext.currentTime);
                 bassGain.gain.linearRampToValueAtTime(0.6, audioContext.currentTime + 0.02);
                 bassGain.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.3);
-                
+
                 bassOsc.start(audioContext.currentTime);
                 bassOsc.stop(audioContext.currentTime + 0.3);
-                
+
                 // High frequency sparkle
                 const sparkleOsc = audioContext.createOscillator();
                 const sparkleGain = audioContext.createGain();
-                
+
                 sparkleOsc.connect(sparkleGain);
                 sparkleGain.connect(audioContext.destination);
-                
+
                 sparkleOsc.frequency.setValueAtTime(2000 + Math.random() * 2000, audioContext.currentTime);
                 sparkleOsc.frequency.exponentialRampToValueAtTime(4000 + Math.random() * 2000, audioContext.currentTime + 0.2);
                 sparkleOsc.type = 'triangle';
-                
+
                 sparkleGain.gain.setValueAtTime(0, audioContext.currentTime);
                 sparkleGain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
                 sparkleGain.gain.exponentialRampToValueAtTime(0.003, audioContext.currentTime + 0.2);
-                
+
                 sparkleOsc.start(audioContext.currentTime);
                 sparkleOsc.stop(audioContext.currentTime + 0.2);
             }, i * 100);
@@ -981,10 +977,10 @@ function closePhotoGallery() {
 
 function updateGalleryDisplay() {
     if (!photoData || photoData.length === 0) return;
-    
+
     const photo = photoData[currentPhotoIndex] || photoData[0];
     if (!photo) return;
-    
+
     if (galleryImage) {
         galleryImage.src = photo.src;
         galleryImage.alt = photo.title;
@@ -993,7 +989,7 @@ function updateGalleryDisplay() {
     if (photoDescription) photoDescription.textContent = photo.description;
     if (currentPhotoNum) currentPhotoNum.textContent = currentPhotoIndex + 1;
     if (totalPhotosSpan) totalPhotosSpan.textContent = photoData.length;
-    
+
     // Update progress bar
     if (progressFill && photoData.length > 0) {
         const progressPercent = ((currentPhotoIndex + 1) / photoData.length) * 100;
@@ -1052,43 +1048,43 @@ function closeExplosionGallery() {
 
 function createExplosionImages() {
     if (!photoData || photoData.length === 0) return;
-    
+
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
-    
+
     const isMobile = window.innerWidth <= 480;
     const isTablet = window.innerWidth <= 768;
-    
+
     const baseRadius = isMobile ? 150 : isTablet ? 140 : 180;
     const radiusVariation = isMobile ? 50 : isTablet ? 40 : 60;
-    
+
     photoData.forEach((photo, index) => {
         setTimeout(() => {
             const explosionImg = document.createElement('div');
             explosionImg.className = 'explosion-image animate';
-            
+
             const angle = (index / photoData.length) * Math.PI * 2;
             const radius = baseRadius + Math.random() * radiusVariation;
             const orbitRadius = radius * 0.3;
-            
+
             const imgWidth = isMobile ? 150 : 200;
             const imgHeight = isMobile ? 112 : 150;
-            
+
             const finalX = centerX + Math.cos(angle) * radius - imgWidth / 2;
             const finalY = centerY + Math.sin(angle) * radius - imgHeight / 2;
-            
+
             const orbitX = Math.cos(angle) * orbitRadius;
             const orbitY = Math.sin(angle) * orbitRadius;
-            
+
             const rotateX = Math.random() * 60 - 30;
             const rotateY = Math.random() * 60 - 30;
             const rotateZ = Math.random() * 30 - 15;
-            
+
             explosionImg.innerHTML = `<img src="${photo.src}" alt="${photo.title}">`;
-            
+
             explosionImg.style.left = centerX - imgWidth / 2 + 'px';
             explosionImg.style.top = centerY - imgHeight / 2 + 'px';
-            
+
             explosionImg.style.setProperty('--final-x', finalX + 'px');
             explosionImg.style.setProperty('--final-y', finalY + 'px');
             explosionImg.style.setProperty('--orbit-x', orbitX + 'px');
@@ -1096,7 +1092,7 @@ function createExplosionImages() {
             explosionImg.style.setProperty('--rotate-x', rotateX + 'deg');
             explosionImg.style.setProperty('--rotate-y', rotateY + 'deg');
             explosionImg.style.setProperty('--rotate-z', rotateZ + 'deg');
-            
+
             explosionImg.addEventListener('click', () => {
                 currentPhotoIndex = index;
                 closeExplosionGallery();
@@ -1104,14 +1100,14 @@ function createExplosionImages() {
                     openPhotoGallery();
                 }, 300);
             });
-            
+
             explosionGallery.appendChild(explosionImg);
-            
+
             setTimeout(() => {
                 explosionImg.style.left = explosionImg.style.getPropertyValue('--final-x');
                 explosionImg.style.top = explosionImg.style.getPropertyValue('--final-y');
             }, 50);
-            
+
         }, index * 150);
     });
 }
@@ -1122,13 +1118,13 @@ function initializeWishRotation() {
         clearInterval(wishRotationInterval);
         wishRotationInterval = null;
     }
-    
+
     const wishes = document.querySelectorAll('.wish');
     if (wishes.length > 0) {
         wishRotationInterval = setInterval(() => {
             const currentWishes = document.querySelectorAll('.wish');
             if (currentWishes.length === 0) return;
-            
+
             currentWishes[wishIndex % currentWishes.length].classList.remove('active');
             wishIndex = (wishIndex + 1) % currentWishes.length;
             currentWishes[wishIndex].classList.add('active');
@@ -1153,11 +1149,11 @@ function showMessage(message) {
     if (existingMessage) {
         existingMessage.remove();
     }
-    
+
     const messageDiv = document.createElement('div');
     messageDiv.className = 'floating-message';
     messageDiv.textContent = message;
-    
+
     messageDiv.style.cssText = `
         position: fixed;
         top: 20px;
@@ -1177,7 +1173,7 @@ function showMessage(message) {
         max-width: 90%;
         text-align: center;
     `;
-    
+
     if (!document.querySelector('#message-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'message-styles';
@@ -1193,9 +1189,9 @@ function showMessage(message) {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
     document.body.appendChild(messageDiv);
-    
+
     setTimeout(() => {
         messageDiv.style.animation = 'messageSlideOut 0.5s ease-out';
         setTimeout(() => {
@@ -1209,7 +1205,7 @@ function showMessage(message) {
 // ===== KEYBOARD SUPPORT =====
 function handleKeyPress(event) {
     if (explosionGallery && explosionGallery.classList.contains('active')) {
-        switch(event.key) {
+        switch (event.key) {
             case 'Escape':
                 event.preventDefault();
                 closeExplosionGallery();
@@ -1217,9 +1213,9 @@ function handleKeyPress(event) {
         }
         return;
     }
-    
+
     if (photoGallery && photoGallery.classList.contains('active')) {
-        switch(event.key) {
+        switch (event.key) {
             case 'ArrowLeft':
                 event.preventDefault();
                 previousPhoto();
@@ -1235,8 +1231,8 @@ function handleKeyPress(event) {
         }
         return;
     }
-    
-    switch(event.key) {
+
+    switch (event.key) {
         case ' ':
         case 'Enter':
             event.preventDefault();
@@ -1280,7 +1276,7 @@ function createFloatingParticle() {
         z-index: 5;
         animation: floatUp 8s linear forwards;
     `;
-    
+
     if (!document.querySelector('#particle-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'particle-styles';
@@ -1294,9 +1290,9 @@ function createFloatingParticle() {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
     document.body.appendChild(particle);
-    
+
     setTimeout(() => {
         if (particle.parentElement) {
             particle.parentElement.removeChild(particle);
@@ -1316,7 +1312,7 @@ function createSparkle() {
         z-index: 5;
         animation: sparkleAnimation 2s ease-out forwards;
     `;
-    
+
     if (!document.querySelector('#sparkle-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'sparkle-styles';
@@ -1329,9 +1325,9 @@ function createSparkle() {
         `;
         document.head.appendChild(styleSheet);
     }
-    
+
     document.body.appendChild(sparkle);
-    
+
     setTimeout(() => {
         if (sparkle.parentElement) {
             sparkle.parentElement.removeChild(sparkle);
@@ -1347,7 +1343,7 @@ function playIntroAnimation() {
             : '🎂 お誕生日パーティーへようこそ！ 🎂';
         showMessage(welcomeMsg);
     }, 1000);
-    
+
     setTimeout(() => {
         createConfettiExplosion(10);
     }, 2000);
@@ -1355,13 +1351,13 @@ function playIntroAnimation() {
 
 // ===== MOBILE TOUCH SUPPORT =====
 if ('ontouchstart' in window) {
-    document.addEventListener('touchstart', function(e) {
+    document.addEventListener('touchstart', function (e) {
         if (e.touches.length > 1) {
             e.preventDefault();
             triggerSurprise();
         }
     });
-    
+
     setTimeout(() => {
         const mobileInstruction = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('mobileInstruction', currentLang)
