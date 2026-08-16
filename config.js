@@ -145,7 +145,7 @@ const PERSON_CONFIGS = {
       ja: "{name}、心よりお誕生日をお祝い申し上げます！いつも温かいご指導とサポートをありがとうございます。",
       vi: "Kính chúc {name} một ngày sinh nhật thật tuyệt vời, nhiều sức khỏe và hạnh phúc!"
     },
-    themeColor: "#2579f7ff",
+    themeColor: "#29f54bff",
     showSurprise: false,
   },
 };
