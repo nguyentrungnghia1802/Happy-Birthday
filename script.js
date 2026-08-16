@@ -398,10 +398,6 @@ function blowSingleCandle(candleIndex) {
 
         // Play blow sound effect
         playBlowSoundEffect();
-        // Phát nhạc ngay lập tức khi thổi nến đầu tiên
-        if (candlesBlownOut === 1) {
-            startMusic();
-        }
 
         createSmokeEffect(flame);
 
@@ -419,6 +415,8 @@ function blowSingleCandle(candleIndex) {
         // Check if all candles are blown out
         if (candlesBlownOut >= totalCandles) {
             candlesHaveBeenBlown = true;
+            // Bật nhạc khi đã thổi tắt hết toàn bộ các cây nến
+            startMusic();
             setTimeout(() => {
                 celebrateAllCandlesBlown();
             }, 500);
