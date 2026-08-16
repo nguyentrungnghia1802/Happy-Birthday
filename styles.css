@@ -1206,10 +1206,10 @@ body {
 /* ===== RESPONSIVE MEDIA QUERIES ===== */
 @media (max-width: 768px) {
     .header {
-        margin-bottom: 2.6rem;
+        margin-bottom: 3.2rem; /* Cách dòng thoáng giữa chữ và bánh */
     }
     .cake-section {
-        margin: 2.2rem 0;
+        margin: 3.5rem 0 2.2rem; /* Thêm khoảng trống phía trên nến */
     }
     .main-title {
         font-size: 2.6rem;
@@ -1238,7 +1238,7 @@ body {
         padding: 20px 12px;
     }
     .header {
-        margin-bottom: 1.8rem;
+        margin-bottom: 2.8rem; /* Tăng khoảng cách dòng chữ trên điện thoại */
     }
     .festive-badge {
         padding: 4px 12px;
@@ -1261,7 +1261,7 @@ body {
         max-width: 94%;
     }
     .cake-section {
-        margin: 1.6rem 0;
+        margin: 3.6rem 0 1.8rem; /* Cách dòng rộng rãi phía trên bánh, tránh nến chạm chữ */
     }
     .cake-top { width: 140px; height: 48px; }
     .cake-middle { width: 185px; height: 58px; }
@@ -1287,7 +1287,7 @@ body {
         padding: 15px 8px;
     }
     .header {
-        margin-bottom: 1.4rem;
+        margin-bottom: 2.5rem; /* Cách dòng thoải mái trên iPhone SE */
     }
     .festive-badge {
         padding: 3px 10px;
@@ -1311,7 +1311,7 @@ body {
         border-radius: 30px;
     }
     .cake-section {
-        margin: 1.2rem 0 1rem;
+        margin: 3.2rem 0 1.5rem; /* Đảm bảo ngọn nến không chạm chữ */
     }
     .cake-top { width: 125px; height: 42px; }
     .cake-middle { width: 165px; height: 50px; }
@@ -1336,6 +1336,12 @@ body {
 
 /* Nấc cho thiết bị siêu nhỏ (<= 330px) */
 @media (max-width: 330px) {
+    .header {
+        margin-bottom: 2.2rem;
+    }
+    .cake-section {
+        margin: 2.8rem 0 1.2rem;
+    }
     .main-title { 
         font-size: 1.3rem; 
     }
