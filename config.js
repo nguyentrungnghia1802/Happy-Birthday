@@ -12,7 +12,7 @@ const TRANSLATIONS = {
     mainTitleLine2: "おめでとうございます",
     mainTitleLine3: "🎂",
     defaultName: "先輩",
-    defaultCustomMessage: "{name}さん、心よりお誕生日をお祝い申し上げます！",
+    defaultCustomMessage: "{name}、心よりお誕生日をお祝い申し上げます！",
     blowButton: "🌬️ ろうそくを吹き消す",
     blowingButton: "🌬️ 吹き消しています...",
     blowInstruction: "ろうそくをタップするか、上のボタンを押して吹き消してくださいね！",
@@ -94,7 +94,7 @@ const PERSON_CONFIGS = {
     extension: "jpg",
     photoCount: 0,
     customMessage: {
-      ja: "{name}さん、心よりお誕生日をお祝い申し上げます！",
+      ja: "{name}、心よりお誕生日をお祝い申し上げます！",
       vi: "Chúc {name} một ngày sinh nhật thật tuyệt vời!"
     },
     themeColor: "#ffd700",
@@ -263,9 +263,14 @@ function getPersonConfig(lang) {
 
 // Hàm tạo URL cho từng người kèm theo ngôn ngữ
 function generatePersonalURL(personKey, lang) {
-  const baseURL = (typeof window !== 'undefined' && window.location)
-    ? window.location.origin + window.location.pathname
-    : '';
+  let baseURL = '';
+  if (typeof window !== 'undefined' && window.location) {
+    if (window.location.protocol && window.location.protocol.startsWith('http')) {
+      baseURL = window.location.origin + window.location.pathname;
+    } else {
+      baseURL = window.location.pathname ? window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1) || 'index.html' : 'index.html';
+    }
+  }
   const currentLang = lang || getCurrentLanguage();
   const params = new URLSearchParams();
 

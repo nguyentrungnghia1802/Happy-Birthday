@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 
@@ -20,20 +20,49 @@
         </button>
     </div>
 
+    <!-- Ambient Aurora Glow Orbs -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
     <!-- Background Elements -->
     <div class="stars"></div>
+    <div class="shooting-stars">
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+    </div>
     <div class="balloons">
-        <div class="balloon balloon-1"></div>
-        <div class="balloon balloon-2"></div>
-        <div class="balloon balloon-3"></div>
-        <div class="balloon balloon-4"></div>
-        <div class="balloon balloon-5"></div>
+        <div class="balloon balloon-1">
+            <div class="balloon-highlight"></div>
+            <div class="balloon-string"></div>
+        </div>
+        <div class="balloon balloon-2">
+            <div class="balloon-highlight"></div>
+            <div class="balloon-string"></div>
+        </div>
+        <div class="balloon balloon-3">
+            <div class="balloon-highlight"></div>
+            <div class="balloon-string"></div>
+        </div>
+        <div class="balloon balloon-4">
+            <div class="balloon-highlight"></div>
+            <div class="balloon-string"></div>
+        </div>
+        <div class="balloon balloon-5">
+            <div class="balloon-highlight"></div>
+            <div class="balloon-string"></div>
+        </div>
     </div>
 
     <!-- Main Container -->
     <div class="container">
         <!-- Header -->
         <header class="header">
+            <div class="festive-badge">
+                <span class="badge-sparkle">✨</span>
+                <span class="badge-text" id="festiveBadgeText">SPECIAL CELEBRATION</span>
+                <span class="badge-sparkle">✨</span>
+            </div>
             <h1 class="main-title">
                 <span class="title-line" id="mainTitleLine1">🎉 お誕生日</span>
                 <span class="title-line rainbow-text" id="mainTitleLine2">おめでとうございます</span>
@@ -49,45 +78,70 @@
                 <div class="cake">
                     <!-- Top Layer -->
                     <div class="cake-layer cake-top">
+                        <div class="cake-cream-drips">
+                            <span class="drip drip-1"></span>
+                            <span class="drip drip-2"></span>
+                            <span class="drip drip-3"></span>
+                            <span class="drip drip-4"></span>
+                            <span class="drip drip-5"></span>
+                        </div>
                         <div class="cake-decoration">
                             <div class="cherry">🍒</div>
                             <div class="strawberry">🍓</div>
+                            <div class="berry">🫐</div>
                         </div>
                     </div>
 
                     <!-- Middle Layer -->
                     <div class="cake-layer cake-middle">
-                        <div class="cake-cream"></div>
+                        <div class="cake-cream-swirls"></div>
+                        <div class="cake-pearls">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
                     </div>
 
                     <!-- Bottom Layer -->
-                    <div class="cake-layer cake-bottom"></div>
+                    <div class="cake-layer cake-bottom">
+                        <div class="cake-ribbon"></div>
+                    </div>
 
                     <!-- Cake Base/Plate -->
-                    <div class="cake-plate"></div>
+                    <div class="cake-plate">
+                        <div class="plate-inner-rim"></div>
+                    </div>
                 </div>
 
                 <!-- Candles -->
                 <div class="candles">
                     <div class="candle candle-1">
+                        <div class="candle-wick"></div>
                         <div class="candle-body"></div>
                         <div class="flame flame-1"></div>
+                        <div class="flame-glow flame-glow-1"></div>
                     </div>
                     <div class="candle candle-2">
+                        <div class="candle-wick"></div>
                         <div class="candle-body"></div>
                         <div class="flame flame-2"></div>
+                        <div class="flame-glow flame-glow-2"></div>
                     </div>
                     <div class="candle candle-3">
+                        <div class="candle-wick"></div>
                         <div class="candle-body"></div>
                         <div class="flame flame-3"></div>
+                        <div class="flame-glow flame-glow-3"></div>
                     </div>
                     <div class="candle candle-4">
+                        <div class="candle-wick"></div>
                         <div class="candle-body"></div>
                         <div class="flame flame-4"></div>
+                        <div class="flame-glow flame-glow-4"></div>
                     </div>
                     <div class="candle candle-5">
+                        <div class="candle-wick"></div>
                         <div class="candle-body"></div>
                         <div class="flame flame-5"></div>
+                        <div class="flame-glow flame-glow-5"></div>
                     </div>
                 </div>
             </div>
@@ -97,6 +151,7 @@
                 <button id="blowButton" class="blow-button">
                     <span class="blow-text" id="blowText">🌬️ ろうそくを吹き消す</span>
                     <div class="blow-effect"></div>
+                    <div class="button-sparkle-halo"></div>
                 </button>
                 <p class="blow-instruction" id="blowInstruction">ろうそくをタップするか、上のボタンを押して吹き消してくださいね！</p>
             </div>
@@ -105,6 +160,7 @@
         <!-- Wishes Section -->
         <div class="wishes-section">
             <div class="wish-card">
+                <div class="card-quote-icon">❝</div>
                 <h2 id="wishesTitle">💝 お祝いメッセージ</h2>
                 <div class="wishes-container" id="wishesContainer">
                     <p class="wish active">🌟 いつも温かいご指導とサポートをありがとうございます！健康で幸せな日々をお過ごしください。</p>
@@ -119,23 +175,26 @@
         <!-- Surprise Button -->
         <div class="surprise-section">
             <button id="surpriseButton" class="surprise-button">
-                <span id="surpriseText">🎊 特別なサプライズ 🎁</span>
+                <span class="surprise-icon">🎁</span>
+                <span id="surpriseText">特別なサプライズ</span>
+                <span class="surprise-sparkle">✨</span>
             </button>
         </div>
 
         <!-- Music Control -->
         <div class="music-control">
-            <button id="musicToggle" class="music-button">
-                <span id="musicIcon">🎵</span>
+            <button id="musicToggle" class="music-button" aria-label="Toggle Music">
+                <span id="musicIcon" class="music-icon">🎵</span>
+                <div class="equalizer-bars" id="equalizerBars">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    <span class="bar bar-4"></span>
+                </div>
                 <span id="musicText">音楽 ON</span>
             </button>
         </div>
     </div>
-
-    <!-- Author Credit -->
-    <!-- <div class="author-credit" id="authorCredit">
-        <span>💻 Tác giả: Nguyen Trung Nghia</span>
-    </div> -->
 
     <!-- Confetti Container -->
     <div id="confetti-container"></div>
@@ -199,13 +258,12 @@
 
     <!-- Audio Elements -->
     <audio id="birthdaySong" loop preload="auto" src="res\aud\happy-birthday-bg-aud.mp3">
-        <!-- Happy Birthday melody - sẽ được tạo bởi Web Audio API -->
     </audio>
 
     <!-- Lighting Overlay -->
     <div id="lightingOverlay" class="lighting-overlay"></div>
 
-    <!-- Sound effects sẽ được tạo bằng Web Audio API trong JavaScript -->
+    <!-- Sound effects -->
     <audio id="blowSound" preload="auto"></audio>
     <audio id="applauseSound" preload="auto"></audio>
     <audio id="cheeringSound" preload="auto"></audio>

@@ -231,14 +231,14 @@ function switchLanguage(lang) {
     // Cập nhật toàn bộ giao diện
     applyLanguage(lang, true);
     
-    // Cập nhật URL query an toàn (chỉ khi không phải giao thức file://)
-    if (window.location && window.location.protocol !== 'file:' && window.location.origin !== 'null') {
+    // Cập nhật URL query an toàn (chỉ khi trang được phục vụ qua HTTP/HTTPS)
+    if (typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
         try {
             const url = new URL(window.location.href);
             url.searchParams.set('lang', lang);
             window.history.replaceState({}, '', url.toString());
         } catch (e) {
-            // Không log lỗi nếu môi trường sandbox chặn
+            // Tránh lỗi ở môi trường sandbox
         }
     }
 }
@@ -781,11 +781,11 @@ function updateMusicButtonState() {
         if (musicPlaying) {
             musicIcon.textContent = '🎵';
             musicText.textContent = musicPauseText;
-            if (musicToggle) musicToggle.style.background = 'rgba(255, 255, 255, 0.3)';
+            if (musicToggle) musicToggle.classList.add('playing');
         } else {
             musicIcon.textContent = '🔇';
             musicText.textContent = musicPlayText;
-            if (musicToggle) musicToggle.style.background = 'rgba(255, 255, 255, 0.2)';
+            if (musicToggle) musicToggle.classList.remove('playing');
         }
     }
 }
