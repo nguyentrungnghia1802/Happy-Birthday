@@ -7,16 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 // ===== GLOBAL VARIABLES =====
+let currentLang = 'ja'; // Mặc định là tiếng Nhật
 let candlesBlownOut = 0;
 let musicPlaying = true; // Default to true (music on)
 let wishIndex = 0;
+let wishRotationInterval = null;
 const totalCandles = 5;
 let currentMelodyTimeout = null;
 let candlesHaveBeenBlown = false; // Track if candles have been blown once
 
-// Personalization variables - sẽ được khởi tạo từ URL parameters
-let birthdayName = "Anh Tài"; // Default value
+// Personalization variables - sẽ được khởi tạo từ URL parameters & config
+let birthdayName = "お友達";
 let personalConfig = {};
 let photoData = [];
 
@@ -31,21 +34,20 @@ let photoGallery, galleryImage, photoTitle, photoDescription;
 let prevPhotoBtn, nextPhotoBtn, closeGalleryBtn, currentPhotoNum, totalPhotosSpan, progressFill;
 let explosionGallery, closeExplosion;
 let birthdaySong, blowSound;
+let langToggleBtn, currentLangFlag;
+let mainTitleLine1, mainTitleLine2, mainTitleLine3, subtitleMessage, blowText, blowInstruction;
+let wishesTitle, wishesContainer, explosionTitle, explosionInstruction;
 
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Khởi tạo personalization trước tiên
-    initializePersonalization();
-    
-    initializeDOM();
-    // Cập nhật tên sinh nhật vào subtitle
-    const nameSpan = document.getElementById('birthdayName');
-    if (nameSpan) {
-        nameSpan.textContent = birthdayName;
+    // Khởi tạo personalization và ngôn ngữ trước tiên
+    if (typeof window.PersonalizationConfig !== 'undefined') {
+        currentLang = window.PersonalizationConfig.getCurrentLanguage();
     }
     
-    // Cập nhật subtitle message
-    updateSubtitleMessage();
+    initializeDOM();
+    initializePersonalization(currentLang);
+    applyLanguage(currentLang, false);
     
     // Ẩn/hiện món quà đặc biệt dựa trên config
     if (personalConfig.showSurprise === false) {
@@ -55,18 +57,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    initializeWishRotation();
     initializeEventListeners();
     createBackgroundAnimations();
     playIntroAnimation();
-    // Music will only start when blowing candles, not auto-start
 });
 
 // ===== PERSONALIZATION INITIALIZATION =====
-function initializePersonalization() {
-    // Lấy config từ URL parameters
+function initializePersonalization(lang) {
+    const targetLang = lang || currentLang;
     if (typeof window.PersonalizationConfig !== 'undefined') {
-        personalConfig = window.PersonalizationConfig.getPersonConfig();
+        personalConfig = window.PersonalizationConfig.getPersonConfig(targetLang);
         birthdayName = personalConfig.name;
         photoData = personalConfig.photos;
         
@@ -74,24 +74,20 @@ function initializePersonalization() {
         if (personalConfig.themeColor) {
             applyThemeColor(personalConfig.themeColor);
         }
-        
-        console.log('Personalization loaded:', personalConfig);
     } else {
         console.warn('PersonalizationConfig not found, using default values');
-        // Fallback to default photos
         photoData = [
             {
-                src: "res/img/tai_1.jpg",
-                title: "🎂 Sinh Nhật Vui Vẻ",
-                description: "Những khoảnh khắc hạnh phúc bên bánh kem",
-            },
-            // ... thêm các ảnh default khác
+                src: "res/img/empty/1.jpg",
+                title: "🎂 ハッピーバースデー",
+                description: "ケーキを囲んで幸せなひととき",
+            }
         ];
     }
 }
 
 function updateSubtitleMessage() {
-    const subtitleElement = document.querySelector('.subtitle');
+    const subtitleElement = document.getElementById('subtitleMessage') || document.querySelector('.subtitle');
     if (subtitleElement && personalConfig.customMessage) {
         const messageText = personalConfig.customMessage.replace('{name}', `<span id="birthdayName" class="highlight-name">${birthdayName}</span>`);
         subtitleElement.innerHTML = messageText;
@@ -99,12 +95,14 @@ function updateSubtitleMessage() {
 }
 
 function applyThemeColor(color) {
-    // Áp dụng theme color cho các elements
     const root = document.documentElement;
     root.style.setProperty('--theme-color', color);
     
-    // Cập nhật CSS động
+    const oldStyle = document.getElementById('dynamic-theme-style');
+    if (oldStyle) oldStyle.remove();
+    
     const style = document.createElement('style');
+    style.id = 'dynamic-theme-style';
     style.textContent = `
         .highlight-name {
             color: ${color} !important;
@@ -133,6 +131,22 @@ function initializeDOM() {
     fireworksContainer = document.getElementById('fireworks-container');
     lightingOverlay = document.getElementById('lightingOverlay');
     
+    // Language switcher toggle button
+    langToggleBtn = document.getElementById('langToggleBtn');
+    currentLangFlag = document.getElementById('currentLangFlag');
+    
+    // Localizable text elements
+    mainTitleLine1 = document.getElementById('mainTitleLine1');
+    mainTitleLine2 = document.getElementById('mainTitleLine2');
+    mainTitleLine3 = document.getElementById('mainTitleLine3');
+    subtitleMessage = document.getElementById('subtitleMessage');
+    blowText = document.getElementById('blowText');
+    blowInstruction = document.getElementById('blowInstruction');
+    wishesTitle = document.getElementById('wishesTitle');
+    wishesContainer = document.getElementById('wishesContainer');
+    explosionTitle = document.getElementById('explosionTitle');
+    explosionInstruction = document.getElementById('explosionInstruction');
+    
     // Gallery elements
     photoGallery = document.getElementById('photoGallery');
     galleryImage = document.getElementById('galleryImage');
@@ -156,9 +170,14 @@ function initializeDOM() {
 
 // ===== EVENT LISTENERS =====
 function initializeEventListeners() {
-    blowButton.addEventListener('click', blowCandles);
-    surpriseButton.addEventListener('click', triggerSurprise);
-    musicToggle.addEventListener('click', toggleMusic);
+    if (blowButton) blowButton.addEventListener('click', blowCandles);
+    if (surpriseButton) surpriseButton.addEventListener('click', triggerSurprise);
+    if (musicToggle) musicToggle.addEventListener('click', toggleMusic);
+    
+    // Language Switcher Toggle Event (Switch between JA & VI)
+    if (langToggleBtn) {
+        langToggleBtn.addEventListener('click', toggleLanguage);
+    }
     
     // Add click handlers for individual candles
     document.querySelectorAll('.candle').forEach((candle, index) => {
@@ -166,19 +185,21 @@ function initializeEventListeners() {
     });
     
     // Gallery event listeners
-    prevPhotoBtn.addEventListener('click', previousPhoto);
-    nextPhotoBtn.addEventListener('click', nextPhoto);
-    closeGalleryBtn.addEventListener('click', closePhotoGallery);
+    if (prevPhotoBtn) prevPhotoBtn.addEventListener('click', previousPhoto);
+    if (nextPhotoBtn) nextPhotoBtn.addEventListener('click', nextPhoto);
+    if (closeGalleryBtn) closeGalleryBtn.addEventListener('click', closePhotoGallery);
     
     // Close gallery when clicking outside
-    photoGallery.addEventListener('click', (e) => {
-        if (e.target === photoGallery) {
-            closePhotoGallery();
-        }
-    });
+    if (photoGallery) {
+        photoGallery.addEventListener('click', (e) => {
+            if (e.target === photoGallery) {
+                closePhotoGallery();
+            }
+        });
+    }
     
     // Explosion gallery event listeners
-    closeExplosion.addEventListener('click', closeExplosionGallery);
+    if (closeExplosion) closeExplosion.addEventListener('click', closeExplosionGallery);
     
     // Add keyboard support
     document.addEventListener('keydown', handleKeyPress);
@@ -190,11 +211,133 @@ function initializeEventListeners() {
     updateMusicButtonState();
 }
 
+// ===== LANGUAGE SWITCHING SYSTEM =====
+function toggleLanguage() {
+    const newLang = currentLang === 'ja' ? 'vi' : 'ja';
+    switchLanguage(newLang);
+}
+
+function switchLanguage(lang) {
+    if (lang === currentLang) return;
+    
+    currentLang = lang;
+    if (typeof window.PersonalizationConfig !== 'undefined') {
+        window.PersonalizationConfig.setCurrentLanguage(lang);
+    }
+    
+    // Cập nhật cấu hình người nhận theo ngôn ngữ mới
+    initializePersonalization(lang);
+    
+    // Cập nhật toàn bộ giao diện
+    applyLanguage(lang, true);
+    
+    // Cập nhật URL query an toàn (chỉ khi không phải giao thức file://)
+    if (window.location && window.location.protocol !== 'file:' && window.location.origin !== 'null') {
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', lang);
+            window.history.replaceState({}, '', url.toString());
+        } catch (e) {
+            // Không log lỗi nếu môi trường sandbox chặn
+        }
+    }
+}
+
+function applyLanguage(lang, animated = false) {
+    if (typeof window.PersonalizationConfig === 'undefined') return;
+    const t = (key) => window.PersonalizationConfig.t(key, lang);
+    
+    // Cập nhật thuộc tính lang của HTML & Tiêu đề trang
+    document.documentElement.lang = lang;
+    document.title = t('pageTitle');
+    
+    // Cập nhật Language Toggle Button (Cờ & Tooltip)
+    if (currentLangFlag) {
+        currentLangFlag.textContent = lang === 'ja' ? '🇯🇵' : '🇻🇳';
+    }
+    if (langToggleBtn) {
+        langToggleBtn.title = lang === 'ja' 
+            ? 'Tiếng Việtに切り替え / Chuyển sang Tiếng Việt' 
+            : '日本語に切り替え / Chuyển sang 日本語';
+        if (animated) {
+            langToggleBtn.classList.add('switching');
+            setTimeout(() => langToggleBtn.classList.remove('switching'), 400);
+        }
+    }
+    
+    // Cập nhật Header
+    if (mainTitleLine1) mainTitleLine1.textContent = t('mainTitleLine1');
+    if (mainTitleLine2) mainTitleLine2.textContent = t('mainTitleLine2');
+    if (mainTitleLine3) mainTitleLine3.textContent = t('mainTitleLine3');
+    
+    // Cập nhật Subtitle Message
+    updateSubtitleMessage();
+    
+    // Cập nhật Blow Button & Instruction
+    if (blowText) {
+        if (candlesHaveBeenBlown || candlesBlownOut > 0) {
+            blowText.textContent = t('blowingButton');
+        } else {
+            blowText.textContent = t('blowButton');
+        }
+    }
+    if (blowInstruction) {
+        blowInstruction.textContent = t('blowInstruction');
+    }
+    
+    // Cập nhật Wishes Section
+    if (wishesTitle) {
+        wishesTitle.textContent = t('wishesTitle');
+    }
+    renderWishesList(lang);
+    
+    // Cập nhật Music Button
+    updateMusicButtonState();
+    
+    // Cập nhật Surprise Button & Section
+    const surpriseSection = document.querySelector('.surprise-section');
+    if (surpriseSection) {
+        surpriseSection.style.display = personalConfig.showSurprise === false ? 'none' : 'block';
+    }
+    const surpriseText = document.getElementById('surpriseText');
+    if (surpriseText) {
+        surpriseText.textContent = t('surpriseButton');
+    }
+    
+    // Cập nhật Explosion Gallery
+    if (explosionTitle) explosionTitle.textContent = t('explosionTitle');
+    if (explosionInstruction) explosionInstruction.textContent = t('explosionInstruction');
+    
+    // Cập nhật Gallery Display
+    updateGalleryDisplay();
+}
+
+function renderWishesList(lang) {
+    if (!wishesContainer || typeof window.PersonalizationConfig === 'undefined') return;
+    
+    const wishesList = window.PersonalizationConfig.t('wishes', lang);
+    if (!Array.isArray(wishesList) || wishesList.length === 0) return;
+    
+    wishesContainer.innerHTML = '';
+    wishesList.forEach((wishText, idx) => {
+        const p = document.createElement('p');
+        p.className = `wish ${idx === 0 ? 'active' : ''}`;
+        p.textContent = wishText;
+        wishesContainer.appendChild(p);
+    });
+    
+    wishIndex = 0;
+    initializeWishRotation();
+}
+
 // ===== CANDLE BLOWING FUNCTIONALITY =====
 function blowCandles() {
     // Check if candles have already been blown once
     if (candlesHaveBeenBlown) {
-        showMessage('🕯️ Nến đã được thổi rồi! Hãy tận hưởng khoảnh khắc này! 🎉');
+        const msg = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('alreadyBlownMessage', currentLang)
+            : '🕯️ ろうそくはもう吹き消されました！';
+        showMessage(msg);
         return;
     }
     
@@ -212,7 +355,10 @@ function blowCandles() {
     blowButton.disabled = true;
     blowButton.style.opacity = '0.6';
     blowButton.style.cursor = 'not-allowed';
-    blowButton.querySelector('.blow-text').textContent = '🌬️ Đang Thổi...';
+    const blowingText = typeof window.PersonalizationConfig !== 'undefined'
+        ? window.PersonalizationConfig.t('blowingButton', currentLang)
+        : '🌬️ 吹き消しています...';
+    if (blowText) blowText.textContent = blowingText;
     
     // Blow out all remaining candles
     document.querySelectorAll('.flame:not(.blown-out)').forEach((flame, index) => {
@@ -258,7 +404,10 @@ function blowSingleCandle(candleIndex) {
             blowButton.disabled = true;
             blowButton.style.opacity = '0.6';
             blowButton.style.cursor = 'not-allowed';
-            blowButton.querySelector('.blow-text').textContent = '🌬️ Đang Thổi...';
+            const blowingText = typeof window.PersonalizationConfig !== 'undefined'
+                ? window.PersonalizationConfig.t('blowingButton', currentLang)
+                : '🌬️ 吹き消しています...';
+            if (blowText) blowText.textContent = blowingText;
         }
         
         // Check if all candles are blown out
@@ -272,10 +421,12 @@ function blowSingleCandle(candleIndex) {
 }
 
 function celebrateAllCandlesBlown() {
-    // Show celebration message
-    showMessage('🎉 Chúc mừng! Tất cả ước mơ sẽ thành hiện thực! 🎉');
+    const allBlownMsg = typeof window.PersonalizationConfig !== 'undefined'
+        ? window.PersonalizationConfig.t('allBlownMessage', currentLang)
+        : '🎉 おめでとうございます！すべての願いが叶いますように！ 🎉';
+    showMessage(allBlownMsg);
     
-    // Play applause and cheering sounds instead of sparklers
+    // Play applause and cheering sounds
     playApplauseSound();
     playCheeringSound();
     
@@ -286,12 +437,18 @@ function celebrateAllCandlesBlown() {
     createFireworks();
     
     // Change wish to celebration
-    showSpecialWish('✨ Chúc mừng bạn đã thổi tắt tất cả nến! Mọi ước mơ đều sẽ thành hiện thực! ✨');
+    const specialWishMsg = typeof window.PersonalizationConfig !== 'undefined'
+        ? window.PersonalizationConfig.t('specialWish', currentLang)
+        : '✨ ろうそくを全部吹き消しましたね！素敵な夢がたくさん叶いますように！ ✨';
+    showSpecialWish(specialWishMsg);
     
     // Turn the lights back on after celebration
     setTimeout(() => {
         turnLightsOn();
-        showMessage('💡 Đèn đã được bật lại! Chúc mừng sinh nhật! 🎂');
+        const lightsOnMsg = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('lightsOnMessage', currentLang)
+            : '💡 明かりがつきました！ハッピーバースデー！ 🎂';
+        showMessage(lightsOnMsg);
     }, 3000);
 }
 
@@ -320,7 +477,6 @@ function createSmokeEffect(flame) {
         pointer-events: none;
     `;
     
-    // Add smoke animation
     if (!document.querySelector('#smoke-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'smoke-styles';
@@ -344,13 +500,14 @@ function createSmokeEffect(flame) {
 
 // ===== SURPRISE FUNCTIONALITY =====
 function triggerSurprise() {
-    surpriseButton.style.transform = 'scale(0.95)';
+    if (surpriseButton) {
+        surpriseButton.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            surpriseButton.style.transform = 'scale(1)';
+        }, 150);
+    }
     
-    setTimeout(() => {
-        surpriseButton.style.transform = 'scale(1)';
-    }, 150);
-    
-    // Open 3D explosion gallery instead of regular gallery
+    // Open 3D explosion gallery
     openExplosionGallery();
     
     // Multiple surprise effects
@@ -368,13 +525,13 @@ function triggerSurprise() {
 }
 
 function showSurpriseMessage() {
-    const messages = [
-        '🎊 Bất ngờ! Chúc bạn sinh nhật vui vẻ! 🎊',
-        '🎁 Món quà đặc biệt dành cho bạn! 🎁',
-        '🌟 Bạn thật tuyệt vời! Chúc mừng sinh nhật! 🌟',
-        '🎈 Hy vọng ngày hôm nay thật đặc biệt với bạn! 🎈',
-        '💝 Gửi bạn những lời chúc tốt đẹp nhất! 💝'
-    ];
+    const messages = typeof window.PersonalizationConfig !== 'undefined'
+        ? window.PersonalizationConfig.t('surpriseMessages', currentLang)
+        : [
+            '🎊 サプライズ！お誕生日おめでとうございます！ 🎊',
+            '🎁 あなたへの特別なプレゼント！ 🎁',
+            '🌟 あなたは本当に素晴らしい！ハッピーバースデー！ 🌟'
+        ];
     
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     showMessage(randomMessage);
@@ -389,7 +546,6 @@ function animateCake() {
             cake.style.animation = 'cakeJump 1s ease-out';
         }, 50);
         
-        // Add jump animation if it doesn't exist
         if (!document.querySelector('#cake-jump-styles')) {
             const styleSheet = document.createElement('style');
             styleSheet.id = 'cake-jump-styles';
@@ -415,7 +571,6 @@ function triggerBalloonDance() {
         }, 50);
     });
     
-    // Add balloon dance animation
     if (!document.querySelector('#balloon-dance-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'balloon-dance-styles';
@@ -430,8 +585,6 @@ function triggerBalloonDance() {
         document.head.appendChild(styleSheet);
     }
 }
-
-// ===== SPARKLER EFFECT REMOVED - REPLACED WITH APPLAUSE & CHEERING =====
 
 // ===== CONFETTI SYSTEM =====
 function createConfettiExplosion(count = 20) {
@@ -468,7 +621,6 @@ function createConfettiPiece(colors) {
         z-index: 1000;
     `;
     
-    // Add confetti animation if not exists
     if (!document.querySelector('#confetti-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'confetti-styles';
@@ -487,7 +639,11 @@ function createConfettiPiece(colors) {
         document.head.appendChild(styleSheet);
     }
     
-    confettiContainer.appendChild(confetti);
+    if (confettiContainer) {
+        confettiContainer.appendChild(confetti);
+    } else {
+        document.body.appendChild(confetti);
+    }
     
     setTimeout(() => {
         if (confetti.parentElement) {
@@ -538,7 +694,6 @@ function createFirework(colors) {
             z-index: 1000;
         `;
         
-        // Add firework animation if not exists
         if (!document.querySelector('#firework-styles')) {
             const styleSheet = document.createElement('style');
             styleSheet.id = 'firework-styles';
@@ -561,7 +716,11 @@ function createFirework(colors) {
             document.head.appendChild(styleSheet);
         }
         
-        fireworksContainer.appendChild(particle);
+        if (fireworksContainer) {
+            fireworksContainer.appendChild(particle);
+        } else {
+            document.body.appendChild(particle);
+        }
         
         setTimeout(() => {
             if (particle.parentElement) {
@@ -584,31 +743,26 @@ function startMusic() {
     musicPlaying = true;
     updateMusicButtonState();
     
-    // Play HTML5 audio
     if (birthdaySong) {
         birthdaySong.currentTime = 0;
         birthdaySong.play().catch(e => console.log('Audio play failed:', e));
     }
-    // Không phát Web Audio API nữa để tránh bị đè tiếng chuông
 }
 
 function stopMusic() {
     musicPlaying = false;
     updateMusicButtonState();
     
-    // Stop HTML5 audio
     if (birthdaySong) {
         birthdaySong.pause();
         birthdaySong.currentTime = 0;
     }
     
-    // Clear any scheduled melody
     if (currentMelodyTimeout) {
         clearTimeout(currentMelodyTimeout);
         currentMelodyTimeout = null;
     }
     
-    // Stop any playing audio context
     if (window.audioContext) {
         window.audioContext.close();
         window.audioContext = null;
@@ -617,148 +771,65 @@ function stopMusic() {
 
 function updateMusicButtonState() {
     if (musicIcon && musicText) {
+        const musicPauseText = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('musicPause', currentLang)
+            : '音楽 OFF';
+        const musicPlayText = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('musicPlay', currentLang)
+            : '音楽 ON';
+            
         if (musicPlaying) {
             musicIcon.textContent = '🎵';
-            musicText.textContent = 'Tắt Nhạc';
+            musicText.textContent = musicPauseText;
             if (musicToggle) musicToggle.style.background = 'rgba(255, 255, 255, 0.3)';
         } else {
             musicIcon.textContent = '🔇';
-            musicText.textContent = 'Bật Nhạc';
+            musicText.textContent = musicPlayText;
             if (musicToggle) musicToggle.style.background = 'rgba(255, 255, 255, 0.2)';
         }
     }
 }
 
-function playFullBirthdayMelody() {
-    try {
-        window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Full "Happy Birthday to You" melody - HIGHER PITCH VERSION (moved up one octave + 50%)
-        const melody = [
-            // "Happy birthday to you" (first line) - Higher and more cheerful
-            { note: 528, duration: 0.75 }, // C5 (was C4)
-            { note: 528, duration: 0.25 },
-            { note: 594, duration: 1 },    // D5 (was D4)
-            { note: 528, duration: 1 },    // C5 (was C4)
-            { note: 704, duration: 1 },    // F5 (was F4)
-            { note: 660, duration: 2 },    // E5 (was E4)
-            
-            // "Happy birthday to you" (second line)
-            { note: 528, duration: 0.75 },
-            { note: 528, duration: 0.25 },
-            { note: 594, duration: 1 },
-            { note: 528, duration: 1 },
-            { note: 792, duration: 1 },    // G5 (was G4)
-            { note: 704, duration: 2 },    // F5 (was F4)
-            
-            // "Happy birthday dear [name]" (third line)
-            { note: 528, duration: 0.75 },
-            { note: 528, duration: 0.25 },
-            { note: 1056, duration: 1 },   // C6 (was C5)
-            { note: 880, duration: 1 },    // A5 (was A4)
-            { note: 704, duration: 1 },    // F5 (was F4)
-            { note: 660, duration: 1 },    // E5 (was E4)
-            { note: 594, duration: 2 },    // D5 (was D4)
-            
-            // "Happy birthday to you" (final line)
-            { note: 932, duration: 0.75 }, // Bb5 (was Bb4)
-            { note: 932, duration: 0.25 },
-            { note: 880, duration: 1 },    // A5 (was A4)
-            { note: 704, duration: 1 },    // F5 (was F4)
-            { note: 792, duration: 1 },    // G5 (was G4)
-            { note: 704, duration: 3 },    // F5 (was F4)
-        ];
-        
-        let currentTime = window.audioContext.currentTime;
-        
-        melody.forEach((note) => {
-            if (musicPlaying) {
-                playNote(note.note, currentTime, note.duration * 0.5); // Also made faster tempo
-                currentTime += note.duration * 0.5;
-            }
-        });
-        
-        // Loop the melody after a shorter pause for more lively feel
-        if (musicPlaying) {
-            const totalDuration = melody.reduce((sum, note) => sum + note.duration * 0.5, 0);
-            currentMelodyTimeout = setTimeout(() => {
-                if (musicPlaying) playFullBirthdayMelody();
-            }, (totalDuration + 1.5) * 1000);
-        }
-    } catch (error) {
-        console.log('Web Audio API not supported in this browser');
-    }
-}
-
-function playNote(frequency, startTime, duration) {
-    if (!window.audioContext) return;
-    
-    // Main oscillator with brighter tone
-    const oscillator = window.audioContext.createOscillator();
-    const gainNode = window.audioContext.createGain();
-    
-    // Add a second oscillator for harmonics (makes it more cheerful)
-    const harmonic = window.audioContext.createOscillator();
-    const harmonicGain = window.audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    harmonic.connect(harmonicGain);
-    gainNode.connect(window.audioContext.destination);
-    harmonicGain.connect(window.audioContext.destination);
-    
-    // Main note
-    oscillator.frequency.setValueAtTime(frequency, startTime);
-    oscillator.type = 'triangle'; // Brighter than sine
-    
-    // Harmonic at 5th (adds brightness and cheerfulness)
-    harmonic.frequency.setValueAtTime(frequency * 1.5, startTime);
-    harmonic.type = 'sine';
-    
-    // Main note volume
-    gainNode.gain.setValueAtTime(0, startTime);
-    gainNode.gain.linearRampToValueAtTime(0.9, startTime + 0.1); // 0.12 * 6
-    gainNode.gain.exponentialRampToValueAtTime(0.3, startTime + duration); // 0.01 * 6
-    
-    // Harmonic volume (softer)
-    harmonicGain.gain.setValueAtTime(0, startTime);
-    harmonicGain.gain.linearRampToValueAtTime(0.9, startTime + 0.1); // 0.04 * 6
-    harmonicGain.gain.exponentialRampToValueAtTime(0.03, startTime + duration); // 0.001 * 6
-    
-    oscillator.start(startTime);
-    oscillator.stop(startTime + duration);
-    harmonic.start(startTime);
-    harmonic.stop(startTime + duration);
-}
-
 // ===== SOUND EFFECTS =====
 function playBlowSoundEffect() {
-    // Use HTML5 audio element if available
     if (blowSound) {
-        blowSound.volume = 0.5; // Giảm volume xuống 50%
+        blowSound.volume = 0.5;
         blowSound.currentTime = 0;
-        blowSound.play().catch(e => console.log('Blow sound failed:', e));
+        blowSound.play().catch(e => console.log('Blow sound audio element failed:', e));
     }
     
-    // Fallback to Web Audio API
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
+        const bufferSize = Math.floor(audioContext.sampleRate * 0.5); // 0.5 giây tiếng thổi
+        const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+        const output = buffer.getChannelData(0);
         
-        oscillator.connect(gainNode);
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = (Math.random() * 2 - 1) * 0.5;
+        }
+        
+        const noise = audioContext.createBufferSource();
+        noise.buffer = buffer;
+        
+        // Lowpass filter tạo hiệu ứng tiếng phù / thổi hơi nhẹ nhàng
+        const filter = audioContext.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(500, audioContext.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.5);
+        
+        const gainNode = audioContext.createGain();
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.08);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        
+        noise.connect(filter);
+        filter.connect(gainNode);
         gainNode.connect(audioContext.destination);
         
-        oscillator.type = 'white';
-        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-        
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1); // Giảm 50%: 0.6 -> 0.3
-    gainNode.gain.exponentialRampToValueAtTime(0.03, audioContext.currentTime + 0.5); // Giảm 50%: 0.06 -> 0.03
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        noise.start(audioContext.currentTime);
+        noise.stop(audioContext.currentTime + 0.5);
     } catch (error) {
-        console.log('Audio not supported');
+        console.log('Audio Context error in playBlowSoundEffect:', error);
     }
 }
 
@@ -766,7 +837,6 @@ function playApplauseSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Create realistic applause sound using filtered noise
         for (let i = 0; i < 30; i++) {
             setTimeout(() => {
                 const bufferSize = audioContext.sampleRate * 0.15;
@@ -786,8 +856,8 @@ function playApplauseSound() {
                 bandpass.Q.value = 2;
                 
                 const gainNode = audioContext.createGain();
-                gainNode.gain.setValueAtTime(0.18, audioContext.currentTime); // 0.03 * 6
-                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.15); // 0.001 * 6
+                gainNode.gain.setValueAtTime(0.18, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.15);
                 
                 whiteNoise.connect(bandpass);
                 bandpass.connect(gainNode);
@@ -805,8 +875,6 @@ function playApplauseSound() {
 function playCheeringSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        // Create cheering "Yay!" sounds with varying pitches
         const cheerPitches = [400, 500, 600, 700, 800];
         
         for (let i = 0; i < 8; i++) {
@@ -817,15 +885,14 @@ function playCheeringSound() {
                 oscillator.connect(gainNode);
                 gainNode.connect(audioContext.destination);
                 
-                // Random pitch for variety
                 const pitch = cheerPitches[Math.floor(Math.random() * cheerPitches.length)];
                 oscillator.frequency.setValueAtTime(pitch, audioContext.currentTime);
                 oscillator.frequency.exponentialRampToValueAtTime(pitch * 1.5, audioContext.currentTime + 0.3);
                 oscillator.type = 'triangle';
                 
                 gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.48, audioContext.currentTime + 0.05); // 0.08 * 6
-                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.4); // 0.001 * 6
+                gainNode.gain.linearRampToValueAtTime(0.48, audioContext.currentTime + 0.05);
+                gainNode.gain.exponentialRampToValueAtTime(0.006, audioContext.currentTime + 0.4);
                 
                 oscillator.start(audioContext.currentTime);
                 oscillator.stop(audioContext.currentTime + 0.4);
@@ -840,7 +907,6 @@ function playExplosionSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
-        // Create dramatic explosion sound effect
         for (let i = 0; i < 5; i++) {
             setTimeout(() => {
                 // Bass explosion
@@ -888,7 +954,7 @@ function playExplosionSound() {
 // ===== PHOTO GALLERY SYSTEM =====
 function initializeGallery() {
     if (totalPhotosSpan) {
-        totalPhotosSpan.textContent = photoData.length;
+        totalPhotosSpan.textContent = photoData.length || 0;
     }
     updateGalleryDisplay();
 }
@@ -908,28 +974,36 @@ function closePhotoGallery() {
 }
 
 function updateGalleryDisplay() {
-    const photo = photoData[currentPhotoIndex];
+    if (!photoData || photoData.length === 0) return;
     
-    if (galleryImage) galleryImage.src = photo.src;
-    if (galleryImage) galleryImage.alt = photo.title;
+    const photo = photoData[currentPhotoIndex] || photoData[0];
+    if (!photo) return;
+    
+    if (galleryImage) {
+        galleryImage.src = photo.src;
+        galleryImage.alt = photo.title;
+    }
     if (photoTitle) photoTitle.textContent = photo.title;
     if (photoDescription) photoDescription.textContent = photo.description;
     if (currentPhotoNum) currentPhotoNum.textContent = currentPhotoIndex + 1;
+    if (totalPhotosSpan) totalPhotosSpan.textContent = photoData.length;
     
     // Update progress bar
-    if (progressFill) {
+    if (progressFill && photoData.length > 0) {
         const progressPercent = ((currentPhotoIndex + 1) / photoData.length) * 100;
         progressFill.style.width = progressPercent + '%';
     }
 }
 
 function nextPhoto() {
+    if (!photoData || photoData.length === 0) return;
     currentPhotoIndex = (currentPhotoIndex + 1) % photoData.length;
     updateGalleryDisplay();
     resetAutoSlideTimer();
 }
 
 function previousPhoto() {
+    if (!photoData || photoData.length === 0) return;
     currentPhotoIndex = (currentPhotoIndex - 1 + photoData.length) % photoData.length;
     updateGalleryDisplay();
     resetAutoSlideTimer();
@@ -938,7 +1012,7 @@ function previousPhoto() {
 function startGalleryAutoSlide() {
     galleryAutoSlideTimeout = setInterval(() => {
         nextPhoto();
-    }, 2500); // Auto slide every 2.5 seconds
+    }, 2500);
 }
 
 function stopGalleryAutoSlide() {
@@ -958,7 +1032,6 @@ function openExplosionGallery() {
     if (explosionGallery) {
         explosionGallery.classList.add('active');
         createExplosionImages();
-        // Play special explosion sound
         playExplosionSound();
     }
 }
@@ -966,21 +1039,20 @@ function openExplosionGallery() {
 function closeExplosionGallery() {
     if (explosionGallery) {
         explosionGallery.classList.remove('active');
-        // Clear all explosion images
         const explosionImages = explosionGallery.querySelectorAll('.explosion-image');
         explosionImages.forEach(img => img.remove());
     }
 }
 
 function createExplosionImages() {
+    if (!photoData || photoData.length === 0) return;
+    
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     
-    // Responsive radius calculation
     const isMobile = window.innerWidth <= 480;
     const isTablet = window.innerWidth <= 768;
     
-    // Giảm bán kính để ảnh không bay ra ngoài khung trên desktop/tablet
     const baseRadius = isMobile ? 150 : isTablet ? 140 : 180;
     const radiusVariation = isMobile ? 50 : isTablet ? 40 : 60;
     
@@ -989,33 +1061,28 @@ function createExplosionImages() {
             const explosionImg = document.createElement('div');
             explosionImg.className = 'explosion-image animate';
             
-            // Calculate position in a circle around center
             const angle = (index / photoData.length) * Math.PI * 2;
             const radius = baseRadius + Math.random() * radiusVariation;
-            const orbitRadius = radius * 0.3; // Smaller orbit for rotation
+            const orbitRadius = radius * 0.3;
             
             const imgWidth = isMobile ? 150 : 200;
             const imgHeight = isMobile ? 112 : 150;
             
-            const finalX = centerX + Math.cos(angle) * radius - imgWidth/2;
-            const finalY = centerY + Math.sin(angle) * radius - imgHeight/2;
+            const finalX = centerX + Math.cos(angle) * radius - imgWidth / 2;
+            const finalY = centerY + Math.sin(angle) * radius - imgHeight / 2;
             
-            // Orbit calculation for rotation animation
             const orbitX = Math.cos(angle) * orbitRadius;
             const orbitY = Math.sin(angle) * orbitRadius;
             
-            // Random rotation for 3D effect
             const rotateX = Math.random() * 60 - 30;
             const rotateY = Math.random() * 60 - 30;
             const rotateZ = Math.random() * 30 - 15;
             
             explosionImg.innerHTML = `<img src="${photo.src}" alt="${photo.title}">`;
             
-            // Set initial position at center
-            explosionImg.style.left = centerX - imgWidth/2 + 'px';
-            explosionImg.style.top = centerY - imgHeight/2 + 'px';
+            explosionImg.style.left = centerX - imgWidth / 2 + 'px';
+            explosionImg.style.top = centerY - imgHeight / 2 + 'px';
             
-            // Set CSS variables for animation
             explosionImg.style.setProperty('--final-x', finalX + 'px');
             explosionImg.style.setProperty('--final-y', finalY + 'px');
             explosionImg.style.setProperty('--orbit-x', orbitX + 'px');
@@ -1024,7 +1091,6 @@ function createExplosionImages() {
             explosionImg.style.setProperty('--rotate-y', rotateY + 'deg');
             explosionImg.style.setProperty('--rotate-z', rotateZ + 'deg');
             
-            // Add click handler to open regular gallery
             explosionImg.addEventListener('click', () => {
                 currentPhotoIndex = index;
                 closeExplosionGallery();
@@ -1035,34 +1101,37 @@ function createExplosionImages() {
             
             explosionGallery.appendChild(explosionImg);
             
-            // Animate to final position
             setTimeout(() => {
                 explosionImg.style.left = explosionImg.style.getPropertyValue('--final-x');
                 explosionImg.style.top = explosionImg.style.getPropertyValue('--final-y');
-                // Initial transform will be handled by CSS animation
             }, 50);
             
-        }, index * 150); // Stagger the animations
+        }, index * 150);
     });
 }
 
 // ===== WISH ROTATION =====
 function initializeWishRotation() {
-    const wishes = document.querySelectorAll('.wish');
+    if (wishRotationInterval) {
+        clearInterval(wishRotationInterval);
+        wishRotationInterval = null;
+    }
     
+    const wishes = document.querySelectorAll('.wish');
     if (wishes.length > 0) {
-        setInterval(() => {
-            wishes[wishIndex].classList.remove('active');
-            wishIndex = (wishIndex + 1) % wishes.length;
-            wishes[wishIndex].classList.add('active');
+        wishRotationInterval = setInterval(() => {
+            const currentWishes = document.querySelectorAll('.wish');
+            if (currentWishes.length === 0) return;
+            
+            currentWishes[wishIndex % currentWishes.length].classList.remove('active');
+            wishIndex = (wishIndex + 1) % currentWishes.length;
+            currentWishes[wishIndex].classList.add('active');
         }, 3000);
     }
 }
 
 function showSpecialWish(message) {
-    const wishesContainer = document.querySelector('.wishes-container');
     const currentWish = document.querySelector('.wish.active');
-    
     if (currentWish) {
         currentWish.textContent = message;
         currentWish.style.animation = 'none';
@@ -1072,9 +1141,8 @@ function showSpecialWish(message) {
     }
 }
 
-// ===== MESSAGE SYSTEM =====
+// ===== MESSAGE SYSTEM (TOAST) =====
 function showMessage(message) {
-    // Remove existing message
     const existingMessage = document.querySelector('.floating-message');
     if (existingMessage) {
         existingMessage.remove();
@@ -1091,18 +1159,19 @@ function showMessage(message) {
         transform: translateX(-50%);
         background: rgba(255, 255, 255, 0.95);
         color: #333;
-        padding: 15px 30px;
+        padding: 14px 28px;
         border-radius: 25px;
         font-weight: 600;
-        font-size: 1.1rem;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        font-size: 1.05rem;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
         z-index: 10000;
         animation: messageSlideIn 0.5s ease-out;
         backdrop-filter: blur(10px);
-        border: 2px solid rgba(255, 215, 0, 0.5);
+        border: 2px solid rgba(255, 215, 0, 0.6);
+        max-width: 90%;
+        text-align: center;
     `;
     
-    // Add message animation
     if (!document.querySelector('#message-styles')) {
         const styleSheet = document.createElement('style');
         styleSheet.id = 'message-styles';
@@ -1128,12 +1197,11 @@ function showMessage(message) {
                 messageDiv.parentElement.removeChild(messageDiv);
             }
         }, 500);
-    }, 3000);
+    }, 3200);
 }
 
 // ===== KEYBOARD SUPPORT =====
 function handleKeyPress(event) {
-    // Explosion gallery navigation
     if (explosionGallery && explosionGallery.classList.contains('active')) {
         switch(event.key) {
             case 'Escape':
@@ -1144,7 +1212,6 @@ function handleKeyPress(event) {
         return;
     }
     
-    // Gallery navigation when gallery is open
     if (photoGallery && photoGallery.classList.contains('active')) {
         switch(event.key) {
             case 'ArrowLeft':
@@ -1163,7 +1230,6 @@ function handleKeyPress(event) {
         return;
     }
     
-    // General navigation
     switch(event.key) {
         case ' ':
         case 'Enter':
@@ -1190,10 +1256,7 @@ function handleKeyPress(event) {
 
 // ===== BACKGROUND ANIMATIONS =====
 function createBackgroundAnimations() {
-    // Add floating particles
     setInterval(createFloatingParticle, 2000);
-    
-    // Add random sparkles
     setInterval(createSparkle, 1500);
 }
 
@@ -1273,7 +1336,10 @@ function createSparkle() {
 // ===== INTRO ANIMATION =====
 function playIntroAnimation() {
     setTimeout(() => {
-        showMessage('🎂 Chào mừng đến với bữa tiệc sinh nhật! 🎂');
+        const welcomeMsg = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('welcomeMessage', currentLang)
+            : '🎂 お誕生日パーティーへようこそ！ 🎂';
+        showMessage(welcomeMsg);
     }, 1000);
     
     setTimeout(() => {
@@ -1290,8 +1356,10 @@ if ('ontouchstart' in window) {
         }
     });
     
-    // Add mobile-specific instructions
     setTimeout(() => {
-        showMessage('📱Chạm Thổi nến để thổi bùng lên điều ước của bạn!');
+        const mobileInstruction = typeof window.PersonalizationConfig !== 'undefined'
+            ? window.PersonalizationConfig.t('mobileInstruction', currentLang)
+            : '📱画面をタップして、素敵な願いを込めましょう！';
+        showMessage(mobileInstruction);
     }, 5000);
 }

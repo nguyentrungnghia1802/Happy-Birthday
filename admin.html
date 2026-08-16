@@ -192,7 +192,8 @@ nguyenvana: {
                 personDiv.className = 'person-card';
 
                 const baseURL = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
-                const personURL = key === 'default' ? baseURL : `${baseURL}?person=${key}`;
+                const jaURL = key === 'default' ? baseURL : `${baseURL}?person=${key}&lang=ja`;
+                const viURL = key === 'default' ? `${baseURL}?lang=vi` : `${baseURL}?person=${key}&lang=vi`;
 
                 personDiv.innerHTML = `
                     <div class="person-info">
@@ -203,11 +204,18 @@ nguyenvana: {
                         <div class="person-details">
                             Theme: ${person.themeColor} | Folder: ${person.folder} | Photos: ${person.photoCount}
                         </div>
-                        <div class="url-display">${personURL}</div>
+                        <div class="url-display">🇯🇵 JA: ${jaURL}</div>
+                        <div class="url-display">🇻🇳 VI: ${viURL}</div>
                     </div>
-                    <div class="action-buttons">
-                        <a href="${personURL}" target="_blank" class="btn btn-preview">👁️ Preview</a>
-                        <button class="btn btn-copy" onclick="copyToClipboard('${personURL}')">📋 Copy</button>
+                    <div class="action-buttons" style="display: flex; flex-direction: column; gap: 6px;">
+                        <div style="display: flex; gap: 5px;">
+                            <a href="${jaURL}" target="_blank" class="btn btn-preview" style="padding: 6px 10px; font-size: 0.85rem;">🇯🇵 JA</a>
+                            <button class="btn btn-copy" style="padding: 6px 10px; font-size: 0.85rem;" onclick="copyToClipboard('${jaURL}')">📋 Copy JA</button>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <a href="${viURL}" target="_blank" class="btn btn-preview" style="padding: 6px 10px; font-size: 0.85rem;">🇻🇳 VI</a>
+                            <button class="btn btn-copy" style="padding: 6px 10px; font-size: 0.85rem;" onclick="copyToClipboard('${viURL}')">📋 Copy VI</button>
+                        </div>
                     </div>
                 `;
 

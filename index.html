@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎉 Chúc Mừng Sinh Nhật! 🎂</title>
+    <title>🎉 お誕生日おめでとうございます！ 🎂</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
+
 <body>
+    <!-- Language Switcher (Minimalist Single Flag Toggle) -->
+    <div class="language-switcher-container" id="langSwitcherContainer">
+        <button class="lang-toggle-btn" id="langToggleBtn" title="Chuyển đổi ngôn ngữ (Tiếng Việt / 日本語)" aria-label="Toggle Language">
+            <span class="lang-flag" id="currentLangFlag">🇯🇵</span>
+        </button>
+    </div>
+
     <!-- Background Elements -->
     <div class="stars"></div>
     <div class="balloons">
@@ -24,11 +35,11 @@
         <!-- Header -->
         <header class="header">
             <h1 class="main-title">
-                <span class="title-line">🎉 Chúc Mừng</span>
-                <span class="title-line rainbow-text">Sinh Nhật</span>
-                <span class="title-line">🎂</span>
+                <span class="title-line" id="mainTitleLine1">🎉 お誕生日</span>
+                <span class="title-line rainbow-text" id="mainTitleLine2">おめでとうございます</span>
+                <span class="title-line" id="mainTitleLine3">🎂</span>
             </h1>
-            <p class="subtitle">Chúc <span id="birthdayName" class="highlight-name"></span> một ngày sinh nhật thật tuyệt vời!</p>
+            <p class="subtitle" id="subtitleMessage"><span id="birthdayName" class="highlight-name"></span>さん、心よりお誕生日をお祝い申し上げます！</p>
         </header>
 
         <!-- Birthday Cake Section -->
@@ -43,15 +54,15 @@
                             <div class="strawberry">🍓</div>
                         </div>
                     </div>
-                    
+
                     <!-- Middle Layer -->
                     <div class="cake-layer cake-middle">
                         <div class="cake-cream"></div>
                     </div>
-                    
+
                     <!-- Bottom Layer -->
                     <div class="cake-layer cake-bottom"></div>
-                    
+
                     <!-- Cake Base/Plate -->
                     <div class="cake-plate"></div>
                 </div>
@@ -84,23 +95,23 @@
             <!-- Blow Button -->
             <div class="blow-section">
                 <button id="blowButton" class="blow-button">
-                    <span class="blow-text">🌬️ Thổi Nến</span>
+                    <span class="blow-text" id="blowText">🌬️ ろうそくを吹き消す</span>
                     <div class="blow-effect"></div>
                 </button>
-                <p class="blow-instruction">Nhấp vào từng ngọn nến hoặc nút bên trên để thổi tắt!</p>
+                <p class="blow-instruction" id="blowInstruction">ろうそくをタップするか、上のボタンを押して吹き消してくださいね！</p>
             </div>
         </div>
 
         <!-- Wishes Section -->
         <div class="wishes-section">
             <div class="wish-card">
-                <h2>💝 Lời Chúc Sinh Nhật</h2>
-                <div class="wishes-container">
-                    <p class="wish active">🌟 Chúc bạn luôn khỏe mạnh và hạnh phúc!</p>
-                    <p class="wish">🎈 Mong tất cả ước mơ của bạn đều thành hiện thực!</p>
-                    <p class="wish">🌺 Chúc năm tuổi mới đầy niềm vui và thành công!</p>
-                    <p class="wish">🎁 Sinh nhật vui vẻ và nhiều điều tuyệt vời nhé!</p>
-                    <p class="wish">✨ Chúc bạn ngày càng tươi vui và rực rỡ!</p>
+                <h2 id="wishesTitle">💝 お祝いメッセージ</h2>
+                <div class="wishes-container" id="wishesContainer">
+                    <p class="wish active">🌟 いつも温かいご指導とサポートをありがとうございます！健康で幸せな日々をお過ごしください。</p>
+                    <p class="wish">🎈 この新しい一年が、さらなる飛躍と実り多き素晴らしい年になりますようお祈り申し上げます！</p>
+                    <p class="wish">🌺 いつも笑顔と活力をいただき心より感謝しております。幸多き最高の一年になりますように！</p>
+                    <p class="wish">🎁 これまでのご活躍に敬意を表すとともに、今後のますますのご健勝とご多幸をお祈りいたします。</p>
+                    <p class="wish">✨ 充実した笑顔あふれる素晴らしい一年となりますよう、心よりお祈り申し上げます！</p>
                 </div>
             </div>
         </div>
@@ -108,7 +119,7 @@
         <!-- Surprise Button -->
         <div class="surprise-section">
             <button id="surpriseButton" class="surprise-button">
-                <span>🎊 Bất Ngờ Đặc Biệt</span>
+                <span id="surpriseText">🎊 特別なサプライズ 🎁</span>
             </button>
         </div>
 
@@ -116,7 +127,7 @@
         <div class="music-control">
             <button id="musicToggle" class="music-button">
                 <span id="musicIcon">🎵</span>
-                <span id="musicText">Bật Nhạc</span>
+                <span id="musicText">音楽 ON</span>
             </button>
         </div>
     </div>
@@ -134,9 +145,9 @@
 
     <!-- 3D Explosion Gallery -->
     <div id="explosionGallery" class="explosion-gallery">
-        <div class="explosion-title">🎊 Kỷ Niệm Đặc Biệt 🎊</div>
+        <div class="explosion-title" id="explosionTitle">🎊 大切な思い出 🎊</div>
         <button class="explosion-close" id="closeExplosion">✕</button>
-        <div class="explosion-instruction">👆 Chạm vào ảnh để xem từng kỷ niệm</div>
+        <div class="explosion-instruction" id="explosionInstruction">👆 写真をタップすると思い出をご覧いただけます</div>
     </div>
 
     <!-- Photo Gallery Modal -->
@@ -151,16 +162,16 @@
                         <span>•</span><span>•</span><span>•</span><span>•</span><span>•</span>
                     </div>
                 </div>
-                
+
                 <!-- Photo Display Area -->
                 <div class="photo-display">
                     <img id="galleryImage" src="" alt="Birthday Memory" />
                     <div class="photo-overlay">
-                        <h3 id="photoTitle">Kỷ Niệm Sinh Nhật</h3>
-                        <p id="photoDescription">Những khoảnh khắc đáng nhớ</p>
+                        <h3 id="photoTitle">誕生日の素敵な思い出</h3>
+                        <p id="photoDescription">心に残る大切なひととき</p>
                     </div>
                 </div>
-                
+
                 <!-- Navigation Buttons -->
                 <button class="gallery-nav prev-btn" id="prevPhoto">
                     <span>‹</span>
@@ -168,16 +179,17 @@
                 <button class="gallery-nav next-btn" id="nextPhoto">
                     <span>›</span>
                 </button>
-                
+
                 <!-- Progress Indicator -->
                 <div class="gallery-progress">
                     <div class="progress-bar">
                         <div class="progress-fill"></div>
                     </div>
-                    <span class="progress-text"><span id="currentPhotoNum">1</span> / <span id="totalPhotos">5</span></span>
+                    <span class="progress-text"><span id="currentPhotoNum">1</span> / <span
+                            id="totalPhotos">5</span></span>
                 </div>
             </div>
-            
+
             <!-- Close Button -->
             <button class="gallery-close" id="closeGallery">
                 <span>✕</span>
@@ -188,7 +200,6 @@
     <!-- Audio Elements -->
     <audio id="birthdaySong" loop preload="auto" src="res\aud\happy-birthday-bg-aud.mp3">
         <!-- Happy Birthday melody - sẽ được tạo bởi Web Audio API -->
-        <!-- Spotify không thể được nhúng trực tiếp vào audio element do bảo vệ bản quyền -->
     </audio>
 
     <!-- Lighting Overlay -->
@@ -202,4 +213,5 @@
     <script src="config.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
