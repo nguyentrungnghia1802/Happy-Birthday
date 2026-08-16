@@ -1222,7 +1222,7 @@ function playIntroAnimation() {
     setTimeout(() => {
         const welcomeMsg = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('welcomeMessage', currentLang)
-            : (currentLang === 'vi' ? '🎂 Chào mừng đến với bữa tiệc sinh nhật! 🎂' : '🎂 お誕生日パーティーへようこそ！ 🎂');
+            : (currentLang === 'vi' ? '🎂 Thổi tắt từng cây nến để ước các điều ước 🎂' : '🎂 ろうそくを1本ずつ吹き消して、願いを込めてくださいね！ 🎂');
         showMessage(welcomeMsg);
     }, 1000);
 
@@ -1236,7 +1236,7 @@ if ('ontouchstart' in window) {
     setTimeout(() => {
         const mobileInstruction = typeof window.PersonalizationConfig !== 'undefined'
             ? window.PersonalizationConfig.t('mobileInstruction', currentLang)
-            : (currentLang === 'vi' ? '📱 Thổi từng ngọn nến để ước các điều ước' : '📱 ろうそくを1本ずつ吹き消して、願いを込めましょう！');
+            : (currentLang === 'vi' ? '📱 Thổi tắt từng cây nến để ước các điều ước' : '📱 ろうそくを1本ずつ吹き消して、願いを込めてくださいね！');
         showMessage(mobileInstruction);
     }, 4500);
 }
