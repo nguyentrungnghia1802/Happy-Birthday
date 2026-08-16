@@ -110,6 +110,8 @@ const PERSON_CONFIGS = {
       vi: "Chúc {name} một ngày sinh nhật thật tuyệt vời!"
     },
     themeColor: "#ffd700",
+    showSurprise: true,
+
   },
   phuongthao: {
     name: "Chị Phương Thảo",
@@ -143,7 +145,7 @@ const PERSON_CONFIGS = {
       ja: "{name}、心よりお誕生日をお祝い申し上げます！いつも温かいご指導とサポートをありがとうございます。",
       vi: "Kính chúc {name} một ngày sinh nhật thật tuyệt vời, nhiều sức khỏe và hạnh phúc!"
     },
-    themeColor: "#ffd700",
+    themeColor: "#2579f7ff",
     showSurprise: false,
   },
 };

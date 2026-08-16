@@ -95,8 +95,10 @@ function updateSubtitleMessage() {
 }
 
 function applyThemeColor(color) {
+    if (!color) return;
+    const cleanColor = color.trim();
     const root = document.documentElement;
-    root.style.setProperty('--theme-color', color);
+    root.style.setProperty('--theme-color', cleanColor);
     
     const oldStyle = document.getElementById('dynamic-theme-style');
     if (oldStyle) oldStyle.remove();
@@ -105,15 +107,19 @@ function applyThemeColor(color) {
     style.id = 'dynamic-theme-style';
     style.textContent = `
         .highlight-name {
-            color: ${color} !important;
+            color: ${cleanColor} !important;
+            -webkit-text-fill-color: ${cleanColor} !important;
+            background: none !important;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7) !important;
+            filter: none !important;
         }
         .explosion-image {
-            border-color: ${color} !important;
-            box-shadow: 0 10px 30px ${color}66 !important;
+            border-color: ${cleanColor} !important;
+            box-shadow: 0 10px 30px ${cleanColor}66 !important;
         }
         .explosion-close {
-            border-color: ${color} !important;
-            color: ${color} !important;
+            border-color: ${cleanColor} !important;
+            color: ${cleanColor} !important;
         }
     `;
     document.head.appendChild(style);
