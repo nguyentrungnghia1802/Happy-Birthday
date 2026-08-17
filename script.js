@@ -87,6 +87,9 @@ function initializePersonalization(lang) {
         if (personalConfig.themeColor) {
             applyThemeColor(personalConfig.themeColor);
         }
+
+        // Tải trước và giải mã ảnh trước vào bộ nhớ GPU để không bị gián đoạn/lag khi bấm Bất Ngờ Đặc Biệt
+        preloadPhotos();
     } else {
         console.warn('PersonalizationConfig not found, using default values');
         photoData = [
@@ -97,6 +100,20 @@ function initializePersonalization(lang) {
             }
         ];
     }
+}
+
+function preloadPhotos() {
+    if (!photoData || photoData.length === 0) return;
+    photoData.forEach(photo => {
+        if (photo.src) {
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = photo.src;
+            if (img.decode) {
+                img.decode().catch(() => {});
+            }
+        }
+    });
 }
 
 function updateSubtitleMessage() {
@@ -590,7 +607,8 @@ function createConfettiPiece(colors) {
         height: 10px;
         background-color: ${color};
         border-radius: 50%;
-        transform: rotate(${rotation}deg) scale(${scale});
+        transform: rotate(${rotation}deg) scale(${scale}) translateZ(0);
+        will-change: transform, opacity;
         animation: confetti-fall ${2 + Math.random() * 2}s linear forwards;
         animation-delay: ${Math.random() * 0.5}s;
         pointer-events: none;
@@ -639,15 +657,16 @@ function createFirework(colors) {
 
         particle.style.cssText = `
             position: fixed;
-            left: ${x}px;
-            top: ${y}px;
+            left: ${x + deltaX}px;
+            top: ${y + deltaY}px;
             width: 4px;
             height: 4px;
             background-color: ${color};
             border-radius: 50%;
             animation: firework-explosion 1s ease-out forwards;
-            transform: translate(${deltaX}px, ${deltaY}px);
             box-shadow: 0 0 10px ${color};
+            will-change: transform, opacity;
+            transform: translateZ(0);
             pointer-events: none;
             z-index: 1000;
         `;
@@ -1039,9 +1058,9 @@ function createCarousel3D() {
         card.dataset.index = index;
 
         const cardAngle = index * angleStep;
-        card.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px)`;
+        card.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px) translateZ(0)`;
 
-        card.innerHTML = `<img src="${photo.src}" alt="${photo.title || ''}" loading="lazy">`;
+        card.innerHTML = `<img src="${photo.src}" alt="${photo.title || ''}" decoding="async" loading="eager">`;
 
         card.addEventListener('click', (e) => {
             if (carouselDragMoved) return;
@@ -1086,23 +1105,24 @@ function setupCarouselInteractions() {
         }
     });
 
-    // Touch swipe interactions (Mobile/Tablet)
+    // Touch swipe interactions (Mobile/Tablet) - Phản hồi cảm ứng 0ms không bị giật lag
     carouselStage.addEventListener('touchstart', (e) => {
         if (!e.touches || e.touches.length === 0) return;
         carouselIsDragging = true;
         carouselDragStartX = e.touches[0].clientX;
         carouselDragStartRotation = carouselTargetRotation;
         carouselDragMoved = false;
-    }, { passive: true });
+    }, { passive: false });
 
     carouselStage.addEventListener('touchmove', (e) => {
         if (!carouselIsDragging || !e.touches || e.touches.length === 0) return;
+        if (e.cancelable) e.preventDefault();
         const dx = e.touches[0].clientX - carouselDragStartX;
-        if (Math.abs(dx) > 5) {
+        if (Math.abs(dx) > 4) {
             carouselDragMoved = true;
         }
         carouselTargetRotation = carouselDragStartRotation + dx * 0.55;
-    }, { passive: true });
+    }, { passive: false });
 
     carouselStage.addEventListener('touchend', () => {
         carouselIsDragging = false;
@@ -1111,7 +1131,7 @@ function setupCarouselInteractions() {
         }, 60);
     });
 
-    // Hover pause
+    // Hover pause (Desktop only)
     carouselStage.addEventListener('mouseenter', () => {
         carouselIsHovered = true;
     });
@@ -1132,7 +1152,9 @@ function startCarousel3D() {
         cancelAnimationFrame(carouselAnimationFrame);
     }
 
-    function renderLoop() {
+    let lastTime = performance.now();
+
+    function renderLoop(currentTime) {
         if (!explosionGallery || !explosionGallery.classList.contains('active')) {
             return;
         }
@@ -1140,16 +1162,23 @@ function startCarousel3D() {
         const isPhotoZoomed = photoGallery && photoGallery.classList.contains('active');
 
         if (!isPhotoZoomed) {
-            if (!carouselIsDragging) {
-                if (!carouselIsHovered) {
-                    carouselTargetRotation += carouselAutoSpinSpeed;
+            const deltaTime = Math.min((currentTime - lastTime) / 16.67, 2.0);
+            lastTime = currentTime;
+
+            if (!carouselIsDragging && !carouselIsHovered) {
+                carouselTargetRotation += carouselAutoSpinSpeed * (deltaTime || 1);
+            }
+            
+            // Smooth interpolation
+            const diff = carouselTargetRotation - carouselCurrentRotation;
+            if (Math.abs(diff) > 0.001) {
+                carouselCurrentRotation += diff * 0.12;
+                if (carouselRing) {
+                    carouselRing.style.transform = `rotateX(-3deg) rotateY(${carouselCurrentRotation.toFixed(2)}deg)`;
                 }
             }
-            // Smooth interpolation
-            carouselCurrentRotation += (carouselTargetRotation - carouselCurrentRotation) * 0.1;
-            if (carouselRing) {
-                carouselRing.style.transform = `rotateX(-3deg) rotateY(${carouselCurrentRotation}deg)`;
-            }
+        } else {
+            lastTime = currentTime;
         }
 
         carouselAnimationFrame = requestAnimationFrame(renderLoop);
