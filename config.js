@@ -2,7 +2,7 @@
 
 // Ngôn ngữ hỗ trợ & Ngôn ngữ mặc định
 const SUPPORTED_LANGUAGES = ['ja', 'vi'];
-const DEFAULT_LANGUAGE = 'ja'; // Mặc định là tiếng Nhật
+const DEFAULT_LANGUAGE = 'vi'; // Mặc định là tiếng Nhật
 
 // Từ điển đa ngôn ngữ (i18n) - Ngữ điệu tiếng Nhật lịch sự, tôn trọng, thân thiện (dành cho cấp trên, đồng nghiệp, bạn bè)
 const TRANSLATIONS = {
