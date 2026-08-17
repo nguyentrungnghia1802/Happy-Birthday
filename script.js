@@ -27,6 +27,19 @@ let photoData = [];
 let currentPhotoIndex = 0;
 let galleryAutoSlideTimeout = null;
 
+// 3D Carousel variables
+let carouselStage, carouselRing;
+let carouselCurrentRotation = 0;
+let carouselTargetRotation = 0;
+let carouselAutoSpinSpeed = 0.25;
+let carouselIsDragging = false;
+let carouselDragStartX = 0;
+let carouselDragStartRotation = 0;
+let carouselDragMoved = false;
+let carouselAnimationFrame = null;
+let carouselIsHovered = false;
+let carouselListenersAdded = false;
+
 // ===== DOM ELEMENTS (Will be initialized after DOM loads) =====
 let blowButton, surpriseButton, musicToggle, musicIcon, musicText;
 let confettiContainer, fireworksContainer, lightingOverlay;
@@ -113,13 +126,15 @@ function applyThemeColor(color) {
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7) !important;
             filter: none !important;
         }
-        .explosion-image {
+        .carousel-card:hover {
             border-color: ${cleanColor} !important;
-            box-shadow: 0 10px 30px ${cleanColor}66 !important;
+            box-shadow: 0 20px 45px ${cleanColor}88 !important;
         }
-        .explosion-close {
+        .explosion-title {
             border-color: ${cleanColor} !important;
-            color: ${cleanColor} !important;
+        }
+        .explosion-close:hover {
+            border-color: ${cleanColor} !important;
         }
     `;
     document.head.appendChild(style);
@@ -165,8 +180,10 @@ function initializeDOM() {
     totalPhotosSpan = document.getElementById('totalPhotos');
     progressFill = document.querySelector('.progress-fill');
 
-    // Explosion gallery elements
+    // 3D Carousel elements
     explosionGallery = document.getElementById('explosionGallery');
+    carouselStage = document.getElementById('carouselStage');
+    carouselRing = document.getElementById('carouselRing');
     closeExplosion = document.getElementById('closeExplosion');
 
     // Audio elements
@@ -313,6 +330,9 @@ function applyLanguage(lang, animated = false) {
     // Cập nhật Explosion Gallery
     if (explosionTitle) explosionTitle.textContent = t('explosionTitle');
     if (explosionInstruction) explosionInstruction.textContent = t('explosionInstruction');
+    if (explosionGallery && explosionGallery.classList.contains('active')) {
+        createCarousel3D();
+    }
 
     // Cập nhật Gallery Display
     updateGalleryDisplay();
@@ -889,7 +909,7 @@ function playExplosionSound() {
     }
 }
 
-// ===== PHOTO GALLERY SYSTEM =====
+// ===== PHOTO GALLERY SYSTEM (ZOOM MODAL) =====
 function initializeGallery() {
     if (totalPhotosSpan) {
         totalPhotosSpan.textContent = photoData.length || 0;
@@ -897,7 +917,11 @@ function initializeGallery() {
     updateGalleryDisplay();
 }
 
-function openPhotoGallery() {
+function openPhotoGallery(index) {
+    if (typeof index === 'number') {
+        currentPhotoIndex = index;
+    }
+    updateGalleryDisplay();
     if (photoGallery) {
         photoGallery.classList.add('active');
         startGalleryAutoSlide();
@@ -965,11 +989,18 @@ function resetAutoSlideTimer() {
     startGalleryAutoSlide();
 }
 
-// ===== 3D EXPLOSION GALLERY =====
+// ===== 3D ROTATING PHOTO CAROUSEL =====
 function openExplosionGallery() {
+    if (!photoData || photoData.length === 0) {
+        if (typeof window.PersonalizationConfig !== 'undefined') {
+            photoData = window.PersonalizationConfig.generatePhotoSet("anh-tai", "jpg", 8, null, currentLang);
+        }
+    }
+
     if (explosionGallery) {
         explosionGallery.classList.add('active');
-        createExplosionImages();
+        createCarousel3D();
+        startCarousel3D();
         playExplosionSound();
     }
 }
@@ -977,75 +1008,154 @@ function openExplosionGallery() {
 function closeExplosionGallery() {
     if (explosionGallery) {
         explosionGallery.classList.remove('active');
-        const explosionImages = explosionGallery.querySelectorAll('.explosion-image');
-        explosionImages.forEach(img => img.remove());
     }
+    if (carouselAnimationFrame) {
+        cancelAnimationFrame(carouselAnimationFrame);
+        carouselAnimationFrame = null;
+    }
+    closePhotoGallery();
 }
 
-function createExplosionImages() {
+function createCarousel3D() {
+    if (!carouselRing) return;
+    carouselRing.innerHTML = '';
+
     if (!photoData || photoData.length === 0) return;
 
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-
+    const count = photoData.length;
     const isMobile = window.innerWidth <= 480;
     const isTablet = window.innerWidth <= 768;
 
-    const baseRadius = isMobile ? 150 : isTablet ? 140 : 180;
-    const radiusVariation = isMobile ? 50 : isTablet ? 40 : 60;
+    const cardWidth = isMobile ? 115 : isTablet ? 140 : 180;
+    const minRadius = isMobile ? 170 : isTablet ? 230 : 290;
+    const calculatedRadius = Math.round((cardWidth / 2) / Math.tan(Math.PI / Math.max(count, 3)) + 40);
+    const radius = Math.max(minRadius, calculatedRadius);
+
+    const angleStep = 360 / count;
 
     photoData.forEach((photo, index) => {
-        setTimeout(() => {
-            const explosionImg = document.createElement('div');
-            explosionImg.className = 'explosion-image animate';
+        const card = document.createElement('div');
+        card.className = 'carousel-card';
+        card.dataset.index = index;
 
-            const angle = (index / photoData.length) * Math.PI * 2;
-            const radius = baseRadius + Math.random() * radiusVariation;
-            const orbitRadius = radius * 0.3;
+        const cardAngle = index * angleStep;
+        card.style.transform = `rotateY(${cardAngle}deg) translateZ(${radius}px)`;
 
-            const imgWidth = isMobile ? 150 : 200;
-            const imgHeight = isMobile ? 112 : 150;
+        card.innerHTML = `<img src="${photo.src}" alt="${photo.title || ''}" loading="lazy">`;
 
-            const finalX = centerX + Math.cos(angle) * radius - imgWidth / 2;
-            const finalY = centerY + Math.sin(angle) * radius - imgHeight / 2;
+        card.addEventListener('click', (e) => {
+            if (carouselDragMoved) return;
+            openPhotoGallery(index);
+        });
 
-            const orbitX = Math.cos(angle) * orbitRadius;
-            const orbitY = Math.sin(angle) * orbitRadius;
-
-            const rotateX = Math.random() * 60 - 30;
-            const rotateY = Math.random() * 60 - 30;
-            const rotateZ = Math.random() * 30 - 15;
-
-            explosionImg.innerHTML = `<img src="${photo.src}" alt="${photo.title}">`;
-
-            explosionImg.style.left = centerX - imgWidth / 2 + 'px';
-            explosionImg.style.top = centerY - imgHeight / 2 + 'px';
-
-            explosionImg.style.setProperty('--final-x', finalX + 'px');
-            explosionImg.style.setProperty('--final-y', finalY + 'px');
-            explosionImg.style.setProperty('--orbit-x', orbitX + 'px');
-            explosionImg.style.setProperty('--orbit-y', orbitY + 'px');
-            explosionImg.style.setProperty('--rotate-x', rotateX + 'deg');
-            explosionImg.style.setProperty('--rotate-y', rotateY + 'deg');
-            explosionImg.style.setProperty('--rotate-z', rotateZ + 'deg');
-
-            explosionImg.addEventListener('click', () => {
-                currentPhotoIndex = index;
-                closeExplosionGallery();
-                setTimeout(() => {
-                    openPhotoGallery();
-                }, 300);
-            });
-
-            explosionGallery.appendChild(explosionImg);
-
-            setTimeout(() => {
-                explosionImg.style.left = explosionImg.style.getPropertyValue('--final-x');
-                explosionImg.style.top = explosionImg.style.getPropertyValue('--final-y');
-            }, 50);
-
-        }, index * 150);
+        carouselRing.appendChild(card);
     });
+
+    setupCarouselInteractions();
+}
+
+function setupCarouselInteractions() {
+    if (carouselListenersAdded || !carouselStage) return;
+    carouselListenersAdded = true;
+
+    // Mouse drag interactions
+    carouselStage.addEventListener('mousedown', (e) => {
+        carouselIsDragging = true;
+        carouselDragStartX = e.clientX;
+        carouselDragStartRotation = carouselTargetRotation;
+        carouselDragMoved = false;
+        carouselStage.classList.add('dragging');
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!carouselIsDragging) return;
+        const dx = e.clientX - carouselDragStartX;
+        if (Math.abs(dx) > 5) {
+            carouselDragMoved = true;
+        }
+        carouselTargetRotation = carouselDragStartRotation + dx * 0.45;
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (carouselIsDragging) {
+            carouselIsDragging = false;
+            if (carouselStage) carouselStage.classList.remove('dragging');
+            setTimeout(() => {
+                carouselDragMoved = false;
+            }, 60);
+        }
+    });
+
+    // Touch swipe interactions (Mobile/Tablet)
+    carouselStage.addEventListener('touchstart', (e) => {
+        if (!e.touches || e.touches.length === 0) return;
+        carouselIsDragging = true;
+        carouselDragStartX = e.touches[0].clientX;
+        carouselDragStartRotation = carouselTargetRotation;
+        carouselDragMoved = false;
+    }, { passive: true });
+
+    carouselStage.addEventListener('touchmove', (e) => {
+        if (!carouselIsDragging || !e.touches || e.touches.length === 0) return;
+        const dx = e.touches[0].clientX - carouselDragStartX;
+        if (Math.abs(dx) > 5) {
+            carouselDragMoved = true;
+        }
+        carouselTargetRotation = carouselDragStartRotation + dx * 0.55;
+    }, { passive: true });
+
+    carouselStage.addEventListener('touchend', () => {
+        carouselIsDragging = false;
+        setTimeout(() => {
+            carouselDragMoved = false;
+        }, 60);
+    });
+
+    // Hover pause
+    carouselStage.addEventListener('mouseenter', () => {
+        carouselIsHovered = true;
+    });
+    carouselStage.addEventListener('mouseleave', () => {
+        carouselIsHovered = false;
+    });
+
+    // Mouse wheel rotate
+    carouselStage.addEventListener('wheel', (e) => {
+        if (!explosionGallery || !explosionGallery.classList.contains('active')) return;
+        e.preventDefault();
+        carouselTargetRotation += e.deltaY * 0.2;
+    }, { passive: false });
+}
+
+function startCarousel3D() {
+    if (carouselAnimationFrame) {
+        cancelAnimationFrame(carouselAnimationFrame);
+    }
+
+    function renderLoop() {
+        if (!explosionGallery || !explosionGallery.classList.contains('active')) {
+            return;
+        }
+
+        const isPhotoZoomed = photoGallery && photoGallery.classList.contains('active');
+
+        if (!isPhotoZoomed) {
+            if (!carouselIsDragging) {
+                if (!carouselIsHovered) {
+                    carouselTargetRotation += carouselAutoSpinSpeed;
+                }
+            }
+            // Smooth interpolation
+            carouselCurrentRotation += (carouselTargetRotation - carouselCurrentRotation) * 0.1;
+            if (carouselRing) {
+                carouselRing.style.transform = `rotateX(-3deg) rotateY(${carouselCurrentRotation}deg)`;
+            }
+        }
+
+        carouselAnimationFrame = requestAnimationFrame(renderLoop);
+    }
+
+    carouselAnimationFrame = requestAnimationFrame(renderLoop);
 }
 
 // ===== WISH ROTATION =====
@@ -1104,16 +1214,6 @@ function showMessage(message) {
 
 // ===== KEYBOARD SUPPORT =====
 function handleKeyPress(event) {
-    if (explosionGallery && explosionGallery.classList.contains('active')) {
-        switch (event.key) {
-            case 'Escape':
-                event.preventDefault();
-                closeExplosionGallery();
-                break;
-        }
-        return;
-    }
-
     if (photoGallery && photoGallery.classList.contains('active')) {
         switch (event.key) {
             case 'ArrowLeft':
@@ -1127,6 +1227,24 @@ function handleKeyPress(event) {
             case 'Escape':
                 event.preventDefault();
                 closePhotoGallery();
+                break;
+        }
+        return;
+    }
+
+    if (explosionGallery && explosionGallery.classList.contains('active')) {
+        switch (event.key) {
+            case 'Escape':
+                event.preventDefault();
+                closeExplosionGallery();
+                break;
+            case 'ArrowLeft':
+                event.preventDefault();
+                carouselTargetRotation -= 25;
+                break;
+            case 'ArrowRight':
+                event.preventDefault();
+                carouselTargetRotation += 25;
                 break;
         }
         return;

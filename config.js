@@ -28,7 +28,7 @@ const TRANSLATIONS = {
     musicPause: "音楽 OFF",
     surpriseButton: "🎊 特別なサプライズ 🎁",
     explosionTitle: "🎊 大切な思い出 🎊",
-    explosionInstruction: "👆 写真をタップすると思い出をご覧いただけます",
+    explosionInstruction: "👆 写真をタップして拡大 • ドラッグで回転",
     galleryDefaultTitle: "誕生日の素敵な思い出",
     galleryDefaultDesc: "心に残る大切なひととき",
     welcomeMessage: "🎂 ろうそくを1本ずつ吹き消して、願いを込めてくださいね！ 🎂",
@@ -66,8 +66,8 @@ const TRANSLATIONS = {
     musicPlay: "Bật Nhạc",
     musicPause: "Tắt Nhạc",
     surpriseButton: "🎊 Bất Ngờ Đặc Biệt",
-    explosionTitle: "🎊 Kỷ Niệm Đặc Biệt 🎊",
-    explosionInstruction: "👆 Chạm vào ảnh để xem từng kỷ niệm",
+    explosionTitle: "🎊 Kỷ Niệm Đáng Nhớ 🎊",
+    explosionInstruction: "👆 Chạm vào ảnh để phóng to • Kéo để xoay vòng",
     galleryDefaultTitle: "Kỷ Niệm Sinh Nhật",
     galleryDefaultDesc: "Những khoảnh khắc đáng nhớ",
     welcomeMessage: "🎂 Thổi tắt từng cây nến để ước các điều ước 🎂",
@@ -252,7 +252,10 @@ function getPersonConfig(lang) {
     customMessage = t('defaultCustomMessage', currentLang);
   }
 
-  const photos = generatePhotoSet(rawConfig.folder, rawConfig.extension, rawConfig.photoCount, rawConfig.extensionMap, currentLang);
+  let photos = generatePhotoSet(rawConfig.folder, rawConfig.extension, rawConfig.photoCount, rawConfig.extensionMap, currentLang);
+  if ((!photos || photos.length === 0) && (rawConfig.folder === "empty" || !rawConfig.photoCount)) {
+    photos = generatePhotoSet("anh-tai", "jpg", 8, null, currentLang);
+  }
 
   return {
     ...rawConfig,

@@ -202,11 +202,20 @@
     <!-- Fireworks Container -->
     <div id="fireworks-container"></div>
 
-    <!-- 3D Explosion Gallery -->
+    <!-- 3D Rotating Photo Carousel Overlay -->
     <div id="explosionGallery" class="explosion-gallery">
-        <div class="explosion-title" id="explosionTitle">🎊 大切な思い出 🎊</div>
-        <button class="explosion-close" id="closeExplosion">✕</button>
-        <div class="explosion-instruction" id="explosionInstruction">👆 写真をタップすると思い出をご覧いただけます</div>
+        <div class="carousel-header">
+            <div class="explosion-title" id="explosionTitle">🎊 大切な思い出 🎊</div>
+            <button class="explosion-close" id="closeExplosion" aria-label="Quay về trang chính">✕</button>
+        </div>
+        
+        <div class="carousel-3d-stage" id="carouselStage">
+            <div class="carousel-3d-ring" id="carouselRing">
+                <!-- Dynamic 3D Cards will be inserted here -->
+            </div>
+        </div>
+
+        <div class="explosion-instruction" id="explosionInstruction">👆 写真をタップして拡大 • ドラッグで回転</div>
     </div>
 
     <!-- Photo Gallery Modal -->
