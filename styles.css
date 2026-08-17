@@ -1112,56 +1112,6 @@ body::before {
     }
 }
 
-/* ===== LANGUAGE SWITCHER (MINIMALIST 50% OPACITY TOGGLE) ===== */
-.language-switcher-container {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 1000;
-}
-
-.lang-toggle-btn {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border: 1.5px solid rgba(255, 255, 255, 0.35);
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    cursor: pointer;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    opacity: 0.5;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    outline: none;
-    user-select: none;
-}
-
-.lang-toggle-btn:hover,
-.lang-toggle-btn:focus,
-.lang-toggle-btn:active {
-    opacity: 1;
-    transform: scale(1.15);
-    border-color: #ffd700;
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.45);
-}
-
-.lang-toggle-btn .lang-flag {
-    font-size: 1.3rem;
-    line-height: 1;
-    display: block;
-    transform-origin: center;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.lang-toggle-btn.switching .lang-flag {
-    transform: rotateY(180deg) scale(1.2);
-}
 
 /* ===== LIGHTING OVERLAY (BÓNG TỐI CHIẾU SÁNG TIÊU ĐIỂM TRƯỚC KHU THỔI NẾN) ===== */
 .lighting-overlay {
@@ -1897,19 +1847,6 @@ body::before {
         font-size: 1.05rem;
     }
 
-    .language-switcher-container {
-        top: 12px;
-        right: 12px;
-    }
-
-    .lang-toggle-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-    .lang-toggle-btn .lang-flag {
-        font-size: 1.1rem;
-    }
 
     .prev-btn {
         left: 5px;
@@ -2036,19 +1973,6 @@ body::before {
         font-size: 0.95rem;
     }
 
-    .language-switcher-container {
-        top: 10px;
-        right: 10px;
-    }
-
-    .lang-toggle-btn {
-        width: 28px;
-        height: 28px;
-    }
-
-    .lang-toggle-btn .lang-flag {
-        font-size: 0.95rem;
-    }
 
     .lighting-overlay {
         background: radial-gradient(ellipse 360px 320px at 50% 44%,
@@ -2222,19 +2146,6 @@ body::before {
         line-height: 1.5;
     }
 
-    .language-switcher-container {
-        top: 8px;
-        right: 8px;
-    }
-
-    .lang-toggle-btn {
-        width: 26px;
-        height: 26px;
-    }
-
-    .lang-toggle-btn .lang-flag {
-        font-size: 0.88rem;
-    }
 }
 
 /* Nấc cho thiết bị siêu nhỏ (<= 330px) */

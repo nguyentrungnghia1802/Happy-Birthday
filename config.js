@@ -2,7 +2,7 @@
 
 // Ngôn ngữ hỗ trợ & Ngôn ngữ mặc định
 const SUPPORTED_LANGUAGES = ['ja', 'vi'];
-const DEFAULT_LANGUAGE = 'vi'; // Mặc định là tiếng Nhật
+const DEFAULT_LANGUAGE = 'vi'; // Mặc định là tiếng Việt
 
 // Từ điển đa ngôn ngữ (i18n) - Ngữ điệu tiếng Nhật lịch sự, tôn trọng, thân thiện (dành cho cấp trên, đồng nghiệp, bạn bè)
 const TRANSLATIONS = {
@@ -98,7 +98,7 @@ const PERSON_CONFIGS = {
       vi: "Chúc {name} một ngày sinh nhật thật tuyệt vời!"
     },
     themeColor: "#ffd700",
-    showSurprise: true,
+    showSurprise: false,
   },
   anhtai: {
     name: "Anh Tài",
@@ -178,25 +178,23 @@ const PHOTO_TITLES = {
 
 function getCurrentLanguage() {
   if (typeof window !== 'undefined' && window.location && window.location.search) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlLang = urlParams.get('lang');
-    if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang.toLowerCase())) {
-      return urlLang.toLowerCase();
-    }
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      if (urlLang && SUPPORTED_LANGUAGES.includes(urlLang.toLowerCase())) {
+        return urlLang.toLowerCase();
+      }
+    } catch (e) { }
   }
-  if (typeof localStorage !== 'undefined') {
-    const storedLang = localStorage.getItem('preferred_language');
-    if (storedLang && SUPPORTED_LANGUAGES.includes(storedLang)) {
-      return storedLang;
-    }
-  }
-  return DEFAULT_LANGUAGE; // Mặc định là 'ja'
+  return DEFAULT_LANGUAGE;
 }
 
 function setCurrentLanguage(lang) {
-  if (SUPPORTED_LANGUAGES.includes(lang) && typeof localStorage !== 'undefined') {
-    localStorage.setItem('preferred_language', lang);
-  }
+  try {
+    if (SUPPORTED_LANGUAGES.includes(lang) && typeof localStorage !== 'undefined') {
+      localStorage.setItem('preferred_language', lang);
+    }
+  } catch (e) { }
 }
 
 function t(key, lang) {
@@ -282,7 +280,7 @@ function generatePersonalURL(personKey, lang) {
   if (personKey && personKey !== 'default') {
     params.set('person', personKey);
   }
-  if (currentLang !== DEFAULT_LANGUAGE) {
+  if (currentLang) {
     params.set('lang', currentLang);
   }
 

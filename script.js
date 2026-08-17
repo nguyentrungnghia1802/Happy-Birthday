@@ -47,7 +47,6 @@ let photoGallery, galleryImage, photoTitle, photoDescription;
 let prevPhotoBtn, nextPhotoBtn, closeGalleryBtn, currentPhotoNum, totalPhotosSpan, progressFill;
 let explosionGallery, closeExplosion;
 let birthdaySong, blowSound;
-let langToggleBtn, currentLangFlag;
 let mainTitleLine1, mainTitleLine2, mainTitleLine3, subtitleMessage, blowText, blowInstruction;
 let wishesTitle, wishesContainer, explosionTitle, explosionInstruction;
 
@@ -169,9 +168,6 @@ function initializeDOM() {
     fireworksContainer = document.getElementById('fireworks-container');
     lightingOverlay = document.getElementById('lightingOverlay');
 
-    // Language switcher toggle button
-    langToggleBtn = document.getElementById('langToggleBtn');
-    currentLangFlag = document.getElementById('currentLangFlag');
 
     // Localizable text elements
     mainTitleLine1 = document.getElementById('mainTitleLine1');
@@ -214,10 +210,6 @@ function initializeEventListeners() {
     if (surpriseButton) surpriseButton.addEventListener('click', triggerSurprise);
     if (musicToggle) musicToggle.addEventListener('click', toggleMusic);
 
-    // Language Switcher Toggle Event (Switch between JA & VI)
-    if (langToggleBtn) {
-        langToggleBtn.addEventListener('click', toggleLanguage);
-    }
 
     // Add click handlers for individual candles
     document.querySelectorAll('.candle').forEach((candle, index) => {
@@ -251,15 +243,9 @@ function initializeEventListeners() {
     updateMusicButtonState();
 }
 
-// ===== LANGUAGE SWITCHING SYSTEM =====
-function toggleLanguage() {
-    const newLang = currentLang === 'ja' ? 'vi' : 'ja';
-    switchLanguage(newLang);
-}
-
+// ===== LANGUAGE SYSTEM =====
 function switchLanguage(lang) {
-    if (lang === currentLang) return;
-
+    if (!lang) return;
     currentLang = lang;
     if (typeof window.PersonalizationConfig !== 'undefined') {
         window.PersonalizationConfig.setCurrentLanguage(lang);
@@ -269,18 +255,7 @@ function switchLanguage(lang) {
     initializePersonalization(lang);
 
     // Cập nhật toàn bộ giao diện
-    applyLanguage(lang, true);
-
-    // Cập nhật URL query an toàn (chỉ khi trang được phục vụ qua HTTP/HTTPS)
-    if (typeof window !== 'undefined' && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
-        try {
-            const url = new URL(window.location.href);
-            url.searchParams.set('lang', lang);
-            window.history.replaceState({}, '', url.toString());
-        } catch (e) {
-            // Tránh lỗi ở môi trường sandbox
-        }
-    }
+    applyLanguage(lang, false);
 }
 
 function applyLanguage(lang, animated = false) {
@@ -290,20 +265,6 @@ function applyLanguage(lang, animated = false) {
     // Cập nhật thuộc tính lang của HTML & Tiêu đề trang
     document.documentElement.lang = lang;
     document.title = t('pageTitle');
-
-    // Cập nhật Language Toggle Button (Cờ & Tooltip)
-    if (currentLangFlag) {
-        currentLangFlag.textContent = lang === 'ja' ? '🇯🇵' : '🇻🇳';
-    }
-    if (langToggleBtn) {
-        langToggleBtn.title = lang === 'ja'
-            ? 'Tiếng Việtに切り替え / Chuyển sang Tiếng Việt'
-            : '日本語に切り替え / Chuyển sang 日本語';
-        if (animated) {
-            langToggleBtn.classList.add('switching');
-            setTimeout(() => langToggleBtn.classList.remove('switching'), 400);
-        }
-    }
 
     // Cập nhật Header
     if (mainTitleLine1) mainTitleLine1.textContent = t('mainTitleLine1');

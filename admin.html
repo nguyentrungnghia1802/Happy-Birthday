@@ -192,7 +192,7 @@ nguyenvana: {
                 personDiv.className = 'person-card';
 
                 const baseURL = window.location.origin + window.location.pathname.replace('admin.html', 'index.html');
-                const jaURL = key === 'default' ? baseURL : `${baseURL}?person=${key}&lang=ja`;
+                const jaURL = key === 'default' ? `${baseURL}?lang=ja` : `${baseURL}?person=${key}&lang=ja`;
                 const viURL = key === 'default' ? `${baseURL}?lang=vi` : `${baseURL}?person=${key}&lang=vi`;
 
                 personDiv.innerHTML = `
